@@ -4,9 +4,14 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
-def apikeyPropertiesFile = rootProject.file("keys.properties")
-def apikeyProperties = new Properties()
-apikeyProperties.load(new FileInputStream(apikeyPropertiesFile))
+try{
+    def apikeyPropertiesFile = rootProject.file("keys.properties")
+    def apikeyProperties = new Properties()
+    apikeyProperties.load(new FileInputStream(apikeyPropertiesFile))
+} catch(all) {
+    project.logger.debug('keys.properties missing')
+}
+
 
 android {
     compileSdkVersion 28
