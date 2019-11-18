@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # Generate's key files from env variables
+echo "Provided $# arguments"
 echo "==============================================================================
 Task         : Keys file
 Description  : Create keys file from ENV variables for android gradle scripts
