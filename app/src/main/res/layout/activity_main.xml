@@ -8,14 +8,14 @@
 
     <fragment
             android:id="@+id/nav_host_fragment"
+            android:name="androidx.navigation.fragment.NavHostFragment"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            app:layout_constraintTop_toTopOf="parent"
+            app:defaultNavHost="true"
             app:layout_constraintBottom_toTopOf="@id/bottom_navigation"
-            android:name="androidx.navigation.fragment.NavHostFragment"
-            app:navGraph="@navigation/navigation"
-            app:defaultNavHost="true" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:navGraph="@navigation/navigation" />
     <!-- Main content -->
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
@@ -23,11 +23,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:background="@drawable/rounded_border"
+            android:background="@color/colorPrimary"
             app:itemIconTint="@color/design_default_color_background"
             app:itemTextColor="@color/design_default_color_background"
-            app:layout_constraintTop_toBottomOf="@id/nav_host_fragment"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/nav_host_fragment"
             app:menu="@menu/menu_navigation" />
 
 
