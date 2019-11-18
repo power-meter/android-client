@@ -20,5 +20,5 @@ echo "TODO: Update paths once dev and prod flavours are made"
 # cat ./src/dev/google-services.json
 # echo $2|sed 's/\\//g'>./app/src/google-services.json
 # cat ./app/src/google-services.json
-touch "./app/src/google-services.json"
-# echo "$2" > "./app/src/google-services.json"
+# touch "./app/src/google-services.json"
+echo "$2" > "./app/src/google-services.json"
