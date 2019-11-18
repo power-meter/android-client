@@ -21,11 +21,4 @@ echo "TODO: Update paths once dev and prod flavours are made"
 # echo $2|sed 's/\\//g'>./app/src/google-services.json
 # cat ./app/src/google-services.json
 # touch "./app/src/google-services.json"
-ls
-cd $HOME
-ls
-cd $GITHUB_WORKSPACE
-ls
-cd $GITHUB_EVENT_PATH
-ls
-# echo "$2" > "$home/app/src/google-services.json"
+echo "$2" > "$GITHUB_WORKSPACE/app/src/google-services.json"
