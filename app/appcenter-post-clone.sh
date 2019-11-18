@@ -14,7 +14,8 @@ Description  : Create Dev and Prod JSON files from ENV variables
 Version      : 1.0.0 
 Author       : Zahin 
 =============================================================================="
-echo $dev_json|sed 's/\\//g'>./src/dev/google-services.json
-cat ./src/dev/google-services.json
-echo $prod_json|sed 's/\\//g'>./src/prod/google-services.json
-cat ./src/prod/google-services.json
+echo "TODO: Move jsons once product flavour is defined"
+# echo $dev_json|sed 's/\\//g'>./src/dev/google-services.json
+# cat ./src/dev/google-services.json
+echo $prod_json|sed 's/\\//g'>./google-services.json
+cat ./google-services.json
