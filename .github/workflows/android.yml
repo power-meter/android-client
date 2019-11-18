@@ -13,9 +13,15 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
-    - name: set up JDK 1.8
+    - name: set up java 1.8
       uses: actions/setup-java@v1
       with:
         java-version: 1.8
+    - name: set up python 3.7.5
+      uses: actions/setup-python@v1
+      with:
+        python-version: 3.7.5
+    - name: Create Key Files
+      run: python3 gh-actions-post-clone.py  ${{ secrets.app_center_secret }} ${{ secrets.firebase_dev_json }} ${{ secrets.firebase_prod_json }}
     - name: Build with Gradle
-      run: ./gradlew build
+      run: ./gradlew build --stacktrace
