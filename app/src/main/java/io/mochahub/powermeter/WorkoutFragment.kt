@@ -8,12 +8,6 @@ import androidx.fragment.app.Fragment
 
 class WorkoutFragment : Fragment() {
 
-    companion object {
-        fun newInstance() : WorkoutFragment {
-            return WorkoutFragment()
-        }
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
