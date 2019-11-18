@@ -3,4 +3,8 @@
     <string name="exercise_screen">Exercise Screen</string>
     <string name="workout_session_screen">Workout Session Screen</string>
     <string name="stats_screen">Stats Screen</string>
+
+    <string name="exercise_screen_label">Exercises</string>
+    <string name="workout_session_screen_label">Workout</string>
+    <string name="stats_screen_label">Stats</string>
 </resources>

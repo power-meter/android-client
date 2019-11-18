@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+            android:id="@+id/destination_stats_screen"
+            android:icon="@drawable/ic_trending_up_black_24dp"
+            android:title="@string/stats_screen_label" />
+    <item
+            android:id="@+id/destination_workout_session_screen"
+            android:icon="@drawable/ic_fitness_center_black_24dp"
+            android:title="@string/workout_session_screen_label" />
+    <item
+            android:id="@+id/destination_exercises_screen"
+            android:icon="@drawable/ic_menu_black_24dp"
+            android:title="@string/exercise_screen_label" />
+</menu>

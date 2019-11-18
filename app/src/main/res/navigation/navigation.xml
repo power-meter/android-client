@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools" android:id="@+id/navigation"
+        app:startDestination="@id/destination_workout_session_screen">
+    <fragment android:id="@+id/destination_workout_session_screen" android:name="io.mochahub.powermeter.WorkoutFragment"
+              android:label="fragment_workout" tools:layout="@layout/fragment_workout">
+        <action android:id="@+id/action_destination_workout_session_screen_to_destination_exercises_screen"
+                app:destination="@id/destination_exercises_screen"/>
+        <action android:id="@+id/action_destination_workout_session_screen_to_destination_stats_screen"
+                app:destination="@id/destination_stats_screen"/>
+    </fragment>
+    <fragment android:id="@+id/destination_stats_screen" android:name="io.mochahub.powermeter.StatsFragment"
+              android:label="fragment_stats" tools:layout="@layout/fragment_stats">
+        <action android:id="@+id/action_destination_stats_screen_to_destination_exercises_screen"
+                app:destination="@id/destination_exercises_screen"/>
+        <action android:id="@+id/action_destination_stats_screen_to_destination_workout_session_screen"
+                app:destination="@id/destination_workout_session_screen"/>
+    </fragment>
+    <fragment android:id="@+id/destination_exercises_screen" android:name="io.mochahub.powermeter.ExerciseFragment"
+              android:label="fragment_exercise" tools:layout="@layout/fragment_exercise">
+        <action android:id="@+id/action_destination_exercises_screen_to_destination_stats_screen"
+                app:destination="@id/destination_stats_screen"/>
+        <action android:id="@+id/action_destination_exercises_screen_to_destination_workout_session_screen"
+                app:destination="@id/destination_workout_session_screen"/>
+    </fragment>
+</navigation>
