@@ -7,4 +7,9 @@
     <string name="exercise_screen_label">Exercises</string>
     <string name="workout_session_screen_label">Workout</string>
     <string name="stats_screen_label">Stats</string>
+
+    <string name ="action_share">Share</string>
+    <string name ="action_explore">Explore</string>
+    <string name ="card_title">Title</string>
+    <string name ="card_content">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque magna dui, tempor ac odio vitae, imperdiet lacinia massa. Suspendisse massa felis, sagittis quis magna nec, rhoncus porttitor enim. Vestibulum finibus pharetra lectus. Quisque id sem quam. Fusce vel est magna. Nullam sit amet viverra sapien. Nullam hendrerit a risus eu efficitur.</string>
 </resources>
