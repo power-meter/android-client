@@ -1,14 +1,14 @@
 package io.mochahub.powermeter.models
 
 
-data class StatsCard(
+data class StatCard(
     var title: String,
     var exercise: Exercise
 
 ) {
 
     override fun toString(): String {
-        return "StatsCard(title='$title', body='$exercise')"
+        return "StatCard(title='$title', body='$exercise')"
     }
 
 

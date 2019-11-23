@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -27,28 +28,23 @@ class StatsFragment : Fragment() {
     ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
         return inflater.inflate(R.layout.fragment_stats, container, false)
-
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(StatsViewModel::class.java)
-        initRecyclerView()
-        initData()
-    }
 
+        stats_list.apply{
+            layoutManager = LinearLayoutManager(context)
+            statsAdapter = StatsAdapter(viewModel.stats.value ?: listOf()){
+                Toast.makeText(requireContext(), "Clicked: ${it.exercise.name}", Toast.LENGTH_SHORT).show()
+            }
+            adapter = statsAdapter
+        }
 
-    private fun initData(){
         viewModel.stats.observe(viewLifecycleOwner, Observer {
-            statsAdapter.setList(it ?: listOf())
+            statsAdapter.setData(it ?: listOf())
         })
     }
 
-    private fun initRecyclerView(){
-        stats_list.apply{
-            layoutManager = LinearLayoutManager(context)
-            statsAdapter = StatsAdapter()
-            adapter = statsAdapter
-        }
-    }
 }

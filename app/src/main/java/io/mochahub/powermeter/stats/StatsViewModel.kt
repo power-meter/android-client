@@ -2,26 +2,24 @@ package io.mochahub.powermeter.stats
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import io.mochahub.powermeter.R
 import io.mochahub.powermeter.models.Exercise
-import io.mochahub.powermeter.models.StatsCard
+import io.mochahub.powermeter.models.StatCard
 
 class StatsViewModel : ViewModel() {
-    var toggle: Boolean = false
 
-    val stats = MutableLiveData<List<StatsCard>>(
+    val stats = MutableLiveData<List<StatCard>>(
         listOf(
-            StatsCard(
+            StatCard(
                 "Exercise",
-                Exercise("Squats",1.0f,"legs")
+                Exercise("Bench Press",100f,"Chest")
             ),
-            StatsCard(
+            StatCard(
                 "Exercise",
-                Exercise("Bench Press",1.0f,"chest")
+                Exercise("Squat",30f,"Legs")
             ),
-            StatsCard(
+            StatCard(
                 "Exercise",
-                Exercise("Shoulder Press",1.0f,"shoulders")
+                Exercise("Overhead Press",30f,"Shoulders")
             )
         )
     )
