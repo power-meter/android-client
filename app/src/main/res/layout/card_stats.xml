@@ -43,18 +43,6 @@
         <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-            <Button
-                    android:background="@drawable/card_background"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/action_share"
-                    android:theme="@style/PrimaryFlatButton" />
-            <Button
-                    android:background="@drawable/card_background"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/action_explore"
-                    android:theme="@style/PrimaryFlatButton" />
         </LinearLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>
