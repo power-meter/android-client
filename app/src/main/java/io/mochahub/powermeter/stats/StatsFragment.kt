@@ -45,7 +45,7 @@ class StatsFragment : Fragment() {
     }
 
     private fun initRecyclerView(){
-        card_list.apply{
+        stats_list.apply{
             layoutManager = LinearLayoutManager(context)
             statsAdapter = StatsAdapter()
             adapter = statsAdapter

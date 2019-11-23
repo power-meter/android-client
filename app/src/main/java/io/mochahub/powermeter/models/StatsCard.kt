@@ -1,7 +1,7 @@
 package io.mochahub.powermeter.models
 
 
-data class Card(
+data class StatsCard(
 
     var title: String,
 

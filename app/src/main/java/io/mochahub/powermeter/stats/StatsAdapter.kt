@@ -3,15 +3,14 @@ package io.mochahub.powermeter.stats
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import io.mochahub.powermeter.R
-import io.mochahub.powermeter.models.Card
+import io.mochahub.powermeter.models.StatsCard
 import kotlinx.android.synthetic.main.row_stat.view.*
 
 class StatsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
-    private var items:List<Card> = ArrayList()
+    private var items:List<StatsCard> = ArrayList<StatsCard>()
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -40,17 +39,17 @@ class StatsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
         itemView: View
     ): RecyclerView.ViewHolder(itemView){
         val card_titlle: TextView = itemView.card_title
-        val card_image: ImageView = itemView.card_image
+//        val card_image: ImageView = itemView.card_image
         val card_description: TextView = itemView.card_description
 
-        fun bind(card: Card){
+        fun bind(card: StatsCard){
             card_titlle.setText(card.title)
             card_description.setText(card.body)
-            card_image.setImageResource(card.image)
+//            card_image.setImageResource(card.image)
         }
     }
 
-    fun setList(items: List<Card>){
+    fun setList(items: List<StatsCard>){
         this.items = items
     }
 }
