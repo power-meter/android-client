@@ -18,7 +18,7 @@
         <action android:id="@+id/action_destination_stats_screen_to_destination_workout_session_screen"
                 app:destination="@id/destination_workout_session_screen"/>
     </fragment>
-    <fragment android:id="@+id/destination_exercises_screen" android:name="io.mochahub.powermeter.ExerciseFragment"
+    <fragment android:id="@+id/destination_exercises_screen" android:name="io.mochahub.powermeter.exercises.ExerciseFragment"
               android:label="fragment_exercise" tools:layout="@layout/fragment_exercise">
         <action android:id="@+id/action_destination_exercises_screen_to_destination_stats_screen"
                 app:destination="@id/destination_stats_screen"/>
