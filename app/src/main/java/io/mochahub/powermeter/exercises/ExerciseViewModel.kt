@@ -3,19 +3,20 @@ package io.mochahub.powermeter.exercises
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import io.mochahub.powermeter.models.Exercise
 
 class ExerciseViewModel : ViewModel() {
-    // TODO: Replace all of this with calls to Room Dao
-    val _exercises = MutableLiveData<List<String>>(
+
+    val _exercises = MutableLiveData<List<Exercise>>(
         listOf(
-            "Bench Press",
-            "Squats",
-            "Shoulder Press"
+            Exercise(name = "Bench Press", personalRecord = 100f, muscleGroup = "Chest"),
+            Exercise(name = "Squat", personalRecord = 200.4f, muscleGroup = "Legs"),
+            Exercise(name = "Overhead Press", personalRecord = 30f, muscleGroup = "Shoulders")
         )
     )
-    val exercises : LiveData<List<String>> = _exercises
+    val exercises : LiveData<List<Exercise>> = _exercises
 
-    fun addExercise(exercise: String) {
+    fun addExercise(exercise: Exercise) {
         val currentList = exercises.value ?: listOf()
         val newList = currentList.toMutableList()
         newList.add(exercise)
