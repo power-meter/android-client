@@ -14,7 +14,7 @@ class StatsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return CardViewHolder(
+        return StatsViewHolder(
             LayoutInflater.from(parent.context).inflate(
                 R.layout.row_stat,
                 parent,
@@ -28,24 +28,22 @@ class StatsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-
         when (holder){
-            is CardViewHolder ->{
+            is StatsViewHolder ->{
                 holder.bind( items.get(position))
             }
         }
     }
-    class CardViewHolder constructor(
+
+    class StatsViewHolder constructor(
         itemView: View
     ): RecyclerView.ViewHolder(itemView){
         val card_titlle: TextView = itemView.card_title
-//        val card_image: ImageView = itemView.card_image
         val card_description: TextView = itemView.card_description
 
         fun bind(card: StatsCard){
             card_titlle.setText(card.title)
-            card_description.setText(card.body)
-//            card_image.setImageResource(card.image)
+            card_description.setText(card.exercise.name)
         }
     }
 

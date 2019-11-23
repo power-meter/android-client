@@ -3,6 +3,7 @@ package io.mochahub.powermeter.stats
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import io.mochahub.powermeter.R
+import io.mochahub.powermeter.models.Exercise
 import io.mochahub.powermeter.models.StatsCard
 
 class StatsViewModel : ViewModel() {
@@ -12,18 +13,15 @@ class StatsViewModel : ViewModel() {
         listOf(
             StatsCard(
                 "Exercise",
-                "Squats",
-                R.drawable.balloon
+                Exercise("Squats",1.0f,"legs")
             ),
             StatsCard(
                 "Exercise",
-                "Bench Press",
-                R.drawable.balloon
+                Exercise("Bench Press",1.0f,"chest")
             ),
             StatsCard(
-                "Muscle Group",
-                "Shoulders",
-                R.drawable.balloon
+                "Exercise",
+                Exercise("Shoulder Press",1.0f,"shoulders")
             )
         )
     )
