@@ -6,6 +6,7 @@ buildscript {
         kotlin_version = '1.3.50'
         appCenterSdkVersion = '2.5.0'
         nav_version = "2.1.0"
+        ktx_version = "1.1.0"
     }
     repositories {
         google()
