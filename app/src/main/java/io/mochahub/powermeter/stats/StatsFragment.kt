@@ -19,7 +19,7 @@ import kotlinx.android.synthetic.main.fragment_stats.*
 class StatsFragment : Fragment() {
 
     private lateinit var statsAdapter : StatsAdapter
-    private lateinit var viewModel: StatsViewModel
+    private val viewModel: StatsViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
