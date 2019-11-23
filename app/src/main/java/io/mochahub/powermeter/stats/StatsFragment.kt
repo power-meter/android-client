@@ -32,7 +32,6 @@ class StatsFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(StatsViewModel::class.java)
 
         stats_list.apply{
             layoutManager = LinearLayoutManager(context)
