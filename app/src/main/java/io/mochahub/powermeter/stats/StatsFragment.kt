@@ -5,12 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import io.mochahub.powermeter.R
-import io.mochahub.powermeter.common.ui.TopSpacingItemDecoration
 import kotlinx.android.synthetic.main.fragment_stats.*
-import android.widget.CompoundButton
 
 
 
@@ -18,8 +17,8 @@ import android.widget.CompoundButton
 
 class StatsFragment : Fragment() {
 
-    private lateinit var cardAdapter : StatsRecyclerAdapater
-    private lateinit var viewModel: StatsFragmentViewModel
+    private lateinit var statsAdapter : StatsAdapter
+    private lateinit var viewModel: StatsViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -33,30 +32,23 @@ class StatsFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(StatsFragmentViewModel::class.java)
-
+        viewModel = ViewModelProviders.of(this).get(StatsViewModel::class.java)
         initRecyclerView()
-        // TODO: Use Livedata and diffutil
-        addDataSet()
-
-        initToggle()
-
+        initData()
     }
 
-    private fun initToggle() {
 
-    }
-
-    private fun addDataSet(){
-        cardAdapter.setList(viewModel.getData())
+    private fun initData(){
+        viewModel.stats.observe(viewLifecycleOwner, Observer {
+            statsAdapter.setList(it ?: listOf())
+        })
     }
 
     private fun initRecyclerView(){
         card_list.apply{
             layoutManager = LinearLayoutManager(context)
-            addItemDecoration(TopSpacingItemDecoration(30))
-            cardAdapter = StatsRecyclerAdapater()
-            adapter = cardAdapter
+            statsAdapter = StatsAdapter()
+            adapter = statsAdapter
         }
     }
 }

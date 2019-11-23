@@ -8,16 +8,16 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import io.mochahub.powermeter.R
 import io.mochahub.powermeter.models.Card
-import kotlinx.android.synthetic.main.card_stats.view.*
+import kotlinx.android.synthetic.main.row_stats.view.*
 
-class StatsRecyclerAdapater : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
+class StatsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
     private var items:List<Card> = ArrayList()
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return CardViewHolder(
             LayoutInflater.from(parent.context).inflate(
-                R.layout.card_stats,
+                R.layout.row_stats,
                 parent,
                 false
             )
