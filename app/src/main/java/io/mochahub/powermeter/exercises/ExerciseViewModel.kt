@@ -19,7 +19,7 @@ class ExerciseViewModel : ViewModel() {
     fun addExercise(exercise: Exercise) {
         val currentList = exercises.value ?: listOf()
         val newList = currentList.toMutableList()
-        newList.add(exercise)
+        newList.add(0, exercise)
         _exercises.postValue(newList)
     }
 
