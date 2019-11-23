@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import io.mochahub.powermeter.R
 import io.mochahub.powermeter.exercises.ExerciseAdapter.ExerciseViewHolder
 import io.mochahub.powermeter.models.Exercise
-import kotlinx.android.synthetic.main.exercise_row.view.*
+import kotlinx.android.synthetic.main.row_exercise.view.*
 
 class ExerciseAdapter(
     private var exercises: List<Exercise>,
@@ -19,7 +19,7 @@ class ExerciseAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ExerciseViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.exercise_row, parent, false) as CardView
+            .inflate(R.layout.row_exercise, parent, false) as CardView
         return ExerciseViewHolder(view)
     }
 
