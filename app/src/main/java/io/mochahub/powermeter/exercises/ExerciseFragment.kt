@@ -10,6 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import io.mochahub.powermeter.R
+import io.mochahub.powermeter.models.Exercise
 import kotlinx.android.synthetic.main.fragment_exercise.*
 
 class ExerciseFragment : Fragment() {
@@ -27,7 +28,7 @@ class ExerciseFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val exerciseAdapter = ExerciseAdapter(viewModel.exercises.value ?: listOf()) { clicked : String -> onExerciseClick(clicked) }
+        val exerciseAdapter = ExerciseAdapter(viewModel.exercises.value ?: listOf()) { clicked : Exercise -> onExerciseClick(clicked) }
 
         recyclerView.apply {
             layoutManager = LinearLayoutManager(requireContext())
@@ -40,11 +41,11 @@ class ExerciseFragment : Fragment() {
 
         // TODO: Show a dialog fragment with editor where we can write name of new exercise
         addExerciseBtn.setOnClickListener {
-            viewModel.addExercise("New Exercise")
+            viewModel.addExercise(Exercise(name = "New Exercise", personalRecord = 88f, muscleGroup = "New Group"))
         }
     }
 
-    private fun onExerciseClick(exercise: String) {
-        Toast.makeText(requireContext(), "Clicked: $exercise", Toast.LENGTH_SHORT).show()
+    private fun onExerciseClick(exercise: Exercise) {
+        Toast.makeText(requireContext(), "Clicked: ${exercise.name}", Toast.LENGTH_SHORT).show()
     }
 }
