@@ -43,9 +43,6 @@ class GraphFragment : Fragment() {
             graph.data = lineData
             graph.invalidate(); // refresh
         })
-
-
-
     }
 
 
