@@ -37,8 +37,8 @@ class StatsFragment : Fragment() {
         stats_list.apply{
             layoutManager = LinearLayoutManager(context)
             statsAdapter = StatsAdapter(viewModel.stats.value ?: listOf()){
-
                 Toast.makeText(requireContext(), "Clicked: ${it.exercise.name}", Toast.LENGTH_SHORT).show()
+                // TODO: Pass in the exercise
                 navController.navigate(R.id.action_destination_stats_screen_to_graphFragment)
             }
             adapter = statsAdapter
