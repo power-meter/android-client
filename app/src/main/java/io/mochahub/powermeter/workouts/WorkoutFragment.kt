@@ -60,14 +60,6 @@ class WorkoutFragment : Fragment() {
 
     private fun enableSwipeToDelete() {
         val simpleItemTouchCallback = object : SwipeToDeleteCallback(context = requireContext()) {
-            override fun onMove(
-                recyclerView: RecyclerView,
-                viewHolder: RecyclerView.ViewHolder,
-                target: RecyclerView.ViewHolder
-            ): Boolean {
-                return false
-            }
-
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val position = viewHolder.adapterPosition
 
