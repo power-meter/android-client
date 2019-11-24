@@ -41,7 +41,7 @@ class GraphFragment : Fragment() {
             lineDataSet.valueTextSize = 0.0f
             val lineData = LineData(lineDataSet)
             graph.data = lineData
-            graph.invalidate(); // refresh
+            graph.invalidate() // refresh
         })
     }
 
