@@ -17,7 +17,6 @@ class WorkoutViewModel : ViewModel() {
         )
     )
 
-
     val workoutSessions: LiveData<List<WorkoutSession>> = _workoutSessions
 
     fun addWorkout() {

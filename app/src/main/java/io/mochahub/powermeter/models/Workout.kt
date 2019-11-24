@@ -1,6 +1,6 @@
 package io.mochahub.powermeter.models
 
-data class Workout (
+data class Workout(
     val exercise: Exercise,
     val sets: List<WorkoutSet>
 ) {
