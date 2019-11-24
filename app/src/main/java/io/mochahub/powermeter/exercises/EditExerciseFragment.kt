@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import io.mochahub.powermeter.R
 
-class EditExerciseFragment: DialogFragment() {
+class EditExerciseFragment : DialogFragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

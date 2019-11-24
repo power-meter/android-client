@@ -54,7 +54,7 @@ class ExerciseFragment : Fragment() {
                 }
             }
         }
-        
+
         val itemTouchHelper = ItemTouchHelper(swipeHandler)
         itemTouchHelper.attachToRecyclerView(recyclerView)
 
@@ -64,7 +64,7 @@ class ExerciseFragment : Fragment() {
 
         // TODO: Show a dialog fragment with editor where we can write name of new exercise
         addExerciseBtn.setOnClickListener {
-            EditExerciseFragment().show(fragmentManager!!,"TAG")
+            EditExerciseFragment().show(fragmentManager!!, "TAG")
 //            viewModel.addExercise(Exercise(name = "New Exercise", personalRecord = 88f, muscleGroup = "New Group"))
         }
     }
