@@ -34,11 +34,13 @@ class GraphFragment : Fragment() {
         ContextCompat.getColor(requireContext(), R.color.GraphText)
 
         viewModel.data.observe(viewLifecycleOwner, Observer {
-            val lineDataSet = LineDataSet(viewModel.data.value,"Power Score")
-            lineDataSet.mode = LineDataSet.Mode.HORIZONTAL_BEZIER
-            lineDataSet.lineWidth = 3.0f
-            lineDataSet.setDrawCircles(false)
-            lineDataSet.valueTextSize = 0.0f
+            val lineDataSet = LineDataSet(viewModel.data.value,"Power Score").
+                apply {
+                mode = LineDataSet.Mode.HORIZONTAL_BEZIER
+                lineWidth = 3.0f
+                setDrawCircles(false)
+                valueTextSize = 0.0f
+            }
             val lineData = LineData(lineDataSet)
             graph.data = lineData
             graph.invalidate() // refresh
@@ -47,26 +49,26 @@ class GraphFragment : Fragment() {
 
 
     private fun initGraph() {
-        graph.setDrawBorders(false)
-        graph.setDrawGridBackground(false)
-        graph.setDrawMarkers(false)
-        graph.description.text=""
+        graph.apply {
+            setDrawBorders(false)
+            setDrawGridBackground(false)
+            setDrawMarkers(false)
+            description.text ="" // TODO: Fill this in and move somehwere on graph
 
-        graph.xAxis.setDrawAxisLine(false)
-        graph.xAxis.setDrawGridLines(false)
-        graph.xAxis.isEnabled = false
+            xAxis.setDrawAxisLine(false)
+            xAxis.setDrawGridLines(false)
+            xAxis.isEnabled = false
 
-        graph.axisLeft.setDrawGridLines(false)
-        graph.axisLeft.setDrawAxisLine(false)
-        graph.axisLeft.textSize = 15.0f
-        graph.axisLeft.textColor = ContextCompat.getColor(this.context!!, R.color.GraphText)
+            axisLeft.setDrawGridLines(false)
+            axisLeft.setDrawAxisLine(false)
+            axisLeft.textSize = 15.0f
+            axisLeft.textColor = ContextCompat.getColor(this.context!!, R.color.GraphText)
 
-        graph.axisRight.setDrawGridLines(false)
-        graph.axisRight.setDrawAxisLine(false)
-        graph.axisRight.isEnabled = false
+            axisRight.setDrawGridLines(false)
+            axisRight.setDrawAxisLine(false)
+            axisRight.isEnabled = false
 
-        graph.legend.isEnabled = false
-
+            legend.isEnabled = false
+        }
     }
-
 }
