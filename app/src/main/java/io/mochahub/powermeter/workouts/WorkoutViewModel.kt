@@ -20,11 +20,7 @@ class WorkoutViewModel : ViewModel() {
 
     val workoutSessions: LiveData<List<WorkoutSession>> = _workoutSessions
 
-    fun addWorkout(
-//        workoutName: String = DateTimeFormatter
-//            .ofPattern("LLL dd yyyy (E) - HH:mm")
-//            .format(Instant.now())
-    ) {
+    fun addWorkout() {
         val currentList = workoutSessions.value ?: listOf()
         val newList = currentList.toMutableList().apply {
             this.add(WorkoutSession(workouts = listOf()))

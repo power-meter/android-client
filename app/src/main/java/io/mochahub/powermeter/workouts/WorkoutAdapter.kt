@@ -10,7 +10,6 @@ import io.mochahub.powermeter.models.WorkoutSession
 import kotlinx.android.synthetic.main.row_workout.view.*
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
-import java.util.*
 
 class WorkoutAdapter (
     private var workoutSessions: List<WorkoutSession>,
