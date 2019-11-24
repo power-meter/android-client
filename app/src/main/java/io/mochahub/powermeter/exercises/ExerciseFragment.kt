@@ -1,5 +1,6 @@
 package io.mochahub.powermeter.exercises
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,7 +12,9 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 import io.mochahub.powermeter.R
+import io.mochahub.powermeter.SwipeToDeleteCallback
 import io.mochahub.powermeter.models.Exercise
 import kotlinx.android.synthetic.main.fragment_exercise.*
 
@@ -37,9 +40,18 @@ class ExerciseFragment : Fragment() {
             adapter = exerciseAdapter
         }
 
-        val swipeHandler = object : SwipeToDeleteCallback() {
+        val swipeHandler = object : SwipeToDeleteCallback(requireContext()) {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                viewModel.removeExerciseAtPosition(viewHolder.adapterPosition)
+                val position = viewHolder.adapterPosition
+
+                val deletedExercise: Exercise = viewModel.removeExerciseAtPosition(position)
+                Snackbar.make(viewHolder.itemView, "Exercise deleted!", Snackbar.LENGTH_LONG).apply {
+                    setAction("UNDO") {
+                        viewModel.restoreExerciseAtPosition(position, deletedExercise)
+                    }
+                    setActionTextColor(Color.YELLOW)
+                    show()
+                }
             }
         }
         

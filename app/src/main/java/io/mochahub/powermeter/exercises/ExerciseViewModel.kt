@@ -23,10 +23,18 @@ class ExerciseViewModel : ViewModel() {
         _exercises.postValue(newList)
     }
 
-    fun removeExerciseAtPosition(position: Int) {
+    fun removeExerciseAtPosition(position: Int): Exercise {
         val currentList = exercises.value ?: listOf()
         val newList = currentList.toMutableList()
-        newList.removeAt(position)
+        val removed = newList.removeAt(position)
+        _exercises.postValue(newList)
+        return removed
+    }
+
+    fun restoreExerciseAtPosition(position: Int, exercise: Exercise) {
+        val currentList = exercises.value ?: listOf()
+        val newList = currentList.toMutableList()
+        newList.add(position, exercise)
         _exercises.postValue(newList)
     }
 }
