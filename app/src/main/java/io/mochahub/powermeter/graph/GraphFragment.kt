@@ -1,23 +1,17 @@
 package io.mochahub.powermeter.graph
 
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import io.mochahub.powermeter.R
-import android.R.attr.entries
-import android.graphics.Color
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.github.mikephil.charting.data.LineDataSet
 import kotlinx.android.synthetic.main.graph_fragment.*
 import com.github.mikephil.charting.data.LineData
-
-
-
 
 class GraphFragment : Fragment() {
 
