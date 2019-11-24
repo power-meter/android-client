@@ -1,4 +1,4 @@
-package io.mochahub.powermeter.workouts
+package io.mochahub.powermeter
 
 import android.content.Context
 import android.graphics.*

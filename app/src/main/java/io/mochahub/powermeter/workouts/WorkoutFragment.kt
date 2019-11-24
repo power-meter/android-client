@@ -1,8 +1,6 @@
 package io.mochahub.powermeter.workouts
 
 import android.graphics.*
-import android.graphics.drawable.Drawable
-import android.graphics.drawable.VectorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -16,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import io.mochahub.powermeter.R
+import io.mochahub.powermeter.SwipeToDeleteCallback
 import io.mochahub.powermeter.models.WorkoutSession
 import kotlinx.android.synthetic.main.fragment_workout.*
 
