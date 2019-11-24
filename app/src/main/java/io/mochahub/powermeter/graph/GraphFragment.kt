@@ -6,10 +6,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
 import io.mochahub.powermeter.R
 import android.R.attr.entries
 import android.graphics.Color
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.github.mikephil.charting.data.LineDataSet
@@ -37,26 +37,23 @@ class GraphFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initGraph()
+        ContextCompat.getColor(this.context!!, R.color.GraphText);
+
         viewModel.data.observe(viewLifecycleOwner, Observer {
             val lineDataSet = LineDataSet(viewModel.data.value,"Power Score")
-//            lineDataSet.color= (R.color.colorAccent)
-//            lineDataSet.setCircleColor(R.color.colorAccent)
-
-            lineDataSet.setMode(LineDataSet.Mode.HORIZONTAL_BEZIER)
+            lineDataSet.mode = LineDataSet.Mode.HORIZONTAL_BEZIER
             lineDataSet.lineWidth = 3.0f
             lineDataSet.setDrawCircles(false)
-//            lineDataSet.circleRadius=6.0f
-//            lineDataSet.circleHoleRadius = 3.0f
-//            lineDataSet.setColor(R.color.colorPrimary);
-//            lineDataSet.setValueTextColor(Color.parseColor("#FF775F"));
+            lineDataSet.valueTextSize = 0.0f
             val lineData = LineData(lineDataSet)
-            graph.setData(lineData);
+            graph.data = lineData
             graph.invalidate(); // refresh
         })
 
 
 
     }
+
 
     private fun initGraph() {
         graph.setDrawBorders(false)
@@ -71,7 +68,7 @@ class GraphFragment : Fragment() {
         graph.axisLeft.setDrawGridLines(false)
         graph.axisLeft.setDrawAxisLine(false)
         graph.axisLeft.textSize = 15.0f
-//        graph.axisLeft.isEnabled = false
+        graph.axisLeft.textColor = ContextCompat.getColor(this.context!!, R.color.GraphText)
 
         graph.axisRight.setDrawGridLines(false)
         graph.axisRight.setDrawAxisLine(false)
