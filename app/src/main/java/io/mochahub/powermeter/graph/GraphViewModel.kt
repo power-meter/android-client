@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import com.github.mikephil.charting.data.Entry
 
 class GraphViewModel : ViewModel() {
-    val _data  = MutableLiveData<List<Entry>>(
+    private val _data  = MutableLiveData<List<Entry>>(
         listOf(
             Entry(1f,1f),
             Entry(2f,2f),
