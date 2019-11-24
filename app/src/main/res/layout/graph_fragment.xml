@@ -5,9 +5,12 @@
         android:layout_height="match_parent"
         tools:context=".graph.GraphFragment">
 
-    <TextView
+
+    <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/graph"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="Hello" />
+            style="@style/Widget.MaterialComponents.TextView"
+            />
 
 </FrameLayout>
