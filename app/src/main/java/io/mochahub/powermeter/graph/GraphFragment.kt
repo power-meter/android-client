@@ -31,7 +31,7 @@ class GraphFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initGraph()
-        ContextCompat.getColor(this.context!!, R.color.GraphText);
+        ContextCompat.getColor(requireContext(), R.color.GraphText)
 
         viewModel.data.observe(viewLifecycleOwner, Observer {
             val lineDataSet = LineDataSet(viewModel.data.value,"Power Score")
