@@ -11,15 +11,15 @@ class StatsViewModel : ViewModel() {
         listOf(
             StatCard(
                 "Exercise",
-                Exercise("Bench Press", 100f, "Chest")
+                Exercise("Bench Press",100f,"Chest")
             ),
             StatCard(
                 "Exercise",
-                Exercise("Squat", 30f, "Legs")
+                Exercise("Squat",30f,"Legs")
             ),
             StatCard(
                 "Exercise",
-                Exercise("Overhead Press", 30f, "Shoulders")
+                Exercise("Overhead Press",30f,"Shoulders")
             )
         )
     )

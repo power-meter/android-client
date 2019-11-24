@@ -2,7 +2,7 @@ package io.mochahub.powermeter.models
 
 import java.time.Instant
 
-data class WorkoutSession(
+data class WorkoutSession (
     val name: String? = null,
     val date: Instant = Instant.now(),
     val workouts: List<Workout>
@@ -16,7 +16,7 @@ data class WorkoutSession(
             this.removeAt(index)
         }
 
-        return this.copy(workouts = workoutsList)
+        return this.copy(workouts =  workoutsList)
     }
 
     fun updateWorkout(index: Int, workout: Workout): WorkoutSession {

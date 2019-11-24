@@ -1,6 +1,6 @@
 package io.mochahub.powermeter.models
 
-data class Exercise(
+data class Exercise (
     val name: String,
     val personalRecord: Float,
     val muscleGroup: String // TODO: Make MuscleGroup data/enum class?
@@ -9,4 +9,6 @@ data class Exercise(
     override fun toString(): String {
         return "Exercise(name='$name', personalRecord='$personalRecord' muscleGroup='$muscleGroup')"
     }
+
+
 }

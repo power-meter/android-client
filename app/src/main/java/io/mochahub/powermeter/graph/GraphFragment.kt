@@ -14,12 +14,11 @@ import kotlinx.android.synthetic.main.graph_fragment.*
 import com.github.mikephil.charting.data.LineData
 
 class GraphFragment : Fragment() {
-
+    
     private val viewModel: GraphViewModel by viewModels()
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
+        inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.graph_fragment, container, false)
@@ -31,8 +30,8 @@ class GraphFragment : Fragment() {
         ContextCompat.getColor(requireContext(), R.color.GraphText)
 
         viewModel.data.observe(viewLifecycleOwner, Observer {
-            val lineDataSet = LineDataSet(viewModel.data.value, "Power Score")
-                .apply {
+            val lineDataSet = LineDataSet(viewModel.data.value,"Power Score").
+                apply {
                 mode = LineDataSet.Mode.HORIZONTAL_BEZIER
                 lineWidth = 3.0f
                 setDrawCircles(false)
@@ -44,12 +43,13 @@ class GraphFragment : Fragment() {
         })
     }
 
+
     private fun initGraph() {
         graph.apply {
             setDrawBorders(false)
             setDrawGridBackground(false)
             setDrawMarkers(false)
-            description.text = "" // TODO: Fill this in and move somehwere on graph
+            description.text ="" // TODO: Fill this in and move somehwere on graph
 
             xAxis.setDrawAxisLine(false)
             xAxis.setDrawGridLines(false)
