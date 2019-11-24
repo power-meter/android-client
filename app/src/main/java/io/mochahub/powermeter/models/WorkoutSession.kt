@@ -1,10 +1,10 @@
 package io.mochahub.powermeter.models
 
-import java.util.*
+import java.time.Instant
 
 data class WorkoutSession (
-    val name: String?,
-    val date: Date,
+    val name: String? = null,
+    val date: Instant = Instant.now(),
     val workouts: List<Workout>
 ) {
     fun addWorkout(workout: Workout): WorkoutSession {
