@@ -13,6 +13,7 @@ class WorkoutViewModel : ViewModel() {
             "Workout #2"
         )
     )
+    
 
     val workouts: LiveData<List<String>> = _workouts
 
