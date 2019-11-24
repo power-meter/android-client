@@ -10,6 +10,7 @@ import io.mochahub.powermeter.models.WorkoutSession
 import kotlinx.android.synthetic.main.row_workout.view.*
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
+import java.util.*
 
 class WorkoutAdapter (
     private var workoutSessions: List<WorkoutSession>,
@@ -29,7 +30,7 @@ class WorkoutAdapter (
 
     override fun onBindViewHolder(holder: WorkoutSessionViewHolder, position: Int) {
         holder.view.dateView.text = DateTimeFormatter.ofPattern("LLL dd yyyy (E) - HH:mm")
-            .withZone(ZoneId.of("EST"))
+            .withZone(ZoneId.systemDefault())
             .format(workoutSessions[position].date)
         holder.view.setOnClickListener { clickListener(workoutSessions[position]) }
     }
