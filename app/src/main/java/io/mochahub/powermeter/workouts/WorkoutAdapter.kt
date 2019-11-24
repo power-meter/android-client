@@ -31,6 +31,7 @@ class WorkoutAdapter (
         holder.view.dateView.text = DateTimeFormatter.ofPattern("LLL dd yyyy (E) - HH:mm")
             .withZone(ZoneId.systemDefault())
             .format(workoutSessions[position].date)
+        holder.view.workoutView.text = "${workoutSessions[position].workouts.size} workouts"
         holder.view.setOnClickListener { clickListener(workoutSessions[position]) }
     }
 
