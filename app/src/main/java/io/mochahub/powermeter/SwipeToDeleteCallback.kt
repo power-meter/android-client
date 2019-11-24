@@ -1,10 +1,13 @@
 package io.mochahub.powermeter
 
 import android.content.Context
-import android.graphics.*
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Paint
+import android.graphics.RectF
+import android.graphics.Color
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
-import io.mochahub.powermeter.R
 
 abstract class SwipeToDeleteCallback(val context: Context) : ItemTouchHelper.SimpleCallback(
     0,

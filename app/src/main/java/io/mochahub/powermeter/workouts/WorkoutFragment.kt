@@ -1,6 +1,6 @@
 package io.mochahub.powermeter.workouts
 
-import android.graphics.*
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -16,7 +16,8 @@ import com.google.android.material.snackbar.Snackbar
 import io.mochahub.powermeter.R
 import io.mochahub.powermeter.SwipeToDeleteCallback
 import io.mochahub.powermeter.models.WorkoutSession
-import kotlinx.android.synthetic.main.fragment_workout.*
+import kotlinx.android.synthetic.main.fragment_workout.recyclerView
+import kotlinx.android.synthetic.main.fragment_workout.addSessionButton
 
 class WorkoutFragment : Fragment() {
 
@@ -33,7 +34,7 @@ class WorkoutFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val workoutAdapter = WorkoutAdapter(viewModel.workoutSessions.value ?: listOf()) { clicked : WorkoutSession -> onWorkoutSessionClicked(clicked) }
+        val workoutAdapter = WorkoutAdapter(viewModel.workoutSessions.value ?: listOf()) { clicked: WorkoutSession -> onWorkoutSessionClicked(clicked) }
 
         recyclerView.apply {
             layoutManager = LinearLayoutManager(requireContext())
