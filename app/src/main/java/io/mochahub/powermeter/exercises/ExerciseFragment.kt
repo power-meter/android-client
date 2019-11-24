@@ -28,7 +28,7 @@ class ExerciseFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val exerciseAdapter = ExerciseAdapter(viewModel.exercises.value ?: listOf()) { clicked: Exercise -> onExerciseClick(clicked) }
+        val exerciseAdapter = ExerciseAdapter(viewModel.exercises.value ?: listOf()) { clicked : Exercise -> onExerciseClick(clicked) }
 
         recyclerView.apply {
             layoutManager = LinearLayoutManager(requireContext())
