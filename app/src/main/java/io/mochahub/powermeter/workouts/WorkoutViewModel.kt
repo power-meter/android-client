@@ -22,10 +22,7 @@ class WorkoutViewModel : ViewModel() {
 
     fun addWorkout() {
         val currentList = workoutSessions.value ?: listOf()
-        val newList = currentList.toMutableList().apply {
-            this.add(WorkoutSession(workouts = listOf()))
-        }
 
-        _workoutSessions.postValue(newList)
+        _workoutSessions.postValue(listOf(WorkoutSession(workouts = listOf())) + currentList)
     }
 }

@@ -5,11 +5,7 @@ data class Workout (
     val sets: List<WorkoutSet>
 ) {
     fun addSet(set: WorkoutSet): Workout {
-        val setsList = sets.toMutableList().apply {
-            this.add(set)
-        }
-
-        return this.copy(sets = setsList)
+        return this.copy(sets = sets + listOf(set))
     }
 
     fun removeSet(index: Int): Workout {
