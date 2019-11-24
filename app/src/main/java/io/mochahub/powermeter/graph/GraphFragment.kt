@@ -14,11 +14,7 @@ import kotlinx.android.synthetic.main.graph_fragment.*
 import com.github.mikephil.charting.data.LineData
 
 class GraphFragment : Fragment() {
-
-    companion object {
-        fun newInstance() = GraphFragment()
-    }
-
+    
     private val viewModel: GraphViewModel by viewModels()
 
     override fun onCreateView(
