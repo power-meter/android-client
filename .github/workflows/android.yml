@@ -23,7 +23,5 @@ jobs:
         python-version: 3.7.5
     - name: Create Key Files
       run: python3 gh-actions-post-clone.py  ${{ secrets.app_center_secret }} ${{ secrets.firebase_dev_json }} ${{ secrets.firebase_prod_json }}
-    - name: Build with Gradle
+    - name: Build with Gradle and ktlint
       run: ./gradlew build --stacktrace
-    - name: ktlintcheck
-      run: ./gradlew ktlintCheck
