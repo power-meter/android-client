@@ -17,6 +17,9 @@
                 app:destination="@id/destination_exercises_screen"/>
         <action android:id="@+id/action_destination_stats_screen_to_destination_workout_session_screen"
                 app:destination="@id/destination_workout_session_screen"/>
+        <action
+                android:id="@+id/action_destination_stats_screen_to_graphFragment"
+                app:destination="@id/graphFragment" />
     </fragment>
     <fragment android:id="@+id/destination_exercises_screen" android:name="io.mochahub.powermeter.exercises.ExerciseFragment"
               android:label="fragment_exercise" tools:layout="@layout/fragment_exercise">
@@ -25,4 +28,9 @@
         <action android:id="@+id/action_destination_exercises_screen_to_destination_workout_session_screen"
                 app:destination="@id/destination_workout_session_screen"/>
     </fragment>
+    <fragment
+            android:id="@+id/graphFragment"
+            android:name="io.mochahub.powermeter.graph.GraphFragment"
+            android:label="graph_fragment"
+            tools:layout="@layout/graph_fragment" />
 </navigation>
