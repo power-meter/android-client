@@ -52,7 +52,8 @@ class ExerciseFragment : Fragment() {
 
         // TODO: Show a dialog fragment with editor where we can write name of new exercise
         addExerciseBtn.setOnClickListener {
-            viewModel.addExercise(Exercise(name = "New Exercise", personalRecord = 88f, muscleGroup = "New Group"))
+            EditExerciseFragment().show(fragmentManager!!,"TAG")
+//            viewModel.addExercise(Exercise(name = "New Exercise", personalRecord = 88f, muscleGroup = "New Group"))
         }
     }
 

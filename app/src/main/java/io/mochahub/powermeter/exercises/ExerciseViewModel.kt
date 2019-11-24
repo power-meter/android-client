@@ -7,7 +7,7 @@ import io.mochahub.powermeter.models.Exercise
 
 class ExerciseViewModel : ViewModel() {
 
-    val _exercises = MutableLiveData<List<Exercise>>(
+    private val _exercises = MutableLiveData<List<Exercise>>(
         listOf(
             Exercise(name = "Bench Press", personalRecord = 100f, muscleGroup = "Chest"),
             Exercise(name = "Squat", personalRecord = 200.4f, muscleGroup = "Legs"),
