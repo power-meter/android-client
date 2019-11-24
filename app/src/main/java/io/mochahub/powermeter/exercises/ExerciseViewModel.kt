@@ -14,7 +14,7 @@ class ExerciseViewModel : ViewModel() {
             Exercise(name = "Overhead Press", personalRecord = 30f, muscleGroup = "Shoulders")
         )
     )
-    val exercises : LiveData<List<Exercise>> = _exercises
+    val exercises: LiveData<List<Exercise>> = _exercises
 
     fun addExercise(exercise: Exercise) {
         val currentList = exercises.value ?: listOf()
