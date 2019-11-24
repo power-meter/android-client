@@ -8,11 +8,7 @@ data class WorkoutSession(
     val workouts: List<Workout>
 ) {
     fun addWorkout(workout: Workout): WorkoutSession {
-        val workoutsList = workouts.toMutableList().apply {
-            this.add(workout)
-        }
-
-        return this.copy(workouts = workoutsList)
+        return this.copy(workouts = workouts + listOf(workout))
     }
 
     fun removeWorkout(index: Int): WorkoutSession {
