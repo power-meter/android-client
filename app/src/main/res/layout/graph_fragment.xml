@@ -5,7 +5,11 @@
         android:layout_height="match_parent"
         tools:context=".graph.GraphFragment">
 
-
+<TextView
+        android:id="@+id/graph_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
     <com.github.mikephil.charting.charts.LineChart
             android:id="@+id/graph"
             android:layout_width="match_parent"
