@@ -12,6 +12,6 @@ class GraphSharedViewModel : ViewModel() {
     val exercise: LiveData<Exercise> = selected
 
     fun select(item: Exercise) {
-        selected.value = item
+        _selectedExercise.postValue(item)
     }
 }
