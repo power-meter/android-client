@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import io.mochahub.powermeter.R
 import io.mochahub.powermeter.exercises.ExerciseAdapter.ExerciseViewHolder
-import io.mochahub.powermeter.models.Exercise
+import io.mochahub.powermeter.data.Exercise
 import kotlinx.android.synthetic.main.row_exercise.view.*
 
 class ExerciseAdapter(
