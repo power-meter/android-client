@@ -47,7 +47,7 @@ class GraphFragment : Fragment() {
             graph.data = lineData
             graph.invalidate() // refresh
         })
-        sharedViewModel.exercise.observe(viewLifecycleOwner, Observer {
+        sharedViewModel.selectedExercise.observe(viewLifecycleOwner, Observer {
             graph_title.text = it.name
         })
     }
