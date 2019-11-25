@@ -1,6 +1,5 @@
 #!/bin/bash
 
-<<<<<<< Updated upstream
 git stash -q --keep-index
 
 echo "Running git pre-commit hook"
@@ -17,5 +16,3 @@ exit 0
 =======
 git diff --name-only --cached --relative | grep '\.kt[s"]\?$' | xargs ktlintCheck --android --relative .
 if [ $? -ne 0 ]; then exit 1; fi
-
->>>>>>> Stashed changes
