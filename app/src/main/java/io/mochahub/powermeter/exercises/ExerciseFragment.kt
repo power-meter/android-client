@@ -14,8 +14,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import io.mochahub.powermeter.R
-import io.mochahub.powermeter.SwipeToDeleteCallback
 import io.mochahub.powermeter.models.Exercise
+import io.mochahub.powermeter.shared.SwipeToDeleteCallback
 import kotlinx.android.synthetic.main.fragment_exercise.*
 
 class ExerciseFragment : Fragment() {
