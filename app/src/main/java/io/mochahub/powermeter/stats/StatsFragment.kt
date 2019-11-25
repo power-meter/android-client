@@ -19,7 +19,6 @@ class StatsFragment : Fragment() {
 
     private lateinit var statsAdapter: StatsAdapter
     private val viewModel: StatsViewModel by viewModels()
-    private lateinit var sharedViewModel: GraphSharedViewModel
 
     private lateinit var navController: NavController
     override fun onCreateView(
