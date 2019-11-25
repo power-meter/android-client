@@ -2,6 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: "androidx.navigation.safeargs.kotlin"
+apply plugin: 'kotlin-kapt'
 
 
 def apikeyPropertiesFile = rootProject.file("keys.properties")
@@ -67,6 +68,9 @@ dependencies {
     androidTestImplementation "androidx.test.espresso:espresso-core:3.2.0"
 
     // Room
-    implementation "androidx.room:room-runtime:2.2.2"
+    implementation "android.arch.persistence.room:runtime:1.1.1"
+    kapt "android.arch.persistence.room:compiler:1.1.1"
+
+
 }
 apply plugin: 'com.google.gms.google-services'
