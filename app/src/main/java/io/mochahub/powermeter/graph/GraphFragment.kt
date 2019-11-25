@@ -18,7 +18,6 @@ import kotlinx.android.synthetic.main.graph_fragment.*
 class GraphFragment : Fragment() {
 
     private val viewModel: GraphViewModel by viewModels()
-    private lateinit var sharedViewModel: GraphSharedViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
