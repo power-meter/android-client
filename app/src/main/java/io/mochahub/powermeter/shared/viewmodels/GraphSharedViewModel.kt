@@ -7,7 +7,7 @@ import io.mochahub.powermeter.models.Exercise
 
 class GraphSharedViewModel : ViewModel() {
 
-    private val selected = MutableLiveData<Exercise>()
+    private val _selectedExercise = MutableLiveData<Exercise>()
 
     val selectedExercise: LiveData<Exercise> = _selectedExercise
 
