@@ -29,7 +29,7 @@ class GraphFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        sharedViewModel = requireActivity().run {
+        val sharedViewModel = requireActivity().run {
             ViewModelProviders.of(this)[GraphSharedViewModel::class.java] }
 
         initGraph()
