@@ -1,17 +1,19 @@
 package io.mochahub.powermeter.graph
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import io.mochahub.powermeter.R
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import com.github.mikephil.charting.data.LineDataSet
-import kotlinx.android.synthetic.main.graph_fragment.*
+import androidx.lifecycle.ViewModelProviders
 import com.github.mikephil.charting.data.LineData
+import com.github.mikephil.charting.data.LineDataSet
+import io.mochahub.powermeter.R
+import io.mochahub.powermeter.shared.viewmodels.GraphSharedViewModel
+import kotlinx.android.synthetic.main.graph_fragment.*
 
 class GraphFragment : Fragment() {
 
@@ -27,6 +29,9 @@ class GraphFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val sharedViewModel = requireActivity().run {
+            ViewModelProviders.of(this)[GraphSharedViewModel::class.java] }
+
         initGraph()
         ContextCompat.getColor(requireContext(), R.color.GraphText)
 
@@ -41,6 +46,9 @@ class GraphFragment : Fragment() {
             val lineData = LineData(lineDataSet)
             graph.data = lineData
             graph.invalidate() // refresh
+        })
+        sharedViewModel.selectedExercise.observe(viewLifecycleOwner, Observer {
+            graph_title.text = it.name
         })
     }
 
