@@ -9,7 +9,7 @@ class GraphSharedViewModel : ViewModel() {
 
     private val selected = MutableLiveData<Exercise>()
 
-    val exercise: LiveData<Exercise> = selected
+    val selectedExercise: LiveData<Exercise> = _selectedExercise
 
     fun select(item: Exercise) {
         _selectedExercise.postValue(item)
