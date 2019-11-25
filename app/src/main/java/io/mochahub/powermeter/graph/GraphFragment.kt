@@ -49,6 +49,7 @@ class GraphFragment : Fragment() {
         })
         sharedViewModel.selectedExercise.observe(viewLifecycleOwner, Observer {
             graph_title.text = it.name
+            graph_pr.text = it.personalRecord.toString()
         })
     }
 
@@ -73,6 +74,7 @@ class GraphFragment : Fragment() {
             axisRight.isEnabled = false
 
             legend.isEnabled = false
+            isDoubleTapToZoomEnabled = false
         }
     }
 }
