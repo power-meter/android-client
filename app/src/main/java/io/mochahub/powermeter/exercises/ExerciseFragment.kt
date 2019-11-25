@@ -14,9 +14,6 @@ import io.mochahub.powermeter.data.Exercise
 import kotlinx.android.synthetic.main.fragment_exercise.*
 
 class ExerciseFragment : Fragment() {
-
-    lateinit var viewModel: ExerciseViewModel
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -29,7 +26,7 @@ class ExerciseFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val db = AppDatabase(requireContext())
-        viewModel = ExerciseViewModel(db = db)
+        val viewModel = ExerciseViewModel(db = db)
 
         val exerciseAdapter = ExerciseAdapter(viewModel.exercises.value ?: listOf()) { clicked: Exercise -> onExerciseClick(clicked) }
 

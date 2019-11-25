@@ -3,7 +3,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: "androidx.navigation.safeargs.kotlin"
 apply plugin: 'kotlin-kapt'
-
+apply plugin: 'com.google.gms.google-services'
 
 def apikeyPropertiesFile = rootProject.file("keys.properties")
 def apikeyProperties = new Properties()
@@ -71,7 +71,4 @@ dependencies {
     // Room
     implementation "android.arch.persistence.room:runtime:1.1.1"
     kapt "android.arch.persistence.room:compiler:1.1.1"
-
-
 }
-apply plugin: 'com.google.gms.google-services'
