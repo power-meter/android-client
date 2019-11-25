@@ -9,7 +9,7 @@ import androidx.room.Update
 
 @Dao
 interface ExerciseDao {
-    @Query("SELECT * FROM exercises")
+    @Query("SELECT * FROM exercises ORDER BY createdAt ASC")
     fun getAll(): LiveData<List<Exercise>>
 
     @Query("SELECT * FROM exercises WHERE id = :id")
