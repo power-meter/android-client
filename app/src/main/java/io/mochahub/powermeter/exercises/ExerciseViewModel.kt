@@ -15,4 +15,12 @@ class ExerciseViewModel(val db: AppDatabase) : ViewModel() {
             db.exerciseDao().insertAll(exercise)
         }
     }
+
+    fun removeExercise(position: Int): Exercise {
+        val exercise = exercises.value!![position]
+        GlobalScope.launch {
+            db.exerciseDao().delete(exercise)
+        }
+        return exercise
+    }
 }
