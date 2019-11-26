@@ -20,6 +20,7 @@ class MainActivity : AppCompatActivity() {
         Analytics.trackEvent("Hello World")
 
         setContentView(R.layout.activity_main)
+        setSupportActionBar(findViewById(R.id.toolbar))
 
         val navController: NavController = Navigation.findNavController(this, R.id.nav_host_fragment)
         NavigationUI.setupWithNavController(bottom_navigation, navController)
