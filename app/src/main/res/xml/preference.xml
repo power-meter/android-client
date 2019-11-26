@@ -2,18 +2,9 @@
 
 <PreferenceScreen
         xmlns:app="http://schemas.android.com/apk/res-auto">
-
-<!--    <SwitchPreferenceCompat-->
-<!--            app:key="notifications"-->
-<!--            app:title="Enable message notifications"/>-->
     <SwitchPreference
-            app:key="nightMode"
+            app:key="night_mode"
             app:title="Enable night mode"
             />
-
-    <Preference
-            app:key="feedback"
-            app:title="Send feedback"
-            app:summary="Report technical issues or suggest new features"/>
 
 </PreferenceScreen>
