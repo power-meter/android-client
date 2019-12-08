@@ -1,4 +1,4 @@
-package io.mochahub.powermeter.workouts.add
+package io.mochahub.powermeter.workouts.edit
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

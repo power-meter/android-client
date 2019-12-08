@@ -1,4 +1,4 @@
-package io.mochahub.powermeter.workouts.add
+package io.mochahub.powermeter.workouts.edit
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import io.mochahub.powermeter.models.Exercise
 import io.mochahub.powermeter.models.Workout
 
-class AddWorkoutViewModel : ViewModel() {
+class EditWorkoutViewModel : ViewModel() {
     // TODO: Implement the ViewModel
     val _workouts = MutableLiveData<List<Workout>>(
         listOf(

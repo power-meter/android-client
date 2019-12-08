@@ -1,4 +1,4 @@
-package io.mochahub.powermeter.workouts.add
+package io.mochahub.powermeter.workouts.edit
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,20 +10,20 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import io.mochahub.powermeter.R
 import kotlinx.android.synthetic.main.fragment_workout_session.*
 
-class AddWorkout : Fragment() {
+class EditWorkout : Fragment() {
 
     companion object {
-        fun newInstance() = AddWorkout()
+        fun newInstance() = EditWorkout()
     }
 
-    private val viewModel: AddWorkoutViewModel by viewModels()
+    private val viewModel: EditWorkoutViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_add_workout, container, false)
+        return inflater.inflate(R.layout.fragment_workout_edit, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
