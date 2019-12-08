@@ -32,6 +32,8 @@ class StatsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        activity?.title = resources.getString(R.string.stats_screen_label)
+
         val sharedViewModel = requireActivity().run {
             ViewModelProviders.of(this)[GraphSharedViewModel::class.java] }
 

@@ -7,6 +7,7 @@ buildscript {
         appCenterSdkVersion = '2.5.0'
         nav_version = "2.1.0"
         ktx_version = "1.1.0"
+        preference_version = "1.1.0"
     }
     repositories {
         google()

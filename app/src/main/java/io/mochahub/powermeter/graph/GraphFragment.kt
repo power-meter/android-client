@@ -15,6 +15,10 @@ import io.mochahub.powermeter.R
 import io.mochahub.powermeter.shared.viewmodels.GraphSharedViewModel
 import kotlinx.android.synthetic.main.graph_fragment.*
 
+// TODO (ZAHIN): Should this be graph? Maybe we should find a way to the copy
+//  paste nature of setting the title per fragment.
+private const val DATA_SET_LABEL = "Power Score"
+
 class GraphFragment : Fragment() {
 
     private val viewModel: GraphViewModel by viewModels()
@@ -29,6 +33,8 @@ class GraphFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        activity?.title = resources.getString(R.string.stats_screen_label)
+
         val sharedViewModel = requireActivity().run {
             ViewModelProviders.of(this)[GraphSharedViewModel::class.java] }
 
@@ -36,7 +42,7 @@ class GraphFragment : Fragment() {
         ContextCompat.getColor(requireContext(), R.color.GraphText)
 
         viewModel.data.observe(viewLifecycleOwner, Observer {
-            val lineDataSet = LineDataSet(viewModel.data.value, "Power Score")
+            val lineDataSet = LineDataSet(viewModel.data.value, DATA_SET_LABEL)
                 .apply {
                 mode = LineDataSet.Mode.HORIZONTAL_BEZIER
                 lineWidth = 3.0f
@@ -47,6 +53,7 @@ class GraphFragment : Fragment() {
             graph.data = lineData
             graph.invalidate() // refresh
         })
+
         sharedViewModel.selectedExercise.observe(viewLifecycleOwner, Observer {
             graph_title.text = it.name
             graph_pr.text = it.personalRecord.toString()
@@ -58,7 +65,7 @@ class GraphFragment : Fragment() {
             setDrawBorders(false)
             setDrawGridBackground(false)
             setDrawMarkers(false)
-            description.text = "" // TODO: Fill this in and move somehwere on graph
+            description.text = "" // TODO: Fill this in and move somewhere on graph
 
             xAxis.setDrawAxisLine(false)
             xAxis.setDrawGridLines(false)
@@ -67,7 +74,7 @@ class GraphFragment : Fragment() {
             axisLeft.setDrawGridLines(false)
             axisLeft.setDrawAxisLine(false)
             axisLeft.textSize = 15.0f
-            axisLeft.textColor = ContextCompat.getColor(this.context!!, R.color.GraphText)
+            axisLeft.textColor = ContextCompat.getColor(requireContext(), R.color.GraphText)
 
             axisRight.setDrawGridLines(false)
             axisRight.setDrawAxisLine(false)

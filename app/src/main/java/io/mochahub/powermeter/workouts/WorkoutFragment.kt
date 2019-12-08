@@ -14,10 +14,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import io.mochahub.powermeter.R
-import io.mochahub.powermeter.shared.SwipeToDeleteCallback
 import io.mochahub.powermeter.models.WorkoutSession
-import kotlinx.android.synthetic.main.fragment_workout.recyclerView
-import kotlinx.android.synthetic.main.fragment_workout.addSessionButton
+import io.mochahub.powermeter.shared.SwipeToDeleteCallback
+import kotlinx.android.synthetic.main.fragment_workout.*
+
+private const val DELETED_WORKOUT_MSSG = "Workout session deleted!"
+private const val UNDO_WORKOUT_MSSG = "UNDO"
 
 class WorkoutFragment : Fragment() {
 
@@ -33,6 +35,7 @@ class WorkoutFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        activity?.title = resources.getString(R.string.workout_session_screen_label)
 
         val workoutAdapter = WorkoutAdapter(viewModel.workoutSessions.value ?: listOf()) { clicked: WorkoutSession -> onWorkoutSessionClicked(clicked) }
 
@@ -64,8 +67,8 @@ class WorkoutFragment : Fragment() {
                 val position = viewHolder.adapterPosition
 
                 val deletedWorkoutSession = viewModel.removeWorkoutSession(position)
-                Snackbar.make(viewHolder.itemView, "Workout session deleted!", Snackbar.LENGTH_LONG).apply {
-                    setAction("UNDO") {
+                Snackbar.make(viewHolder.itemView, DELETED_WORKOUT_MSSG, Snackbar.LENGTH_LONG).apply {
+                    setAction(UNDO_WORKOUT_MSSG) {
                         viewModel.restoreWorkoutSession(position, deletedWorkoutSession)
                     }
                     setActionTextColor(Color.YELLOW)

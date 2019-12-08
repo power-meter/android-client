@@ -30,6 +30,8 @@ class ExerciseFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        activity?.title = resources.getString(R.string.exercise_screen_label)
+
         val db = AppDatabase(requireContext())
         val viewModel = ExerciseViewModel(db = db)
 
