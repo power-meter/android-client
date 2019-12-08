@@ -21,7 +21,7 @@ class AddWorkout : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.add_workout_fragment, container, false)
+        return inflater.inflate(R.layout.fragment_add_workout, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

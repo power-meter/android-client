@@ -13,7 +13,7 @@ import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import io.mochahub.powermeter.R
 import io.mochahub.powermeter.shared.viewmodels.GraphSharedViewModel
-import kotlinx.android.synthetic.main.graph_fragment.*
+import kotlinx.android.synthetic.main.fragment_graph.*
 
 // TODO (ZAHIN): Should this be graph? Maybe we should find a way to the copy
 //  paste nature of setting the title per fragment.
@@ -28,7 +28,7 @@ class GraphFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.graph_fragment, container, false)
+        return inflater.inflate(R.layout.fragment_graph, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

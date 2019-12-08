@@ -12,6 +12,7 @@
         <action
                 android:id="@+id/action_destination_workout_session_screen_to_destination_exercises_screen"
                 app:destination="@id/destination_exercises_screen" />
+
         <action
                 android:id="@+id/action_destination_workout_session_screen_to_destination_stats_screen"
                 app:destination="@id/destination_stats_screen" />
@@ -47,7 +48,7 @@
             android:id="@+id/graphFragment"
             android:name="io.mochahub.powermeter.graph.GraphFragment"
             android:label="graph_fragment"
-            tools:layout="@layout/graph_fragment" />
+            tools:layout="@layout/fragment_graph" />
     <fragment
             android:id="@+id/settingsFragment"
             android:name="io.mochahub.powermeter.SettingsFragment"
@@ -56,5 +57,5 @@
             android:id="@+id/addWorkout"
             android:name="io.mochahub.powermeter.workouts.add.AddWorkout"
             android:label="add_workout_fragment"
-            tools:layout="@layout/add_workout_fragment" />
+            tools:layout="@layout/fragment_add_workout" />
 </navigation>

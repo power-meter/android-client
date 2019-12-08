@@ -11,10 +11,10 @@ import kotlinx.android.synthetic.main.row_workout.view.*
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 
-class WorkoutAdapter(
+class WorkoutSessionAdapter(
     private var workoutSessions: List<WorkoutSession>,
     val clickListener: (WorkoutSession) -> Unit
-) : Adapter<WorkoutAdapter.WorkoutSessionViewHolder>() {
+) : Adapter<WorkoutSessionAdapter.WorkoutSessionViewHolder>() {
 
     class WorkoutSessionViewHolder(val view: CardView) : ViewHolder(view)
 
