@@ -22,7 +22,7 @@ import kotlinx.android.synthetic.main.fragment_workout_session.*
 private const val DELETED_WORKOUT_MSSG = "Workout session deleted!"
 private const val UNDO_WORKOUT_MSSG = "UNDO"
 
-class WorkoutFragment : Fragment() {
+class WorkoutSessionFragment : Fragment() {
 
     private val sessionViewModel: WorkoutSessionViewModel by viewModels()
 

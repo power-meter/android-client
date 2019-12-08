@@ -12,7 +12,6 @@
         <action
                 android:id="@+id/action_destination_workout_session_screen_to_destination_exercises_screen"
                 app:destination="@id/destination_exercises_screen" />
-
         <action
                 android:id="@+id/action_destination_workout_session_screen_to_destination_stats_screen"
                 app:destination="@id/destination_stats_screen" />
