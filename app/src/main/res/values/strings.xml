@@ -6,6 +6,7 @@
     <string name="stats_screen_label">Stats</string>
     <string name="settings_screen_label">Settings</string>
 
-    <string name="workout_date_hint">mmddyy</string>
+    <string name="workout_date_hint">mmddyy*</string>
+    <string name="workout_name_hint">Name</string>
 
 </resources>
