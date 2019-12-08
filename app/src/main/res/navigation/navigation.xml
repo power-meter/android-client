@@ -52,4 +52,9 @@
             android:id="@+id/settingsFragment"
             android:name="io.mochahub.powermeter.SettingsFragment"
             android:label="SettingsFragment" />
+    <fragment
+            android:id="@+id/addWorkout"
+            android:name="io.mochahub.powermeter.workouts.add.AddWorkout"
+            android:label="add_workout_fragment"
+            tools:layout="@layout/add_workout_fragment" />
 </navigation>
