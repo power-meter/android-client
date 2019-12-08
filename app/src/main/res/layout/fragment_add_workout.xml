@@ -1,13 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         tools:context=".workouts.add.AddWorkout">
 
-    <TextView
+    <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="Hello" />
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/mtrl_card_spacing"
+            android:layout_marginTop="@dimen/mtrl_card_spacing"
+            android:layout_marginRight="@dimen/mtrl_card_spacing"
+        android:orientation="vertical">
 
-</FrameLayout>
+        <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+            
+<!--            TODO (Zahin): This should be a date picker-->
+            <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/workout_date_hint"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+    </LinearLayout>
+
+</ScrollView>
