@@ -5,8 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
+import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
 import io.mochahub.powermeter.R
+import kotlinx.android.synthetic.main.fragment_workout_session.*
 
 class AddWorkout : Fragment() {
 
@@ -14,7 +16,7 @@ class AddWorkout : Fragment() {
         fun newInstance() = AddWorkout()
     }
 
-    private lateinit var viewModel: AddWorkoutViewModel
+    private val viewModel: AddWorkoutViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -26,7 +28,15 @@ class AddWorkout : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(AddWorkoutViewModel::class.java)
-        // TODO: Use the ViewModel
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val workoutAdapter = EditWorkoutAdapter(viewModel.workouts.value ?: listOf())
+        recyclerView.apply {
+            layoutManager = LinearLayoutManager(requireContext())
+            adapter = workoutAdapter
+        }
     }
 }

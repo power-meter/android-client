@@ -23,7 +23,7 @@ class EditWorkoutAdapter(
     override fun getItemCount(): Int = workouts.size
 
     override fun onBindViewHolder(holder: WorkoutViewHolder, position: Int) {
-        holder.view.workout_edit_exercise.text = workouts[position].exercise.name
+        holder.view.workout_edit_exercise.setText(workouts[position].exercise.name)
     }
 
     fun setData(workouts: List<Workout>) {
