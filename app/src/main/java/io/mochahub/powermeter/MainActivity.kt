@@ -16,6 +16,8 @@ import com.microsoft.appcenter.crashes.Crashes
 import com.microsoft.appcenter.push.Push
 import kotlinx.android.synthetic.main.activity_main.*
 
+private const val NIGHT_MODE = "night_mode"
+
 class MainActivity : AppCompatActivity() {
 
     private val preferences: SharedPreferences
@@ -25,7 +27,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         AppCenter.start(application, BuildConfig.HOCKEY_APP_SECRET,
             Push::class.java, Analytics::class.java, Crashes::class.java)
-        Analytics.trackEvent("Hello World")
+
+//        TODO (Zahin): uncomment the following line when prod app is ready
+//        Eventually we should do a switch on this so that it only triggers on a prod product flavour
+//        Analytics.trackEvent("Hello World")
 
         setContentView(R.layout.activity_main)
         setSupportActionBar(findViewById(R.id.toolbar))
@@ -33,15 +38,17 @@ class MainActivity : AppCompatActivity() {
         val navController: NavController = Navigation.findNavController(this, R.id.nav_host_fragment)
         NavigationUI.setupWithNavController(bottom_navigation, navController)
 
-        // debug menu listener
-        val listener = SharedPreferences.OnSharedPreferenceChangeListener { sharedPreferences, key ->
-            if (sharedPreferences.getBoolean(key, false)) {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-            } else {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        preferences.registerOnSharedPreferenceChangeListener { sharedPreferences, key ->
+            when (key) {
+                NIGHT_MODE -> {
+                    if (sharedPreferences.getBoolean(key, false)) {
+                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                    } else {
+                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                    }
+                }
             }
         }
-        preferences.registerOnSharedPreferenceChangeListener(listener)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
