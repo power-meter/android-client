@@ -18,6 +18,8 @@ import io.mochahub.powermeter.data.Exercise
 import io.mochahub.powermeter.shared.SwipeToDeleteCallback
 import kotlinx.android.synthetic.main.fragment_exercise.*
 
+private const val TITLE = "Exercises"
+
 class ExerciseFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -29,6 +31,8 @@ class ExerciseFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        activity?.title = TITLE
 
         val db = AppDatabase(requireContext())
         val viewModel = ExerciseViewModel(db = db)
