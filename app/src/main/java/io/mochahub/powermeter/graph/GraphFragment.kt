@@ -17,7 +17,6 @@ import kotlinx.android.synthetic.main.graph_fragment.*
 
 // TODO (ZAHIN): Should this be graph? Maybe we should find a way to the copy
 //  paste nature of setting the title per fragment.
-private const val TITLE = "Statistics"
 private const val DATA_SET_LABEL = "Power Score"
 
 class GraphFragment : Fragment() {
@@ -34,7 +33,7 @@ class GraphFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        activity?.title = TITLE
+        activity?.title = resources.getString(R.string.stats_screen_label)
 
         val sharedViewModel = requireActivity().run {
             ViewModelProviders.of(this)[GraphSharedViewModel::class.java] }

@@ -18,7 +18,6 @@ import io.mochahub.powermeter.models.WorkoutSession
 import io.mochahub.powermeter.shared.SwipeToDeleteCallback
 import kotlinx.android.synthetic.main.fragment_workout.*
 
-private const val TITLE = "Workouts"
 private const val DELETED_WORKOUT_MSSG = "Workout session deleted!"
 private const val UNDO_WORKOUT_MSSG = "UNDO"
 
@@ -36,7 +35,7 @@ class WorkoutFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        activity?.title = TITLE
+        activity?.title = resources.getString(R.string.workout_session_screen_label)
 
         val workoutAdapter = WorkoutAdapter(viewModel.workoutSessions.value ?: listOf()) { clicked: WorkoutSession -> onWorkoutSessionClicked(clicked) }
 

@@ -15,8 +15,6 @@ import io.mochahub.powermeter.R
 import io.mochahub.powermeter.shared.viewmodels.GraphSharedViewModel
 import kotlinx.android.synthetic.main.fragment_stats.*
 
-private const val TITLE = "Statistics"
-
 class StatsFragment : Fragment() {
 
     private lateinit var statsAdapter: StatsAdapter
@@ -34,7 +32,7 @@ class StatsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        activity?.title = TITLE
+        activity?.title = resources.getString(R.string.stats_screen_label)
 
         val sharedViewModel = requireActivity().run {
             ViewModelProviders.of(this)[GraphSharedViewModel::class.java] }
