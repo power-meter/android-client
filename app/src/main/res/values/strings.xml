@@ -9,5 +9,9 @@
     <string name="workout_date_hint">mmddyy*</string>
     <string name="workout_name_hint">Name</string>
     <string name="workout_exercise_hint">Exercise</string>
+    <string name="workout_set_hint">Sets</string>
+    <string name="workout_rep_hint">Reps</string>
+    <string name="workout_weight_hint">Weight</string>
+
 
 </resources>

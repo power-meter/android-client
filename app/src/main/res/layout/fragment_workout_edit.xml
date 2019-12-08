@@ -44,7 +44,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerView"
+                android:id="@+id/exercise_recyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 

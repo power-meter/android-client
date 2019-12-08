@@ -8,9 +8,9 @@ import io.mochahub.powermeter.R
 import io.mochahub.powermeter.models.Workout
 import kotlinx.android.synthetic.main.row_workout_edit.view.*
 
-class EditWorkoutAdapter(
+class EditWorkoutExerciseAdapter(
     private var workouts: List<Workout>
-) : RecyclerView.Adapter<EditWorkoutAdapter.WorkoutViewHolder>() {
+) : RecyclerView.Adapter<EditWorkoutExerciseAdapter.WorkoutViewHolder>() {
 
     class WorkoutViewHolder(val view: CardView) : RecyclerView.ViewHolder(view)
 

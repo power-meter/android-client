@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import io.mochahub.powermeter.R
-import kotlinx.android.synthetic.main.fragment_workout_session.*
+import kotlinx.android.synthetic.main.fragment_workout_edit.*
 
 class EditWorkout : Fragment() {
 
@@ -33,8 +33,8 @@ class EditWorkout : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val workoutAdapter = EditWorkoutAdapter(viewModel.workouts.value ?: listOf())
-        recyclerView.apply {
+        val workoutAdapter = EditWorkoutExerciseAdapter(viewModel.workouts.value ?: listOf())
+        exercise_recyclerView.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = workoutAdapter
         }
