@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import io.mochahub.powermeter.models.Exercise
 import io.mochahub.powermeter.models.Workout
+import io.mochahub.powermeter.models.WorkoutSet
 
 class EditWorkoutViewModel : ViewModel() {
     // TODO: Implement the ViewModel
@@ -12,15 +13,27 @@ class EditWorkoutViewModel : ViewModel() {
         listOf(
             Workout(
                 Exercise("Bench", 145f, "Chest"),
-                sets = listOf()
+                sets = listOf(
+                    WorkoutSet(135.0, 10),
+                    WorkoutSet(135.0, 10),
+                    WorkoutSet(135.0, 10)
+                )
             ),
             Workout(
                 Exercise("Squat", 245f, "Legs"),
-                sets = listOf()
+                sets = listOf(
+                    WorkoutSet(95.0, 10),
+                    WorkoutSet(95.0, 10),
+                    WorkoutSet(145.0, 10)
+                )
             ),
             Workout(
                 Exercise("Curls", 30f, "Arms"),
-                sets = listOf()
+                sets = listOf(
+                    WorkoutSet(30.0, 10),
+                    WorkoutSet(30.0, 10),
+                    WorkoutSet(30.0, 10)
+                )
             )
         )
     )

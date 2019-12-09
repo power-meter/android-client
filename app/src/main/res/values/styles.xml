@@ -15,4 +15,11 @@
         <item name="actionMenuTextColor">@android:color/white</item>
     </style>
 
+    <style name="Divider">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:layout_marginVertical">4dp</item>
+        <item name="android:background">@color/GraphText</item>
+    </style>
+    
 </resources>

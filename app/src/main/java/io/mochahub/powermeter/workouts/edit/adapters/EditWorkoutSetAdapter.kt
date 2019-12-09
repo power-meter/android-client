@@ -1,8 +1,8 @@
-package io.mochahub.powermeter.workouts.edit
+package io.mochahub.powermeter.workouts.edit.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.cardview.widget.CardView
+import android.widget.LinearLayout
 import androidx.recyclerview.widget.RecyclerView
 import io.mochahub.powermeter.R
 import io.mochahub.powermeter.models.WorkoutSet
@@ -12,12 +12,14 @@ class EditWorkoutSetAdapter(
     private var workoutSets: List<WorkoutSet>
 ) : RecyclerView.Adapter<EditWorkoutSetAdapter.WorkoutSetViewHolder>() {
 
-    class WorkoutSetViewHolder(val view: CardView) : RecyclerView.ViewHolder(view)
+    class WorkoutSetViewHolder(val view: LinearLayout) : RecyclerView.ViewHolder(view)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WorkoutSetViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.row_workout_edit_set, parent, false) as CardView
-        return WorkoutSetViewHolder(view)
+            .inflate(R.layout.row_workout_edit_set, parent, false) as LinearLayout
+        return WorkoutSetViewHolder(
+            view
+        )
     }
 
     override fun getItemCount(): Int = workoutSets.size

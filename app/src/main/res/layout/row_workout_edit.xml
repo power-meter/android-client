@@ -1,23 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        style="@style/Widget.MaterialComponents.CardView"
+
+<LinearLayout android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/mtrl_card_spacing"
         android:layout_marginTop="@dimen/mtrl_card_spacing"
         android:layout_marginRight="@dimen/mtrl_card_spacing"
-        tools:ignore="PrivateResource">
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        <View style="@style/Divider"/>
 
         <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:endIconMode="custom"
+                android:id="@+id/minimize"
+                app:endIconDrawable="@drawable/ic_keyboard_arrow_down_white_24dp"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
             <!-- TODO(ZAHIN): Should be a dropper -->
@@ -33,8 +32,8 @@
         <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/set_recyclerView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/mtrl_card_spacing"/>
 
-    </LinearLayout>
+</LinearLayout>
 
-</com.google.android.material.card.MaterialCardView>
