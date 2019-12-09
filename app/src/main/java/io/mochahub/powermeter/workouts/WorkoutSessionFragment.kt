@@ -49,10 +49,8 @@ class WorkoutSessionFragment : Fragment() {
             workoutAdapter.setData(it ?: listOf())
         })
 
-        // TODO: Show a dialog fragment with editor where we can CRUD new session
         addSessionButton.setOnClickListener {
             this.findNavController().navigate(R.id.action_destination_workout_session_screen_to_addWorkout)
-//            sessionViewModel.addWorkoutSession()
         }
 
         enableSwipeToDelete()
