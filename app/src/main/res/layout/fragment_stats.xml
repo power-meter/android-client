@@ -5,7 +5,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         tools:context=".stats.StatsFragment">
-    
+
 
     <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/stats_list"
