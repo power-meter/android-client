@@ -13,7 +13,7 @@
             android:layout_marginLeft="@dimen/mtrl_card_spacing"
             android:layout_marginTop="@dimen/mtrl_card_spacing"
             android:layout_marginRight="@dimen/mtrl_card_spacing"
-            tools:context=".workouts.edit.EditWorkoutFragment">
+            tools:context=".workouts.edit.EditWorkoutSessionFragment">
 
         <LinearLayout
                 android:layout_width="match_parent"

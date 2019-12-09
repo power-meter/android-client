@@ -7,7 +7,7 @@ import io.mochahub.powermeter.models.Exercise
 import io.mochahub.powermeter.models.Workout
 import io.mochahub.powermeter.models.WorkoutSet
 
-class EditWorkoutViewModel : ViewModel() {
+class EditWorkoutSessionViewModel : ViewModel() {
     // TODO: Implement the ViewModel
     val _workouts = MutableLiveData<List<Workout>>(
         listOf(

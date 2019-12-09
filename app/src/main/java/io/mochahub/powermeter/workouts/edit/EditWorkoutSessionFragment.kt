@@ -11,9 +11,9 @@ import io.mochahub.powermeter.R
 import io.mochahub.powermeter.workouts.edit.adapters.EditWorkoutExerciseAdapter
 import kotlinx.android.synthetic.main.fragment_workout_session_edit.*
 
-class EditWorkoutFragment : Fragment() {
+class EditWorkoutSessionFragment : Fragment() {
 
-    private val viewModel: EditWorkoutViewModel by viewModels()
+    private val sessionViewModel: EditWorkoutSessionViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -32,7 +32,7 @@ class EditWorkoutFragment : Fragment() {
 
         val workoutAdapter =
             EditWorkoutExerciseAdapter(
-                viewModel.workouts.value ?: listOf()
+                sessionViewModel.workouts.value ?: listOf()
             )
         exercise_recyclerView.apply {
             layoutManager = LinearLayoutManager(requireContext())
