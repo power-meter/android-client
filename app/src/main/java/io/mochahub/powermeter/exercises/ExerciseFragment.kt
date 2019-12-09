@@ -8,6 +8,8 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -29,11 +31,16 @@ class ExerciseFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         activity?.title = resources.getString(R.string.exercise_screen_label)
+
+        val navController = this.findNavController()
 
         val db = AppDatabase(requireContext())
         val viewModel = ExerciseViewModel(db = db)
+
+        val newExerciseSharedViewModel = requireActivity().run {
+            ViewModelProviders.of(this)[NewExerciseSharedViewModel::class.java]
+        }
 
         val exerciseAdapter = ExerciseAdapter(viewModel.exercises.value ?: listOf()) { clicked: Exercise -> onExerciseClick(clicked) }
 
@@ -64,10 +71,15 @@ class ExerciseFragment : Fragment() {
             exerciseAdapter.setData(it ?: listOf())
         })
 
-        // TODO: Show a dialog fragment with editor where we can write name of new exercise
         addExerciseBtn.setOnClickListener {
-            viewModel.addExercise(Exercise(name = "New Exercise", personalRecord = 88.0, muscleGroup = "New Group"))
+            navController.navigate(R.id.action_destination_exercises_screen_to_newExerciseDialog)
         }
+
+        newExerciseSharedViewModel.newExercise.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                viewModel.addExercise(Exercise(name = it.name, personalRecord = it.personalRecord, muscleGroup = it.muscleGroup))
+            }
+        })
     }
 
     private fun onExerciseClick(exercise: Exercise) {

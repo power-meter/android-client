@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity() {
 //        Analytics.trackEvent("Hello World")
 
         setContentView(R.layout.activity_main)
-        setSupportActionBar(findViewById(R.id.toolbar))
+        setSupportActionBar(toolbar)
 
         val navController: NavController = Navigation.findNavController(this, R.id.nav_host_fragment)
         NavigationUI.setupWithNavController(bottom_navigation, navController)
@@ -58,7 +58,6 @@ class MainActivity : AppCompatActivity() {
         return true
     }
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-
         return when (item?.itemId) {
             R.id.action_settings -> {
                 Navigation.findNavController(this, R.id.nav_host_fragment)
