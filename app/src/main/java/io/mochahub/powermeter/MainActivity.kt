@@ -8,6 +8,7 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.navigation.NavController
+import androidx.navigation.NavOptions
 import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
 import com.microsoft.appcenter.AppCenter
@@ -60,7 +61,8 @@ class MainActivity : AppCompatActivity() {
 
         return when (item?.itemId) {
             R.id.action_settings -> {
-                Navigation.findNavController(this, R.id.nav_host_fragment).navigate(R.id.settingsFragment)
+                Navigation.findNavController(this, R.id.nav_host_fragment)
+                    .navigate(R.id.settingsFragment, null, NavOptions.Builder().setLaunchSingleTop(true).build())
                 return true
             }
             else -> super.onOptionsItemSelected(item)
