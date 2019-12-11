@@ -3,8 +3,8 @@ package io.mochahub.powermeter.exercises
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
-import androidx.fragment.app.DialogFragment
 import android.view.ViewGroup
+import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProviders
 import io.mochahub.powermeter.R
 import io.mochahub.powermeter.models.Exercise
@@ -33,7 +33,6 @@ class NewExerciseDialog : DialogFragment() {
         savedInstanceState: Bundle?
     ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
-        // TODO: The toolbar's X icon isn't final, need to figure out how to make it custom to night mode
         return inflater.inflate(R.layout.dialog_new_exercise, container, false)
     }
 
