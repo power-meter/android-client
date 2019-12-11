@@ -78,6 +78,7 @@ class ExerciseFragment : Fragment() {
         newExerciseSharedViewModel.newExercise.observe(viewLifecycleOwner, Observer {
             it?.let {
                 viewModel.addExercise(Exercise(name = it.name, personalRecord = it.personalRecord, muscleGroup = it.muscleGroup))
+                newExerciseSharedViewModel.clearNewExercise()
             }
         })
     }

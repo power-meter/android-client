@@ -12,4 +12,8 @@ class NewExerciseSharedViewModel : ViewModel() {
     fun saveNewExercise(exercise: Exercise) {
         _newExercise.postValue(exercise)
     }
+
+    fun clearNewExercise() {
+        _newExercise.postValue(null)
+    }
 }
