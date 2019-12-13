@@ -1,11 +1,11 @@
-package io.mochahub.powermeter.workouts
+package io.mochahub.powermeter.workoutsession
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import io.mochahub.powermeter.models.WorkoutSession
 
-class WorkoutViewModel : ViewModel() {
+class WorkoutSessionViewModel : ViewModel() {
     val _workoutSessions = MutableLiveData<List<WorkoutSession>>(
         listOf(
             WorkoutSession(

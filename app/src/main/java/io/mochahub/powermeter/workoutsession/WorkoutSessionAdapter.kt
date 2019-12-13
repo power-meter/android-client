@@ -1,4 +1,4 @@
-package io.mochahub.powermeter.workouts
+package io.mochahub.powermeter.workoutsession
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -7,20 +7,20 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import io.mochahub.powermeter.R
 import io.mochahub.powermeter.models.WorkoutSession
-import kotlinx.android.synthetic.main.row_workout.view.*
+import kotlinx.android.synthetic.main.row_workout_session.view.*
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 
-class WorkoutAdapter(
+class WorkoutSessionAdapter(
     private var workoutSessions: List<WorkoutSession>,
     val clickListener: (WorkoutSession) -> Unit
-) : Adapter<WorkoutAdapter.WorkoutSessionViewHolder>() {
+) : Adapter<WorkoutSessionAdapter.WorkoutSessionViewHolder>() {
 
     class WorkoutSessionViewHolder(val view: CardView) : ViewHolder(view)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WorkoutSessionViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.row_workout, parent, false) as CardView
+            .inflate(R.layout.row_workout_session, parent, false) as CardView
 
         return WorkoutSessionViewHolder(view)
     }

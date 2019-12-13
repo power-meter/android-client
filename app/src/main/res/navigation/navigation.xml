@@ -6,9 +6,9 @@
         app:startDestination="@id/destination_workout_session_screen">
     <fragment
             android:id="@+id/destination_workout_session_screen"
-            android:name="io.mochahub.powermeter.workouts.WorkoutFragment"
+            android:name="io.mochahub.powermeter.workoutsession.WorkoutFragment"
             android:label="fragment_workout"
-            tools:layout="@layout/fragment_workout">
+            tools:layout="@layout/fragment_workout_session">
         <action
                 android:id="@+id/action_destination_workout_session_screen_to_destination_exercises_screen"
                 app:destination="@id/destination_exercises_screen" />
