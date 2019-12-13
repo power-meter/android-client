@@ -15,6 +15,9 @@
         <action
                 android:id="@+id/action_destination_workout_session_screen_to_destination_stats_screen"
                 app:destination="@id/destination_stats_screen" />
+        <action
+                android:id="@+id/action_destination_workout_session_screen_to_newWorkoutDialog"
+                app:destination="@id/newWorkoutDialog" />
     </fragment>
     <fragment
             android:id="@+id/destination_stats_screen"
@@ -79,4 +82,10 @@
                 android:defaultValue="0"
                 app:argType="integer" />
     </dialog>
+    <dialog
+            android:id="@+id/newWorkoutDialog"
+            android:name="io.mochahub.powermeter.workouts.NewWorkoutDialog"
+            android:label="dialog_new_workout_dialog"
+            tools:layout="@layout/dialog_new_workout_dialog" />
+
 </navigation>

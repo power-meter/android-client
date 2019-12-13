@@ -6,9 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -37,7 +39,8 @@ class WorkoutFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         activity?.title = resources.getString(R.string.workout_session_screen_label)
 
-        val workoutAdapter = WorkoutSessionAdapter(sessionViewModel.workoutSessions.value ?: listOf()) { clicked: WorkoutSession -> onWorkoutSessionClicked(clicked) }
+        val workoutAdapter = WorkoutAdapter(viewModel.workoutSessions.value ?: listOf()) { clicked: WorkoutSession -> onWorkoutSessionClicked(clicked) }
+        val navController = this.findNavController()
 
         recyclerView.apply {
             layoutManager = LinearLayoutManager(requireContext())
@@ -50,7 +53,8 @@ class WorkoutFragment : Fragment() {
 
         // TODO: Show a dialog fragment with editor where we can CRUD new session
         addSessionButton.setOnClickListener {
-            sessionViewModel.addWorkoutSession()
+//            viewModel.addWorkoutSession()
+            navController.navigate(R.id.action_destination_workout_session_screen_to_newWorkoutDialog)
         }
 
         enableSwipeToDelete()
@@ -79,5 +83,36 @@ class WorkoutFragment : Fragment() {
 
         val itemTouchHelper = ItemTouchHelper(simpleItemTouchCallback)
         itemTouchHelper.attachToRecyclerView(recyclerView)
+    }
+}
+
+class NewWorkoutDialog : DialogFragment() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setStyle(
+            STYLE_NORMAL,
+            R.style.FullScreenDialog
+        )
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        if (dialog != null) {
+            val width = ViewGroup.LayoutParams.MATCH_PARENT
+            val height = ViewGroup.LayoutParams.MATCH_PARENT
+            dialog!!.window!!.setLayout(width, height)
+        }
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.dialog_new_workout_dialog, container, false)
     }
 }
