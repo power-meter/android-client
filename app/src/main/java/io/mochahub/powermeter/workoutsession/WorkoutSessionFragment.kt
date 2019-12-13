@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -23,7 +22,7 @@ import kotlinx.android.synthetic.main.fragment_workout_session.*
 private const val DELETED_WORKOUT_MSSG = "Workout session deleted!"
 private const val UNDO_WORKOUT_MSSG = "UNDO"
 
-class WorkoutFragment : Fragment() {
+class WorkoutSessionFragment : Fragment() {
 
     private val sessionViewModel: WorkoutSessionViewModel by viewModels()
 
@@ -39,7 +38,7 @@ class WorkoutFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         activity?.title = resources.getString(R.string.workout_session_screen_label)
 
-        val workoutAdapter = WorkoutAdapter(viewModel.workoutSessions.value ?: listOf()) { clicked: WorkoutSession -> onWorkoutSessionClicked(clicked) }
+        val workoutAdapter = WorkoutSessionAdapter(sessionViewModel.workoutSessions.value ?: listOf()) { clicked: WorkoutSession -> onWorkoutSessionClicked(clicked) }
         val navController = this.findNavController()
 
         recyclerView.apply {
@@ -83,36 +82,5 @@ class WorkoutFragment : Fragment() {
 
         val itemTouchHelper = ItemTouchHelper(simpleItemTouchCallback)
         itemTouchHelper.attachToRecyclerView(recyclerView)
-    }
-}
-
-class NewWorkoutDialog : DialogFragment() {
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setStyle(
-            STYLE_NORMAL,
-            R.style.FullScreenDialog
-        )
-    }
-
-    override fun onStart() {
-        super.onStart()
-
-        if (dialog != null) {
-            val width = ViewGroup.LayoutParams.MATCH_PARENT
-            val height = ViewGroup.LayoutParams.MATCH_PARENT
-            dialog!!.window!!.setLayout(width, height)
-        }
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.dialog_new_workout_dialog, container, false)
     }
 }
