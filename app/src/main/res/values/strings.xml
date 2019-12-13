@@ -5,5 +5,10 @@
     <string name="workout_session_screen_label">Workouts</string>
     <string name="stats_screen_label">Stats</string>
     <string name="settings_screen_label">Settings</string>
+    <string name="new_exercise">"New Exercise"</string>
+    <string name="save">SAVE</string>
+    <string name="muscle_group">Muscle Group</string>
+    <string name="personal_record">Personal Record</string>
+    <string name="name">Name</string>
 
 </resources>
