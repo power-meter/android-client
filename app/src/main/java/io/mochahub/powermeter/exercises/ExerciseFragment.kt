@@ -11,7 +11,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import io.mochahub.powermeter.R
@@ -42,12 +41,8 @@ class ExerciseFragment : Fragment() {
             ViewModelProviders.of(this)[NewExerciseSharedViewModel::class.java]
         }
 
-        val exerciseAdapter = ExerciseAdapter(viewModel.exercises.value ?: listOf()) { clicked: Exercise -> onExerciseClick(clicked) }
-
-        recyclerView.apply {
-            layoutManager = LinearLayoutManager(requireContext())
-            adapter = exerciseAdapter
-        }
+        val exerciseController = ExerciseController { clicked: Exercise -> onExerciseClick(clicked) }
+        recyclerView.setController(exerciseController)
 
         val swipeHandler = object : SwipeToDeleteCallback(requireContext()) {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
@@ -68,7 +63,7 @@ class ExerciseFragment : Fragment() {
         itemTouchHelper.attachToRecyclerView(recyclerView)
 
         viewModel.exercises.observe(viewLifecycleOwner, Observer {
-            exerciseAdapter.setData(it ?: listOf())
+            exerciseController.setData(it ?: listOf())
         })
 
         addExerciseBtn.setOnClickListener {
