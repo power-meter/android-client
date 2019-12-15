@@ -82,7 +82,6 @@ dependencies {
     kapt "android.arch.persistence.room:compiler:$room_version"
 
     // Epoxy
-
     implementation "com.airbnb.android:epoxy:$epoxy_version"
     kapt "com.airbnb.android:epoxy-processor:$epoxy_version"
 }
