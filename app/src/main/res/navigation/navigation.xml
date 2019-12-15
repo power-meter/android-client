@@ -84,7 +84,7 @@
     </dialog>
     <dialog
             android:id="@+id/newWorkoutDialog"
-            android:name="io.mochahub.powermeter.workouts.NewWorkoutDialog"
+            android:name="io.mochahub.powermeter.workoutsession.NewWorkoutDialog"
             android:label="dialog_new_workout_dialog"
             tools:layout="@layout/dialog_new_workout_dialog" />
 
