@@ -11,5 +11,7 @@
     <string name="personal_record">Personal Record</string>
     <string name="name">Name</string>
     <string name="alert_exercise_exists">Exercise already exists!</string>
+    <string name="exercise_deleted">Exercise deleted!</string>
+    <string name="undo">UNDO</string>
 
 </resources>
