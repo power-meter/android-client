@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.navArgs
+import com.google.android.material.textfield.TextInputEditText
 import io.mochahub.powermeter.R
 import io.mochahub.powermeter.data.Exercise
 import kotlinx.android.synthetic.main.dialog_new_exercise.*
@@ -63,7 +64,7 @@ class ExerciseDialog : DialogFragment() {
                                 Exercise(
                                     id = args.exerciseId,
                                     name = newExerciseNameText.text.toString(),
-                                    personalRecord = newExercisePRText.text.toString().toDouble(),
+                                    personalRecord = newExercisePRText.toDoubleOrZero(),
                                     muscleGroup = newExerciseGroupText.text.toString()
                                 )
                             )
@@ -71,7 +72,7 @@ class ExerciseDialog : DialogFragment() {
                             newExerciseSharedViewModel.saveNewExercise(
                                 Exercise(
                                     name = newExerciseNameText.text.toString(),
-                                    personalRecord = newExercisePRText.text.toString().toDouble(),
+                                    personalRecord = newExercisePRText.toDoubleOrZero(),
                                     muscleGroup = newExerciseGroupText.text.toString()
                                 )
                             )
@@ -82,5 +83,18 @@ class ExerciseDialog : DialogFragment() {
                 true
             }
         }
+    }
+}
+
+/**
+ * Convenience extension used for TextInputEditText for personal record to default to zero if there
+ * is an empty string, which allows us to avoid a crash where string was empty!
+ */
+fun TextInputEditText.toDoubleOrZero(): Double {
+    val text = this.text.toString()
+    return if (text.isEmpty()) {
+        0.0
+    } else {
+        text.toDouble()
     }
 }
