@@ -51,7 +51,7 @@ class ExerciseDialog : DialogFragment() {
         args.muscleGroup?.let { newExerciseGroupText.setText(it) }
 
         newExerciseToolbar.apply {
-            title = resources.getString(R.string.new_exercise)
+            title = if (args.shouldEdit) resources.getString(R.string.edit_exercise) else resources.getString(R.string.new_exercise)
             setNavigationOnClickListener { dismiss() }
             inflateMenu(R.menu.menu_new_exercise)
             setOnMenuItemClickListener { item ->

@@ -13,5 +13,6 @@
     <string name="alert_exercise_exists">Exercise already exists!</string>
     <string name="exercise_deleted">Exercise deleted!</string>
     <string name="undo">UNDO</string>
+    <string name="edit_exercise">Edit Exercise</string>
 
 </resources>
