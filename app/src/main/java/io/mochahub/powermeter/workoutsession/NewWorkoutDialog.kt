@@ -7,11 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.fragment.app.DialogFragment
+import androidx.lifecycle.Observer
 import io.mochahub.powermeter.R
 import io.mochahub.powermeter.data.AppDatabase
 import io.mochahub.powermeter.models.Exercise
 import io.mochahub.powermeter.models.Workout
 import io.mochahub.powermeter.models.WorkoutSet
+import kotlinx.android.synthetic.main.dialog_new_workout_dialog.addWorkoutBtn
 import kotlinx.android.synthetic.main.dialog_new_workout_dialog.newWorkoutDateText
 import kotlinx.android.synthetic.main.dialog_new_workout_dialog.newWorkoutToolbar
 import kotlinx.android.synthetic.main.fragment_exercise.recyclerView
@@ -71,16 +73,27 @@ class NewWorkoutDialog : DialogFragment() {
                 true
             }
         }
-
-        val viewModel = NewWorkoutViewModel(db = AppDatabase(requireContext()))
-        val adapter = ArrayAdapter<String>(
-            requireContext(), android.R.layout.simple_spinner_item,
-            viewModel.exercises.value?.map { it.name } ?: listOf())
-
-        val workoutController = WorkoutController(adapter)
+        var workoutController = WorkoutController(ArrayAdapter<String>(requireContext(), android.R.layout.simple_spinner_item))
+        var workouts = listOf(Workout(Exercise("", 0.0, ""), listOf(WorkoutSet(1.0, 1), WorkoutSet(1.0, 1))))
+        var emptyWorkout = Workout(Exercise("", 0.0, ""), listOf(WorkoutSet(0.0, 0)))
         recyclerView.setController(workoutController)
         // TODO: Should be init from view model with existing list if it exists
-        workoutController.setData(listOf(Workout(Exercise("", 0.0, ""), listOf(WorkoutSet(1.0, 1), WorkoutSet(1.0, 1)))))
+        workoutController.setData(workouts)
+
+        addWorkoutBtn.setOnClickListener {
+            workouts = listOf(emptyWorkout, *workouts.toTypedArray())
+            workoutController.setData(workouts)
+        }
+
+        val viewModel = NewWorkoutViewModel(db = AppDatabase(requireContext()))
+        viewModel.exercises.observe(viewLifecycleOwner, Observer {
+            val adapter = ArrayAdapter<String>(
+                requireContext(), android.R.layout.simple_spinner_item,
+                viewModel.exercises.value?.map { it.name } ?: listOf())
+            workoutController = WorkoutController(adapter)
+            recyclerView.setController(workoutController)
+            workoutController.setData(workouts)
+        })
     }
 
     private fun initFields() {

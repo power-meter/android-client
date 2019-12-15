@@ -4,15 +4,19 @@ import android.widget.ArrayAdapter
 import com.airbnb.epoxy.TypedEpoxyController
 import io.mochahub.powermeter.models.Workout
 
-class WorkoutController(private val arrayAdapter: ArrayAdapter<String>) : TypedEpoxyController<List<Workout>>() {
+class WorkoutController(
+    private val arrayAdapter: ArrayAdapter<String>,
+    private val onWorkoutExerciseChange: (Int) -> Unit,
+    private val onWorkoutSetChange: (Int, Int) -> Unit
+) : TypedEpoxyController<List<Workout>>() {
     override fun buildModels(workouts: List<Workout>?) {
-        workouts?.forEach {
-            workoutRow(it, arrayAdapter) {
-                id(it.exercise.name)
+        workouts?.forEachIndexed { workoutIndex, workout ->
+            workoutRow(workout, arrayAdapter) {
+                id(workoutIndex.toString() + workout.exercise.name)
             }
-            it.sets.forEachIndexed { i, set ->
+            workout.sets.forEachIndexed { setIndex, set ->
                 workoutRowSet(set) {
-                    id(i.toString() + it.exercise.name)
+                    id(workoutIndex.toString() + setIndex.toString() + workout.exercise.name)
                 }
             }
         }
