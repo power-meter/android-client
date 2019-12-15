@@ -45,11 +45,11 @@ class NewWorkoutDialog : DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setFields()
+        initFields()
         initDatePicker()
     }
 
-    private fun setFields() {
+    private fun initFields() {
         // TODO: Set fields from a shared view models
         // This is for when we are editing a workout
     }
