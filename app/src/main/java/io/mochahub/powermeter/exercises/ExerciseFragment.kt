@@ -75,7 +75,7 @@ class ExerciseFragment : Fragment() {
             it?.let {
                 val currentExercises: List<String> = viewModel.exercises.value?.map { it.name } ?: listOf()
                 if (currentExercises.contains(it.name)) {
-                    Toast.makeText(requireContext(), "Exercise already exists!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), getString(R.string.alert_exercise_exists), Toast.LENGTH_SHORT).show()
                 } else {
                     viewModel.addExercise(it.toDataModel())
                 }
