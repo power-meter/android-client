@@ -7,15 +7,17 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import io.mochahub.powermeter.R
-import kotlinx.android.synthetic.main.dialog_new_workout_dialog.newWorkoutDateText
+import kotlinx.android.synthetic.main.dialog_new_workout_dialog.*
 import java.text.SimpleDateFormat
 import java.time.Instant
 import java.util.Calendar
-import java.util.Locale
 import java.util.Date
+import java.util.Locale
+
+private const val myFormat = "MM/dd/yy"
+private val sdf = SimpleDateFormat(myFormat, Locale.US)
 
 class NewWorkoutDialog : DialogFragment() {
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setStyle(
@@ -55,20 +57,17 @@ class NewWorkoutDialog : DialogFragment() {
     }
 
     private fun initDatePicker() {
-        val myFormat = "mm/dd/yy"
-        val sdf = SimpleDateFormat(myFormat, Locale.US)
+
         if (newWorkoutDateText.text.isNullOrEmpty()) {
             newWorkoutDateText.setText(sdf.format(Date.from(Instant.now())))
         }
 
         val myCalendar = Calendar.getInstance()
         val dateSetListener = DatePickerDialog.OnDateSetListener {
-                datePicker, year, month, day -> myCalendar.apply {
+                _, year, month, day -> myCalendar.apply {
             set(Calendar.YEAR, year)
             set(Calendar.MONTH, month)
             set(Calendar.DAY_OF_MONTH, day)
-            // TODO: Make a const
-
             newWorkoutDateText.setText(sdf.format(myCalendar.time))
         }
         }
