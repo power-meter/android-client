@@ -7,7 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import io.mochahub.powermeter.R
-import kotlinx.android.synthetic.main.dialog_new_workout_dialog.*
+import kotlinx.android.synthetic.main.dialog_new_workout_dialog.newWorkoutDateText
+import kotlinx.android.synthetic.main.dialog_new_workout_dialog.newWorkoutToolbar
 import java.text.SimpleDateFormat
 import java.time.Instant
 import java.util.Calendar
@@ -51,7 +52,7 @@ class NewWorkoutDialog : DialogFragment() {
         initDatePicker()
 
         newWorkoutToolbar.apply {
-            title = resources.getString(R.string.new_exercise)
+            title = resources.getString(R.string.new_workout)
             setNavigationOnClickListener { dismiss() }
             inflateMenu(R.menu.menu_save)
             setOnMenuItemClickListener { item ->
