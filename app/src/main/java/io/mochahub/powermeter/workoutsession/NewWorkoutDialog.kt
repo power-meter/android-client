@@ -73,7 +73,7 @@ class NewWorkoutDialog : DialogFragment() {
                 true
             }
         }
-        var workoutController = WorkoutController(ArrayAdapter<String>(requireContext(), android.R.layout.simple_spinner_item))
+        var workoutController = WorkoutController(ArrayAdapter<String>(requireContext(), android.R.layout.simple_spinner_item), { i -> }, { i, k -> })
         var workouts = listOf(Workout(Exercise("", 0.0, ""), listOf(WorkoutSet(1.0, 1), WorkoutSet(1.0, 1))))
         var emptyWorkout = Workout(Exercise("", 0.0, ""), listOf(WorkoutSet(0.0, 0)))
         recyclerView.setController(workoutController)
@@ -90,7 +90,7 @@ class NewWorkoutDialog : DialogFragment() {
             val adapter = ArrayAdapter<String>(
                 requireContext(), android.R.layout.simple_spinner_item,
                 viewModel.exercises.value?.map { it.name } ?: listOf())
-            workoutController = WorkoutController(adapter)
+            workoutController = WorkoutController(adapter, { i -> }, { i, k -> })
             recyclerView.setController(workoutController)
             workoutController.setData(workouts)
         })
