@@ -16,6 +16,7 @@ import com.google.android.material.snackbar.Snackbar
 import io.mochahub.powermeter.R
 import io.mochahub.powermeter.data.AppDatabase
 import io.mochahub.powermeter.data.Exercise
+import io.mochahub.powermeter.models.toDataModel
 import io.mochahub.powermeter.shared.SwipeToDeleteCallback
 import kotlinx.android.synthetic.main.fragment_exercise.*
 
@@ -72,7 +73,12 @@ class ExerciseFragment : Fragment() {
 
         newExerciseSharedViewModel.newExercise.observe(viewLifecycleOwner, Observer {
             it?.let {
-                viewModel.addExercise(Exercise(name = it.name, personalRecord = it.personalRecord, muscleGroup = it.muscleGroup))
+                val currentExercises: List<String> = viewModel.exercises.value?.map { it.name } ?: listOf()
+                if (currentExercises.contains(it.name)) {
+                    Toast.makeText(requireContext(), getString(R.string.alert_exercise_exists), Toast.LENGTH_SHORT).show()
+                } else {
+                    viewModel.addExercise(it.toDataModel())
+                }
                 newExerciseSharedViewModel.clearNewExercise()
             }
         })
