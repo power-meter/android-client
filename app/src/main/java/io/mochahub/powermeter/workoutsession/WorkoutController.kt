@@ -8,7 +8,7 @@ class WorkoutController(private val arrayAdapter: ArrayAdapter<String>) : TypedE
     override fun buildModels(workouts: List<Workout>?) {
         workouts?.forEach {
             workoutRow(it, arrayAdapter) {
-            id(it.exercise.name)
+                id(it.exercise.name)
             }
         }
     }
