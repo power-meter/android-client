@@ -13,9 +13,9 @@ import io.mochahub.powermeter.data.AppDatabase
 import io.mochahub.powermeter.models.Exercise
 import io.mochahub.powermeter.models.Workout
 import io.mochahub.powermeter.models.WorkoutSet
-import kotlinx.android.synthetic.main.dialog_new_workout_dialog.addWorkoutBtn
-import kotlinx.android.synthetic.main.dialog_new_workout_dialog.newWorkoutDateText
-import kotlinx.android.synthetic.main.dialog_new_workout_dialog.newWorkoutToolbar
+import kotlinx.android.synthetic.main.dialog_new_workout.addWorkoutBtn
+import kotlinx.android.synthetic.main.dialog_new_workout.newWorkoutDateText
+import kotlinx.android.synthetic.main.dialog_new_workout.newWorkoutToolbar
 import kotlinx.android.synthetic.main.fragment_exercise.recyclerView
 import java.text.SimpleDateFormat
 import java.time.Instant
@@ -50,7 +50,7 @@ class NewWorkoutDialog : DialogFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.dialog_new_workout_dialog, container, false)
+        return inflater.inflate(R.layout.dialog_new_workout, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
