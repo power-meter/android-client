@@ -10,6 +10,7 @@
     <string name="save">SAVE</string>
     <string name="muscle_group">Muscle Group</string>
     <string name="personal_record">Personal Record</string>
+    <string name="exercise">Exercise</string>
     <string name="name">Name</string>
     <string name="alert_exercise_exists">Exercise already exists!</string>
     <string name="exercise_deleted">Exercise deleted!</string>
