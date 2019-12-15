@@ -6,13 +6,13 @@ import com.airbnb.epoxy.EpoxyModelClass
 import com.airbnb.epoxy.EpoxyModelWithHolder
 import com.google.android.material.card.MaterialCardView
 import io.mochahub.powermeter.R
-import io.mochahub.powermeter.data.Exercise
+import io.mochahub.powermeter.data.ExerciseEntity
 import io.mochahub.powermeter.shared.KotlinEpoxyHolder
 
 @EpoxyModelClass(layout = R.layout.row_exercise)
 abstract class ExerciseRowModel(
-    @EpoxyAttribute var exercise: Exercise,
-    @EpoxyAttribute(EpoxyAttribute.Option.DoNotHash) var clickListener: (Exercise) -> Unit
+    @EpoxyAttribute var exercise: ExerciseEntity,
+    @EpoxyAttribute(EpoxyAttribute.Option.DoNotHash) var clickListener: (ExerciseEntity) -> Unit
 ) : EpoxyModelWithHolder<ExerciseRowModel.Holder>() {
 
     override fun bind(holder: Holder) {

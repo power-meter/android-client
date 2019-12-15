@@ -10,17 +10,17 @@ import androidx.room.Update
 @Dao
 interface ExerciseDao {
     @Query("SELECT * FROM exercises ORDER BY createdAt ASC")
-    fun getAll(): LiveData<List<Exercise>>
+    fun getAll(): LiveData<List<ExerciseEntity>>
 
     @Query("SELECT * FROM exercises WHERE id = :id")
-    fun getById(id: Int): LiveData<Exercise>
+    fun getById(id: Int): LiveData<ExerciseEntity>
 
     @Insert
-    fun insertAll(vararg exercise: Exercise)
+    fun insertAll(vararg exercise: ExerciseEntity)
 
     @Delete
-    fun delete(exercise: Exercise)
+    fun delete(exercise: ExerciseEntity)
 
     @Update
-    fun updateExercise(vararg exercise: Exercise)
+    fun updateExercise(vararg exercise: ExerciseEntity)
 }

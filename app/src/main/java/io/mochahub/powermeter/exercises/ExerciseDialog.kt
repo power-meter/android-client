@@ -9,7 +9,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.textfield.TextInputEditText
 import io.mochahub.powermeter.R
-import io.mochahub.powermeter.data.Exercise
+import io.mochahub.powermeter.data.ExerciseEntity
 import kotlinx.android.synthetic.main.dialog_new_exercise.*
 
 class ExerciseDialog : DialogFragment() {
@@ -61,7 +61,7 @@ class ExerciseDialog : DialogFragment() {
                         // TODO: No error checking yet, so it'll crash if you don't give an actual double lol
                         if (args.shouldEdit) {
                             newExerciseSharedViewModel.saveEditExercise(
-                                Exercise(
+                                ExerciseEntity(
                                     id = args.exerciseId,
                                     name = newExerciseNameText.text.toString(),
                                     personalRecord = newExercisePRText.toDoubleOrZero(),
@@ -70,7 +70,7 @@ class ExerciseDialog : DialogFragment() {
                             )
                         } else {
                             newExerciseSharedViewModel.saveNewExercise(
-                                Exercise(
+                                ExerciseEntity(
                                     name = newExerciseNameText.text.toString(),
                                     personalRecord = newExercisePRText.toDoubleOrZero(),
                                     muscleGroup = newExerciseGroupText.text.toString()

@@ -5,7 +5,7 @@ import androidx.room.PrimaryKey
 import java.time.OffsetDateTime
 
 @Entity(tableName = "exercises")
-data class Exercise(
+data class ExerciseEntity(
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0,
     var name: String,

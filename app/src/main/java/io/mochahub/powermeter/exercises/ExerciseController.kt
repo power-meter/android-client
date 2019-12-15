@@ -1,10 +1,10 @@
 package io.mochahub.powermeter.exercises
 
 import com.airbnb.epoxy.TypedEpoxyController
-import io.mochahub.powermeter.data.Exercise
+import io.mochahub.powermeter.data.ExerciseEntity
 
-class ExerciseController(private val clickListener: (Exercise) -> Unit) : TypedEpoxyController<List<Exercise>>() {
-    override fun buildModels(exercises: List<Exercise>?) {
+class ExerciseController(private val clickListener: (ExerciseEntity) -> Unit) : TypedEpoxyController<List<ExerciseEntity>>() {
+    override fun buildModels(exercises: List<ExerciseEntity>?) {
         exercises?.forEach {
             exerciseRow(it, clickListener) {
                 id(it.name)

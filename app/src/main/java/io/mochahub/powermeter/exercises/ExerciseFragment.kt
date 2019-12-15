@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import io.mochahub.powermeter.R
 import io.mochahub.powermeter.data.AppDatabase
-import io.mochahub.powermeter.data.Exercise
+import io.mochahub.powermeter.data.ExerciseEntity
 import io.mochahub.powermeter.shared.SwipeToDeleteCallback
 import kotlinx.android.synthetic.main.fragment_exercise.*
 
@@ -31,7 +31,7 @@ class ExerciseFragment : Fragment() {
     private val navController by lazy { this.findNavController() }
     private val appDatabase by lazy { AppDatabase(requireContext()) }
     private val viewModel by lazy { ExerciseViewModel(db = appDatabase) }
-    private val exerciseController = ExerciseController { clicked: Exercise -> onExerciseClick(clicked) }
+    private val exerciseController = ExerciseController { clicked: ExerciseEntity -> onExerciseClick(clicked) }
     private val itemTouchHelper by lazy { ItemTouchHelper(swipeHandler) }
 
     private val exerciseSharedViewModel by lazy {
@@ -45,7 +45,7 @@ class ExerciseFragment : Fragment() {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val position = viewHolder.adapterPosition
 
-                val deletedExercise: Exercise = viewModel.removeExercise(position)
+                val deletedExercise: ExerciseEntity = viewModel.removeExercise(position)
                 Snackbar.make(viewHolder.itemView, getString(R.string.exercise_deleted), Snackbar.LENGTH_LONG)
                     .apply {
                         setAction(getString(R.string.undo)) { viewModel.addExercise(deletedExercise) }
@@ -56,7 +56,7 @@ class ExerciseFragment : Fragment() {
         }
     }
 
-    private fun onExerciseClick(exercise: Exercise) {
+    private fun onExerciseClick(exercise: ExerciseEntity) {
         exerciseSharedViewModel.editExercise
         val action = ExerciseFragmentDirections
             .actionDestinationExercisesScreenToExerciseDialog(
