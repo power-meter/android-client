@@ -1,7 +1,7 @@
 package io.mochahub.powermeter.workoutsession
 
 import android.widget.ArrayAdapter
-import android.widget.Spinner
+import android.widget.AutoCompleteTextView
 import com.airbnb.epoxy.EpoxyAttribute
 import com.airbnb.epoxy.EpoxyModelClass
 import com.airbnb.epoxy.EpoxyModelWithHolder
@@ -16,14 +16,14 @@ abstract class WorkoutRowModel(
 ) : EpoxyModelWithHolder<WorkoutRowModel.Holder>() {
 
     override fun bind(holder: Holder) {
-        holder.workoutNameView.adapter = arrayAdapter
+        holder.workoutNameView.setAdapter(arrayAdapter)
         // TODO: Figure out a way to get a default value for the spinner
-        if (workout.exercise.name != "") {
+        if (workout.exercise.name.isNotEmpty()) {
             holder.workoutNameView.setSelection(arrayAdapter.getPosition(workout.exercise.name))
         }
     }
 
     class Holder : KotlinEpoxyHolder() {
-        val workoutNameView by bind<Spinner>(R.id.newWorkoutExerciseText)
+        val workoutNameView by bind<AutoCompleteTextView>(R.id.newWorkoutExerciseText)
     }
 }
