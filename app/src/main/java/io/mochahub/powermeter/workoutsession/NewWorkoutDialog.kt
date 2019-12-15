@@ -49,6 +49,28 @@ class NewWorkoutDialog : DialogFragment() {
 
         initFields()
         initDatePicker()
+
+        newWorkoutToolbar.apply {
+            title = resources.getString(R.string.new_exercise)
+            setNavigationOnClickListener { dismiss() }
+            inflateMenu(R.menu.menu_save)
+            setOnMenuItemClickListener { item ->
+                when (item?.itemId) {
+                    R.id.action_save -> {
+                        // TODO: No error checking yet, so it'll crash if you don't give an actual double lol
+//                        newExerciseSharedViewModel.saveNewExercise(
+//                            Exercise(
+//                                newExerciseNameText.text.toString(),
+//                                newExercisePRText.text.toString().toDouble(),
+//                                newExerciseGroupText.text.toString()
+//                            )
+//                        )
+                    }
+                }
+                dismiss()
+                true
+            }
+        }
     }
 
     private fun initFields() {
