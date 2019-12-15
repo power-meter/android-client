@@ -3,16 +3,16 @@ package io.mochahub.powermeter.exercises
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import io.mochahub.powermeter.data.Exercise
+import io.mochahub.powermeter.data.ExerciseEntity
 
 class ExerciseSharedViewModel : ViewModel() {
-    private val _newExercise = MutableLiveData<Exercise>()
-    val newExercise: LiveData<Exercise> = _newExercise
+    private val _newExercise = MutableLiveData<ExerciseEntity>()
+    val newExercise: LiveData<ExerciseEntity> = _newExercise
 
-    private val _editExercise = MutableLiveData<Exercise>()
-    val editExercise: LiveData<Exercise> = _editExercise
+    private val _editExercise = MutableLiveData<ExerciseEntity>()
+    val editExercise: LiveData<ExerciseEntity> = _editExercise
 
-    fun saveNewExercise(exercise: Exercise) {
+    fun saveNewExercise(exercise: ExerciseEntity) {
         _newExercise.postValue(exercise)
     }
 
@@ -20,7 +20,7 @@ class ExerciseSharedViewModel : ViewModel() {
         _newExercise.postValue(null)
     }
 
-    fun saveEditExercise(exercise: Exercise) {
+    fun saveEditExercise(exercise: ExerciseEntity) {
         _editExercise.postValue(exercise)
     }
 
