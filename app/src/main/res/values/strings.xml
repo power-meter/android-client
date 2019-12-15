@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Power Meter</string>
-
+    <!-- TODO Group these-->
     <string name="exercise_screen_label">Exercises</string>
     <string name="workout_session_screen_label">Workouts</string>
     <string name="stats_screen_label">Stats</string>

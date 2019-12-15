@@ -16,14 +16,13 @@ abstract class WorkoutRowModel(
 ) : EpoxyModelWithHolder<WorkoutRowModel.Holder>() {
 
     override fun bind(holder: Holder) {
-        holder.workoutNameView.setAdapter(arrayAdapter)
-        // TODO: Figure out a way to get a default value for the spinner
+        holder.workoutExerciseTextView.setAdapter(arrayAdapter)
         if (workout.exercise.name.isNotEmpty()) {
-            holder.workoutNameView.setSelection(arrayAdapter.getPosition(workout.exercise.name))
+            holder.workoutExerciseTextView.setSelection(arrayAdapter.getPosition(workout.exercise.name))
         }
     }
 
     class Holder : KotlinEpoxyHolder() {
-        val workoutNameView by bind<AutoCompleteTextView>(R.id.newWorkoutExerciseText)
+        val workoutExerciseTextView by bind<AutoCompleteTextView>(R.id.newWorkoutExerciseText)
     }
 }

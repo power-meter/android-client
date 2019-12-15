@@ -10,6 +10,11 @@ class WorkoutController(private val arrayAdapter: ArrayAdapter<String>) : TypedE
             workoutRow(it, arrayAdapter) {
                 id(it.exercise.name)
             }
+            it.sets.forEachIndexed { i, set ->
+                workoutRowSet(set) {
+                    id(i.toString() + it.exercise.name)
+                }
+            }
         }
     }
 }
