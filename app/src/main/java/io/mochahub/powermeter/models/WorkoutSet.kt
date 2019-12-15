@@ -28,4 +28,7 @@ data class WorkoutSet(
     fun setReps(reps: Int): WorkoutSet {
         return this.copy(reps = if (reps in REP_MIN_LIMIT..REP_MAX_LIMIT) reps else this.reps)
     }
+    fun setWeight(weight: Double): WorkoutSet {
+        return this.copy(weight = weight)
+    }
 }

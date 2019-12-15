@@ -23,4 +23,7 @@ data class Workout(
 
         return this.copy(sets = setsList)
     }
+    fun updateSet(workouts: List<WorkoutSet>): Workout {
+        return this.copy(sets = workouts)
+    }
 }
