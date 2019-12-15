@@ -43,8 +43,8 @@
                 android:id="@+id/action_destination_exercises_screen_to_destination_workout_session_screen"
                 app:destination="@id/destination_workout_session_screen" />
         <action
-                android:id="@+id/action_destination_exercises_screen_to_newExerciseDialog"
-                app:destination="@id/newExerciseDialog" />
+                android:id="@+id/action_destination_exercises_screen_to_exerciseDialog"
+                app:destination="@id/exerciseDialog" />
     </fragment>
     <fragment
             android:id="@+id/graphFragment"
@@ -56,7 +56,27 @@
             android:name="io.mochahub.powermeter.SettingsFragment"
             android:label="SettingsFragment" />
     <dialog
-            android:id="@+id/newExerciseDialog"
-            android:name="io.mochahub.powermeter.exercises.NewExerciseDialog"
-            android:label="NewExerciseDialog" />
+            android:id="@+id/exerciseDialog"
+            android:name="io.mochahub.powermeter.exercises.ExerciseDialog"
+            android:label="ExerciseDialog">
+        <argument
+                android:name="exerciseName"
+                app:argType="string"
+                app:nullable="true" />
+        <argument
+                android:name="exercisePR"
+                android:defaultValue="0.0"
+                app:argType="float" />
+        <argument
+                android:name="muscleGroup"
+                app:argType="string"
+                app:nullable="true" />
+        <argument
+                android:name="shouldEdit"
+                app:argType="boolean" />
+        <argument
+                android:name="exerciseId"
+                android:defaultValue="0"
+                app:argType="integer" />
+    </dialog>
 </navigation>

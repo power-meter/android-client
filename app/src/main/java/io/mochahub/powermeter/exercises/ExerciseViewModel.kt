@@ -23,4 +23,10 @@ class ExerciseViewModel(val db: AppDatabase) : ViewModel() {
         }
         return exercise
     }
+
+    fun updateExercise(exercise: Exercise) {
+        GlobalScope.launch {
+            db.exerciseDao().updateExercise(exercise)
+        }
+    }
 }

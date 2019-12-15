@@ -16,7 +16,6 @@ import com.google.android.material.snackbar.Snackbar
 import io.mochahub.powermeter.R
 import io.mochahub.powermeter.data.AppDatabase
 import io.mochahub.powermeter.data.Exercise
-import io.mochahub.powermeter.models.toDataModel
 import io.mochahub.powermeter.shared.SwipeToDeleteCallback
 import kotlinx.android.synthetic.main.fragment_exercise.*
 
@@ -35,9 +34,9 @@ class ExerciseFragment : Fragment() {
     private val exerciseController = ExerciseController { clicked: Exercise -> onExerciseClick(clicked) }
     private val itemTouchHelper by lazy { ItemTouchHelper(swipeHandler) }
 
-    private val newExerciseSharedViewModel by lazy {
+    private val exerciseSharedViewModel by lazy {
         requireActivity().run {
-            ViewModelProviders.of(this)[NewExerciseSharedViewModel::class.java]
+            ViewModelProviders.of(this)[ExerciseSharedViewModel::class.java]
         }
     }
 
@@ -58,7 +57,16 @@ class ExerciseFragment : Fragment() {
     }
 
     private fun onExerciseClick(exercise: Exercise) {
-        Toast.makeText(requireContext(), "Clicked: ${exercise.name}", Toast.LENGTH_SHORT).show()
+        exerciseSharedViewModel.editExercise
+        val action = ExerciseFragmentDirections
+            .actionDestinationExercisesScreenToExerciseDialog(
+                exerciseId = exercise.id,
+                exerciseName = exercise.name,
+                exercisePR = exercise.personalRecord.toFloat(),
+                muscleGroup = exercise.muscleGroup,
+                shouldEdit = true
+            )
+        navController.navigate(action)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -69,22 +77,36 @@ class ExerciseFragment : Fragment() {
         itemTouchHelper.attachToRecyclerView(recyclerView)
 
         addExerciseBtn.setOnClickListener {
-            navController.navigate(R.id.action_destination_exercises_screen_to_newExerciseDialog)
+            val action = ExerciseFragmentDirections
+                .actionDestinationExercisesScreenToExerciseDialog(
+                    exerciseName = null,
+                    muscleGroup = null,
+                    shouldEdit = false
+                )
+            navController.navigate(action)
         }
 
         viewModel.exercises.observe(viewLifecycleOwner, Observer {
             exerciseController.setData(it ?: listOf())
         })
 
-        newExerciseSharedViewModel.newExercise.observe(viewLifecycleOwner, Observer {
-            it?.let {
-                val currentExercises: List<String> = viewModel.exercises.value?.map { exercise -> exercise.name } ?: listOf()
-                if (currentExercises.contains(it.name)) {
+        exerciseSharedViewModel.newExercise.observe(viewLifecycleOwner, Observer {
+            it?.let { newExercise ->
+                val currentExercises = viewModel.exercises.value ?: listOf()
+                val currentExerciseNames = currentExercises.map { exercise -> exercise.name }
+                if (currentExerciseNames.contains(newExercise.name)) {
                     Toast.makeText(requireContext(), getString(R.string.alert_exercise_exists), Toast.LENGTH_SHORT).show()
                 } else {
-                    viewModel.addExercise(it.toDataModel())
+                    viewModel.addExercise(newExercise)
                 }
-                newExerciseSharedViewModel.clearNewExercise()
+                exerciseSharedViewModel.clearNewExercise()
+            }
+        })
+
+        exerciseSharedViewModel.editExercise.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                viewModel.updateExercise(it)
+                exerciseSharedViewModel.clearEditExercise()
             }
         })
     }
