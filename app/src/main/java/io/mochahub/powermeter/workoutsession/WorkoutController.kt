@@ -5,9 +5,7 @@ import com.airbnb.epoxy.TypedEpoxyController
 import io.mochahub.powermeter.models.Workout
 
 class WorkoutController(
-    private var arrayAdapter: ArrayAdapter<String>,
-    private val onWorkoutExerciseChange: (Int) -> Unit,
-    private val onWorkoutSetChange: (Int, Int) -> Unit
+    private var arrayAdapter: ArrayAdapter<String>
 ) : TypedEpoxyController<List<Workout>>() {
     override fun buildModels(workouts: List<Workout>?) {
         workouts?.forEachIndexed { workoutIndex, workout ->

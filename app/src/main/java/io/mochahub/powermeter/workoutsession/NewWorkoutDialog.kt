@@ -73,7 +73,7 @@ class NewWorkoutDialog : DialogFragment() {
                 true
             }
         }
-        var workoutController = WorkoutController(ArrayAdapter<String>(requireContext(), android.R.layout.simple_spinner_item), { i -> }, { i, k -> })
+        val workoutController = WorkoutController(ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item))
         // TODO: Remove debug logging
         workoutController.isDebugLoggingEnabled = true
         val emptyWorkout = Workout(Exercise("", 0.0, ""), listOf(WorkoutSet(0.0, 0)))
