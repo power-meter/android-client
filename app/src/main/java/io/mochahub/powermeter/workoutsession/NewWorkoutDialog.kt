@@ -74,11 +74,11 @@ class NewWorkoutDialog : DialogFragment() {
             }
         }
         var workoutController = WorkoutController(ArrayAdapter<String>(requireContext(), android.R.layout.simple_spinner_item), { i -> }, { i, k -> })
-        var workouts = listOf(Workout(Exercise("", 0.0, ""), listOf(WorkoutSet(1.0, 1), WorkoutSet(1.0, 1))))
-        var emptyWorkout = Workout(Exercise("", 0.0, ""), listOf(WorkoutSet(0.0, 0)))
-        recyclerView.setController(workoutController)
-        // TODO: Should be init from view model with existing list if it exists
-        workoutController.setData(workouts)
+        // TODO: Remove debug logging
+        workoutController.isDebugLoggingEnabled = true
+        val emptyWorkout = Workout(Exercise("", 0.0, ""), listOf(WorkoutSet(0.0, 0)))
+        // init with an empty workout to edit
+        var workouts = listOf(emptyWorkout)
 
         addWorkoutBtn.setOnClickListener {
             workouts = listOf(emptyWorkout, *workouts.toTypedArray())
@@ -90,7 +90,7 @@ class NewWorkoutDialog : DialogFragment() {
             val adapter = ArrayAdapter<String>(
                 requireContext(), android.R.layout.simple_spinner_item,
                 viewModel.exercises.value?.map { it.name } ?: listOf())
-            workoutController = WorkoutController(adapter, { i -> }, { i, k -> })
+            workoutController.setAdapter(adapter)
             recyclerView.setController(workoutController)
             workoutController.setData(workouts)
         })
