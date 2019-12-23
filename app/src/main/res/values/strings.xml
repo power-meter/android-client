@@ -6,7 +6,6 @@
     <string name="stats_screen_label">Stats</string>
     <string name="settings_screen_label">Settings</string>
     <string name="new_exercise">"New Exercise"</string>
-    <string name="new_workout">"New Workout"</string>
     <string name="save">SAVE</string>
     <string name="muscle_group">Muscle Group</string>
     <string name="personal_record">Personal Record</string>
@@ -20,6 +19,8 @@
 
     <string name="reps">Reps</string>
     <string name="weight">Weight</string>
+    <string name="new_workout">"New Workout"</string>
+    <string name="edit_workout">Edit Workout</string>
 
 
 

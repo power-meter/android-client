@@ -1,6 +1,7 @@
 package io.mochahub.powermeter.workoutsession
 
 import android.app.DatePickerDialog
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -53,39 +54,38 @@ class NewWorkoutDialog : DialogFragment() {
         return inflater.inflate(R.layout.dialog_new_workout, container, false)
     }
 
+    override fun onDismiss(dialog: DialogInterface) {
+        super.onDismiss(dialog)
+        // TODO: Save the workout
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val viewModel = NewWorkoutViewModel(db = AppDatabase(requireContext()))
+        val emptyWorkout = Workout(Exercise("", 0.0, ""), listOf(WorkoutSet(0.0, 0)))
+        val workoutController = WorkoutController(ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item))
+        var workouts = listOf<Workout>()
 
         initFields()
         initDatePicker()
 
         newWorkoutToolbar.apply {
-            title = resources.getString(R.string.new_workout)
+            // TODO: Conditional Title if we are editing or creating a new workout
+            title = resources.getString(if (workouts.isEmpty()) R.string.new_workout else R.string.edit_workout)
             setNavigationOnClickListener { dismiss() }
-            inflateMenu(R.menu.menu_save)
-            setOnMenuItemClickListener { item ->
-                when (item?.itemId) {
-                    R.id.action_save -> {
-                        // TODO
-                    }
-                }
-                dismiss()
-                true
-            }
         }
-        val workoutController = WorkoutController(ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item))
-        // TODO: Remove debug logging
-        workoutController.isDebugLoggingEnabled = true
-        val emptyWorkout = Workout(Exercise("", 0.0, ""), listOf(WorkoutSet(0.0, 0)))
+
         // init with an empty workout to edit
-        var workouts = listOf(emptyWorkout)
+        if (workouts.isEmpty()) {
+            workouts = listOf(emptyWorkout.copy())
+        }
 
         addWorkoutBtn.setOnClickListener {
-            workouts = listOf(emptyWorkout, *workouts.toTypedArray())
+            workouts = listOf(emptyWorkout.copy(), *workouts.toTypedArray())
             workoutController.setData(workouts)
         }
 
-        val viewModel = NewWorkoutViewModel(db = AppDatabase(requireContext()))
         viewModel.exercises.observe(viewLifecycleOwner, Observer {
             val adapter = ArrayAdapter<String>(
                 requireContext(), android.R.layout.simple_spinner_item,
