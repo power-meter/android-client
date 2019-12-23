@@ -18,5 +18,9 @@
     <string name="edit_exercise">Edit Exercise</string>
     <string name="date">Date</string>
 
+    <string name="reps">Reps</string>
+    <string name="weight">Weight</string>
+
+
 
 </resources>
