@@ -10,11 +10,11 @@ class WorkoutController(
     override fun buildModels(workouts: List<Workout>?) {
         workouts?.forEachIndexed { workoutIndex, workout ->
             workoutRow(workout, arrayAdapter) {
-                id(workoutIndex.toString() + workout.toString())
+                id(workout.hashCode() + workoutIndex)
             }
-            workout.sets.forEachIndexed { setIndex, set ->
-                workoutRowSet(set) {
-                    id(workoutIndex.toString() + setIndex.toString() + set.toString())
+            workout.sets.forEachIndexed { workoutSetIndex, workoutSet ->
+                workoutRowSet(workoutSet) {
+                    id(workoutSet.hashCode() + workoutSetIndex)
                 }
             }
         }
