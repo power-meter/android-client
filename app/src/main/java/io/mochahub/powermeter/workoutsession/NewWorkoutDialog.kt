@@ -54,11 +54,6 @@ class NewWorkoutDialog : DialogFragment() {
         return inflater.inflate(R.layout.dialog_new_workout, container, false)
     }
 
-    override fun onDismiss(dialog: DialogInterface) {
-        super.onDismiss(dialog)
-        // TODO: Save the workout
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -71,7 +66,6 @@ class NewWorkoutDialog : DialogFragment() {
         initDatePicker()
 
         newWorkoutToolbar.apply {
-            // TODO: Conditional Title if we are editing or creating a new workout
             title = resources.getString(if (workouts.isEmpty()) R.string.new_workout else R.string.edit_workout)
             setNavigationOnClickListener { dismiss() }
         }
@@ -94,6 +88,11 @@ class NewWorkoutDialog : DialogFragment() {
             recyclerView.setController(workoutController)
             workoutController.setData(workouts)
         })
+    }
+
+    override fun onDismiss(dialog: DialogInterface) {
+        super.onDismiss(dialog)
+        // TODO: Save the workout
     }
 
     private fun initFields() {
