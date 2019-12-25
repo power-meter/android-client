@@ -57,6 +57,11 @@ class NewWorkoutDialog : WorkoutController.AdapterCallbacks, DialogFragment() {
         return inflater.inflate(R.layout.dialog_new_workout, container, false)
     }
 
+    override fun onDismiss(dialog: DialogInterface) {
+        super.onDismiss(dialog)
+        // TODO: Save the workout
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -92,11 +97,9 @@ class NewWorkoutDialog : WorkoutController.AdapterCallbacks, DialogFragment() {
         })
     }
 
-    override fun onDismiss(dialog: DialogInterface) {
-        super.onDismiss(dialog)
-        // TODO: Save the workout
-    }
-
+    // //////////////////////////////////////////////////////////////
+    // Init
+    // //////////////////////////////////////////////////////////////
     private fun initFields() {
         // TODO: Set fields from a shared view models
         // This is for when we are editing a workout
@@ -125,6 +128,9 @@ class NewWorkoutDialog : WorkoutController.AdapterCallbacks, DialogFragment() {
         }
     }
 
+    // //////////////////////////////////////////////////////////////
+    // Interface methods for workout controller
+    // //////////////////////////////////////////////////////////////
     override fun onAddSetClicked(index: Int) {
         workouts[index] = workouts[index].addSet(WorkoutSet(0.0, 0))
         workoutController.setData(workouts)
