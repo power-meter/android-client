@@ -144,4 +144,12 @@ class NewWorkoutDialog : WorkoutController.AdapterCallbacks, DialogFragment() {
         workouts[index] = workouts[index].addSet(WorkoutSet(0.0, 0))
         workoutController.setData(workouts)
     }
+
+    override fun onRepFocusChanged(workoutIndex: Int, setIndex: Int, value: Int) {
+        TODO("not implemented") // To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun onWeightFocusChanged(workoutIndex: Int, setIndex: Int, value: Double) {
+        TODO("not implemented") // To change body of created functions use File | Settings | File Templates.
+    }
 }

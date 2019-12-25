@@ -3,8 +3,6 @@ package io.mochahub.powermeter.workoutsession.workoutsessiondialog
 import android.widget.ArrayAdapter
 import com.airbnb.epoxy.TypedEpoxyController
 import io.mochahub.powermeter.models.Workout
-import io.mochahub.powermeter.workoutsession.workoutRow
-import io.mochahub.powermeter.workoutsession.workoutRowSet
 
 class WorkoutController(
     private var arrayAdapter: ArrayAdapter<String>,
@@ -13,6 +11,8 @@ class WorkoutController(
 
     interface AdapterCallbacks {
         fun onAddSetClicked(index: Int)
+        fun onRepFocusChanged(workoutIndex: Int, setIndex: Int, value: Int)
+        fun onWeightFocusChanged(workoutIndex: Int, setIndex: Int, value: Double)
     }
 
     override fun buildModels(workouts: List<Workout>?) {
