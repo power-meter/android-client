@@ -24,10 +24,13 @@ import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 
-private const val myFormat = "MM/dd/yy"
-private val sdf = SimpleDateFormat(myFormat, Locale.US)
+class NewWorkoutDialog : WorkoutController.AdapterCallbacks, DialogFragment() {
 
-class NewWorkoutDialog : DialogFragment() {
+    private lateinit var workoutController: WorkoutController
+    var workouts = ArrayList<Workout>()
+    private val myFormat = "MM/dd/yy"
+    private val sdf = SimpleDateFormat(myFormat, Locale.US)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setStyle(
@@ -59,8 +62,7 @@ class NewWorkoutDialog : DialogFragment() {
 
         val viewModel = NewWorkoutViewModel(db = AppDatabase(requireContext()))
         val emptyWorkout = Workout(Exercise("", 0.0, ""), listOf(WorkoutSet(0.0, 0)))
-        val workoutController = WorkoutController(ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item))
-        var workouts = listOf<Workout>()
+        workoutController = WorkoutController(ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item), this)
 
         initFields()
         initDatePicker()
@@ -72,11 +74,11 @@ class NewWorkoutDialog : DialogFragment() {
 
         // init with an empty workout to edit
         if (workouts.isEmpty()) {
-            workouts = listOf(emptyWorkout.copy())
+            workouts.add(emptyWorkout.copy())
         }
 
         addWorkoutBtn.setOnClickListener {
-            workouts = listOf(emptyWorkout.copy(), *workouts.toTypedArray())
+            workouts.add(0, emptyWorkout.copy())
             workoutController.setData(workouts)
         }
 
@@ -121,5 +123,10 @@ class NewWorkoutDialog : DialogFragment() {
                 .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
                 myCalendar.get(Calendar.DAY_OF_MONTH)).show()
         }
+    }
+
+    override fun onAddSetClicked(index: Int) {
+        workouts[index] = workouts[index].addSet(WorkoutSet(0.0, 0))
+        workoutController.setData(workouts)
     }
 }
