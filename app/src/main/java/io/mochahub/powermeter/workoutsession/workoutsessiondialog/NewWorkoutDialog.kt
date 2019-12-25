@@ -1,4 +1,4 @@
-package io.mochahub.powermeter.workoutsession
+package io.mochahub.powermeter.workoutsession.workoutsessiondialog
 
 import android.app.DatePickerDialog
 import android.content.DialogInterface
@@ -65,9 +65,18 @@ class NewWorkoutDialog : WorkoutController.AdapterCallbacks, DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val viewModel = NewWorkoutViewModel(db = AppDatabase(requireContext()))
+        val viewModel =
+            NewWorkoutViewModel(
+                db = AppDatabase(requireContext())
+            )
         val emptyWorkout = Workout(Exercise("", 0.0, ""), listOf(WorkoutSet(0.0, 0)))
-        workoutController = WorkoutController(ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item), this)
+        workoutController =
+            WorkoutController(
+                ArrayAdapter(
+                    requireContext(),
+                    android.R.layout.simple_spinner_item
+                ), this
+            )
 
         initFields()
         initDatePicker()

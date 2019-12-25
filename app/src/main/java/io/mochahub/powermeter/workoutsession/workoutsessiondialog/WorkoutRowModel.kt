@@ -1,4 +1,4 @@
-package io.mochahub.powermeter.workoutsession
+package io.mochahub.powermeter.workoutsession.workoutsessiondialog
 
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView

@@ -1,4 +1,4 @@
-package io.mochahub.powermeter.workoutsession
+package io.mochahub.powermeter.workoutsession.workoutsessiondialog
 
 import com.airbnb.epoxy.EpoxyAttribute
 import com.airbnb.epoxy.EpoxyModelClass

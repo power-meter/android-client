@@ -1,8 +1,10 @@
-package io.mochahub.powermeter.workoutsession
+package io.mochahub.powermeter.workoutsession.workoutsessiondialog
 
 import android.widget.ArrayAdapter
 import com.airbnb.epoxy.TypedEpoxyController
 import io.mochahub.powermeter.models.Workout
+import io.mochahub.powermeter.workoutsession.workoutRow
+import io.mochahub.powermeter.workoutsession.workoutRowSet
 
 class WorkoutController(
     private var arrayAdapter: ArrayAdapter<String>,

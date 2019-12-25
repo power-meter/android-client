@@ -1,4 +1,4 @@
-package io.mochahub.powermeter.workoutsession
+package io.mochahub.powermeter.workoutsession.workoutsessiondialog
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
