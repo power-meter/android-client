@@ -1,5 +1,8 @@
 package io.mochahub.powermeter.models
 
+import io.mochahub.powermeter.models.WorkoutSet.Companion.REP_MAX_LIMIT
+import io.mochahub.powermeter.models.WorkoutSet.Companion.REP_MIN_LIMIT
+
 data class WorkoutSet(
     val weight: Double,
     val reps: Int = 0
@@ -24,8 +27,8 @@ data class WorkoutSet(
     operator fun dec(): WorkoutSet {
         return this - 1
     }
+}
 
-    fun setReps(reps: Int): WorkoutSet {
-        return this.copy(reps = if (reps in REP_MIN_LIMIT..REP_MAX_LIMIT) reps else this.reps)
-    }
+fun WorkoutSet.setReps(reps: Int): WorkoutSet {
+    return this.copy(reps = if (reps in REP_MIN_LIMIT..REP_MAX_LIMIT) reps else this.reps)
 }
