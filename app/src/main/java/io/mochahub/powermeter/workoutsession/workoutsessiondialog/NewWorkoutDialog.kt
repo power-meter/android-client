@@ -14,6 +14,7 @@ import io.mochahub.powermeter.data.AppDatabase
 import io.mochahub.powermeter.models.Exercise
 import io.mochahub.powermeter.models.Workout
 import io.mochahub.powermeter.models.WorkoutSet
+import io.mochahub.powermeter.models.addSet
 import kotlinx.android.synthetic.main.dialog_new_workout.addWorkoutBtn
 import kotlinx.android.synthetic.main.dialog_new_workout.newWorkoutDateText
 import kotlinx.android.synthetic.main.dialog_new_workout.newWorkoutToolbar
