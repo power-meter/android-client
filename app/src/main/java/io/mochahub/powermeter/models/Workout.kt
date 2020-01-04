@@ -2,10 +2,10 @@ package io.mochahub.powermeter.models
 
 data class Workout(
     val exercise: Exercise,
-    val sets: List<WorkoutSet>
+    val sets: MutableList<WorkoutSet>
 )
 
-fun Workout.addSet(set: WorkoutSet): Workout = this.copy(sets = sets + listOf(set))
+fun Workout.addSet(set: WorkoutSet): Workout = this.copy(sets = (sets + mutableListOf(set)) as MutableList<WorkoutSet>)
 
 fun Workout.removeSet(index: Int): Workout {
     val setsList = sets.toMutableList().apply { this.removeAt(index) }
