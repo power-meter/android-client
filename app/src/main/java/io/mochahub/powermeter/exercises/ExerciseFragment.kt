@@ -29,9 +29,9 @@ class ExerciseFragment : Fragment() {
     }
 
     private val navController by lazy { this.findNavController() }
-    private val appDatabase by lazy { AppDatabase(requireContext()) }
-    private val viewModel by lazy { ExerciseViewModel(db = appDatabase) }
-    private val exerciseController = ExerciseController { clicked: ExerciseEntity -> onExerciseClick(clicked) }
+    private val viewModel by lazy { ExerciseViewModel(db = AppDatabase(requireContext())) }
+    private val exerciseController =
+        ExerciseController { clicked: ExerciseEntity -> onExerciseClick(clicked) }
     private val itemTouchHelper by lazy { ItemTouchHelper(swipeHandler) }
 
     private val exerciseSharedViewModel by lazy {
@@ -46,7 +46,11 @@ class ExerciseFragment : Fragment() {
                 val position = viewHolder.adapterPosition
 
                 val deletedExercise: ExerciseEntity = viewModel.removeExercise(position)
-                Snackbar.make(viewHolder.itemView, getString(R.string.exercise_deleted), Snackbar.LENGTH_LONG)
+                Snackbar.make(
+                    viewHolder.itemView,
+                    getString(R.string.exercise_deleted),
+                    Snackbar.LENGTH_LONG
+                )
                     .apply {
                         setAction(getString(R.string.undo)) { viewModel.addExercise(deletedExercise) }
                         setActionTextColor(Color.YELLOW)
@@ -57,7 +61,6 @@ class ExerciseFragment : Fragment() {
     }
 
     private fun onExerciseClick(exercise: ExerciseEntity) {
-        exerciseSharedViewModel.editExercise
         val action = ExerciseFragmentDirections
             .actionDestinationExercisesScreenToExerciseDialog(
                 exerciseId = exercise.id,
@@ -91,23 +94,45 @@ class ExerciseFragment : Fragment() {
         })
 
         exerciseSharedViewModel.newExercise.observe(viewLifecycleOwner, Observer {
-            it?.let { newExercise ->
-                val currentExercises = viewModel.exercises.value ?: listOf()
-                val currentExerciseNames = currentExercises.map { exercise -> exercise.name }
-                if (currentExerciseNames.contains(newExercise.name)) {
-                    Toast.makeText(requireContext(), getString(R.string.alert_exercise_exists), Toast.LENGTH_SHORT).show()
-                } else {
-                    viewModel.addExercise(newExercise)
-                }
-                exerciseSharedViewModel.clearNewExercise()
+            it?.let {
+                addNewExercise(it)
             }
         })
 
         exerciseSharedViewModel.editExercise.observe(viewLifecycleOwner, Observer {
             it?.let {
-                viewModel.updateExercise(it)
-                exerciseSharedViewModel.clearEditExercise()
+                editExercise(it)
             }
         })
+    }
+
+    private fun addNewExercise(newExercise: ExerciseEntity) {
+        val currentExercises = viewModel.exercises.value ?: emptyList()
+        val collision = currentExercises.filter { it.name == newExercise.name }
+        if (collision.isNotEmpty()) {
+            Toast.makeText(
+                requireContext(),
+                getString(R.string.alert_exercise_exists),
+                Toast.LENGTH_SHORT
+            ).show()
+        } else {
+            viewModel.addExercise(newExercise)
+        }
+        exerciseSharedViewModel.clearNewExercise()
+    }
+
+    private fun editExercise(exercise: ExerciseEntity) {
+        val currentExercises = viewModel.exercises.value ?: emptyList()
+        val collision = currentExercises.filter { it.name == exercise.name && it.id != exercise.id }
+        if (collision.isNotEmpty()) {
+            Toast.makeText(
+                requireContext(),
+                getString(R.string.alert_exercise_exists),
+                Toast.LENGTH_SHORT
+            ).show()
+        } else {
+            viewModel.updateExercise(exercise)
+        }
+        exerciseSharedViewModel.clearEditExercise()
     }
 }

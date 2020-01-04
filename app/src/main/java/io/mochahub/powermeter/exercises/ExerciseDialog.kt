@@ -19,6 +19,12 @@ class ExerciseDialog : DialogFragment() {
 
     private val args: ExerciseDialogArgs by navArgs()
 
+    private val newExerciseSharedViewModel by lazy {
+        requireActivity().run {
+            ViewModelProviders.of(this)[ExerciseSharedViewModel::class.java]
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setStyle(STYLE_NORMAL, R.style.FullScreenDialog)
@@ -46,10 +52,6 @@ class ExerciseDialog : DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val newExerciseSharedViewModel = requireActivity().run {
-            ViewModelProviders.of(this)[ExerciseSharedViewModel::class.java]
-        }
-
         args.exerciseName?.let { newExerciseNameText.setText(it) }
         args.exercisePR.let { newExercisePRText.setText(it.toString()) }
         args.muscleGroup?.let { newExerciseGroupText.setText(it) }
@@ -61,30 +63,33 @@ class ExerciseDialog : DialogFragment() {
             setOnMenuItemClickListener { item ->
                 when (item?.itemId) {
                     R.id.action_save -> {
-                        // TODO: No error checking yet, so it'll crash if you don't give an actual double lol
-                        if (args.shouldEdit) {
-                            newExerciseSharedViewModel.saveEditExercise(
-                                ExerciseEntity(
-                                    id = args.exerciseId,
-                                    name = newExerciseNameText.text.toString(),
-                                    personalRecord = newExercisePRText.toDoubleOrZero(),
-                                    muscleGroup = newExerciseGroupText.text.toString()
-                                )
-                            )
-                        } else {
-                            newExerciseSharedViewModel.saveNewExercise(
-                                ExerciseEntity(
-                                    name = newExerciseNameText.text.toString(),
-                                    personalRecord = newExercisePRText.toDoubleOrZero(),
-                                    muscleGroup = newExerciseGroupText.text.toString()
-                                )
-                            )
-                        }
+                        saveExercise()
                     }
                 }
                 dismiss()
                 true
             }
+        }
+    }
+
+    private fun saveExercise() {
+        if (args.shouldEdit) {
+            newExerciseSharedViewModel.saveEditExercise(
+                ExerciseEntity(
+                    id = args.exerciseId,
+                    name = newExerciseNameText.text.toString(),
+                    personalRecord = newExercisePRText.toDoubleOrZero(),
+                    muscleGroup = newExerciseGroupText.text.toString()
+                )
+            )
+        } else {
+            newExerciseSharedViewModel.saveNewExercise(
+                ExerciseEntity(
+                    name = newExerciseNameText.text.toString(),
+                    personalRecord = newExercisePRText.toDoubleOrZero(),
+                    muscleGroup = newExerciseGroupText.text.toString()
+                )
+            )
         }
     }
 }
