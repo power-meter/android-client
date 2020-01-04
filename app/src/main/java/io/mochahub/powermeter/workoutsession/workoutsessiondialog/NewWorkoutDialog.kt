@@ -16,6 +16,7 @@ import io.mochahub.powermeter.models.Workout
 import io.mochahub.powermeter.models.WorkoutSet
 import io.mochahub.powermeter.models.addSet
 import io.mochahub.powermeter.models.setReps
+import io.mochahub.powermeter.models.setWeight
 import kotlinx.android.synthetic.main.dialog_new_workout.addWorkoutBtn
 import kotlinx.android.synthetic.main.dialog_new_workout.newWorkoutDateText
 import kotlinx.android.synthetic.main.dialog_new_workout.newWorkoutToolbar
@@ -164,6 +165,7 @@ class NewWorkoutDialog : WorkoutController.AdapterCallbacks, DialogFragment() {
     }
 
     override fun onWeightFocusChanged(workoutIndex: Int, setIndex: Int, value: Double) {
-        TODO("not implemented") // To change body of created functions use File | Settings | File Templates.
+        workouts[workoutIndex].sets[setIndex] = workouts[workoutIndex].sets[setIndex].setWeight(value)
+        workoutController.setData(workouts)
     }
 }
