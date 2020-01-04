@@ -70,7 +70,7 @@ class NewWorkoutDialog : WorkoutController.AdapterCallbacks, DialogFragment() {
             NewWorkoutViewModel(
                 db = AppDatabase(requireContext())
             )
-        val emptyWorkout = Workout(Exercise("", 0.0, ""), listOf(WorkoutSet(0.0, 0)))
+//        val emptyWorkout = Workout(Exercise("", 0.0, ""), listOf(WorkoutSet(0.0, 0)))
         workoutController =
             WorkoutController(
                 ArrayAdapter(
@@ -89,11 +89,11 @@ class NewWorkoutDialog : WorkoutController.AdapterCallbacks, DialogFragment() {
 
         // init with an empty workout to edit
         if (workouts.isEmpty()) {
-            workouts.add(emptyWorkout.copy())
+            this.addEmptyWorkout()
         }
 
         addWorkoutBtn.setOnClickListener {
-            workouts.add(0, emptyWorkout.copy())
+            this.addEmptyWorkout()
             workoutController.setData(workouts)
         }
 
@@ -105,6 +105,17 @@ class NewWorkoutDialog : WorkoutController.AdapterCallbacks, DialogFragment() {
             recyclerView.setController(workoutController)
             workoutController.setData(workouts)
         })
+    }
+    // //////////////////////////////////////////////////////////////
+    // Helpers
+    // //////////////////////////////////////////////////////////////
+
+    private fun addEmptyWorkout() {
+        val workout = Workout(
+            Exercise("", 0.0, ""),
+            ArrayList()
+        )
+        workouts.add(0, workout)
     }
 
     // //////////////////////////////////////////////////////////////
@@ -147,6 +158,7 @@ class NewWorkoutDialog : WorkoutController.AdapterCallbacks, DialogFragment() {
     }
 
     override fun onRepFocusChanged(workoutIndex: Int, setIndex: Int, value: Int) {
+        workouts[workoutIndex].sets[setIndex]
         TODO("not implemented") // To change body of created functions use File | Settings | File Templates.
     }
 
