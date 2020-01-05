@@ -3,3 +3,14 @@
 [![ktlint](https://img.shields.io/badge/code%20style-%E2%9D%A4-FF4081.svg)](https://ktlint.github.io/)
 [![Known Vulnerabilities](https://snyk.io/test/github/power-meter/android-client/badge.svg?targetFile=app/build.gradle)](https://snyk.io/test/github/power-meter/android-client?targetFile=app/build.gradle)
 
+# Development
+## Local DB Access
+### Linux
+
+Run the following in terminal
+
+- `sudo ln -s ~/Android/Sdk/platform-tools/adb /bin/adb`
+- `adb forward tcp:8080 tcp:8080`   
+
+Database  can be debugged in browser at `localhost:8080`
+View docs for more details: `https://github.com/amitshekhariitbhu/Android-Debug-Database`
