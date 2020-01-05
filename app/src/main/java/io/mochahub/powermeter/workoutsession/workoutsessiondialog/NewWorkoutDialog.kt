@@ -20,21 +20,18 @@ import io.mochahub.powermeter.models.setWeight
 import io.mochahub.powermeter.models.updateExercise
 import kotlinx.android.synthetic.main.dialog_new_workout.addWorkoutBtn
 import kotlinx.android.synthetic.main.dialog_new_workout.newWorkoutDateText
+import kotlinx.android.synthetic.main.dialog_new_workout.newWorkoutNameText
 import kotlinx.android.synthetic.main.dialog_new_workout.newWorkoutToolbar
 import kotlinx.android.synthetic.main.fragment_exercise.recyclerView
-import java.text.SimpleDateFormat
 import java.time.Instant
 import java.util.Calendar
 import java.util.Date
-import java.util.Locale
 
 class NewWorkoutDialog : WorkoutController.AdapterCallbacks, DialogFragment() {
 
     private lateinit var workoutController: WorkoutController
     private lateinit var viewModel: NewWorkoutViewModel
     var workouts = ArrayList<Workout>()
-    private val myFormat = "MM/dd/yy"
-    private val sdf = SimpleDateFormat(myFormat, Locale.US)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,7 +61,8 @@ class NewWorkoutDialog : WorkoutController.AdapterCallbacks, DialogFragment() {
 
     override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)
-        // TODO: Save the workout
+        viewModel.saveWorkoutSession(
+            newWorkoutNameText.text.toString(), newWorkoutDateText.text.toString(), workouts)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -132,7 +130,7 @@ class NewWorkoutDialog : WorkoutController.AdapterCallbacks, DialogFragment() {
     private fun initDatePicker() {
 
         if (newWorkoutDateText.text.isNullOrEmpty()) {
-            newWorkoutDateText.setText(sdf.format(Date.from(Instant.now())))
+            newWorkoutDateText.setText(viewModel.sdf.format(Date.from(Instant.now())))
         }
 
         val myCalendar = Calendar.getInstance()
@@ -141,7 +139,7 @@ class NewWorkoutDialog : WorkoutController.AdapterCallbacks, DialogFragment() {
             set(Calendar.YEAR, year)
             set(Calendar.MONTH, month)
             set(Calendar.DAY_OF_MONTH, day)
-            newWorkoutDateText.setText(sdf.format(myCalendar.time))
+            newWorkoutDateText.setText(viewModel.sdf.format(myCalendar.time))
         }
         }
 
