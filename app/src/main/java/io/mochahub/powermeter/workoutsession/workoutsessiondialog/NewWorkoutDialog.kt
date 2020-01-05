@@ -17,6 +17,7 @@ import io.mochahub.powermeter.models.WorkoutSet
 import io.mochahub.powermeter.models.addSet
 import io.mochahub.powermeter.models.setReps
 import io.mochahub.powermeter.models.setWeight
+import io.mochahub.powermeter.models.updateExercise
 import kotlinx.android.synthetic.main.dialog_new_workout.addWorkoutBtn
 import kotlinx.android.synthetic.main.dialog_new_workout.newWorkoutDateText
 import kotlinx.android.synthetic.main.dialog_new_workout.newWorkoutToolbar
@@ -30,6 +31,7 @@ import java.util.Locale
 class NewWorkoutDialog : WorkoutController.AdapterCallbacks, DialogFragment() {
 
     private lateinit var workoutController: WorkoutController
+    private lateinit var viewModel: NewWorkoutViewModel
     var workouts = ArrayList<Workout>()
     private val myFormat = "MM/dd/yy"
     private val sdf = SimpleDateFormat(myFormat, Locale.US)
@@ -68,7 +70,7 @@ class NewWorkoutDialog : WorkoutController.AdapterCallbacks, DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val viewModel =
+        viewModel =
             NewWorkoutViewModel(
                 db = AppDatabase(requireContext())
             )
@@ -167,5 +169,19 @@ class NewWorkoutDialog : WorkoutController.AdapterCallbacks, DialogFragment() {
     override fun onWeightFocusChanged(workoutIndex: Int, setIndex: Int, value: Double) {
         workouts[workoutIndex].sets[setIndex] = workouts[workoutIndex].sets[setIndex].setWeight(value)
         workoutController.setData(workouts)
+    }
+
+    override fun onExerciseSelected(workoutIndex: Int, exercise: String) {
+        val exercises = viewModel.exercises.value
+        exercises?.find { it ->
+            if (it.name == exercise) {
+                workouts[workoutIndex] = workouts[workoutIndex]
+                    .updateExercise(Exercise(it.name, it.personalRecord, it.muscleGroup))
+                workoutController.setData(workouts)
+                true
+            } else {
+                false
+            }
+        }
     }
 }

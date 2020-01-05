@@ -16,3 +16,7 @@ fun Workout.updateSet(index: Int, set: WorkoutSet): Workout {
     val setsList = sets.toMutableList().apply { this[index] = set }
     return this.copy(sets = setsList)
 }
+
+fun Workout.updateExercise(exercise: Exercise): Workout {
+    return this.copy(exercise = exercise)
+}

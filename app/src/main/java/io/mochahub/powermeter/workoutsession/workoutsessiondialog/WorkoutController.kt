@@ -10,6 +10,7 @@ class WorkoutController(
 ) : TypedEpoxyController<List<Workout>>() {
 
     interface AdapterCallbacks {
+        fun onExerciseSelected(workoutIndex: Int, exercise: String)
         fun onAddSetClicked(index: Int)
         fun onRepFocusChanged(workoutIndex: Int, setIndex: Int, value: Int)
         fun onWeightFocusChanged(workoutIndex: Int, setIndex: Int, value: Double)
@@ -17,9 +18,9 @@ class WorkoutController(
 
     override fun buildModels(workouts: List<Workout>?) {
         workouts?.forEachIndexed { workoutIndex, workout ->
-            workoutRow(workout, arrayAdapter, {
-                callbacks.onAddSetClicked(workoutIndex)
-            }) {
+            workoutRow(workout, arrayAdapter,
+                { callbacks.onAddSetClicked(workoutIndex) },
+                { value -> callbacks.onExerciseSelected(workoutIndex, value) }) {
                 id(workout.hashCode() + workoutIndex)
             }
             workout.sets.forEachIndexed { workoutSetIndex, workoutSet ->
