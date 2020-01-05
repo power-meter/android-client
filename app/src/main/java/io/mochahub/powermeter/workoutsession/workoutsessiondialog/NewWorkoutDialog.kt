@@ -23,6 +23,9 @@ import kotlinx.android.synthetic.main.dialog_new_workout.newWorkoutDateText
 import kotlinx.android.synthetic.main.dialog_new_workout.newWorkoutNameText
 import kotlinx.android.synthetic.main.dialog_new_workout.newWorkoutToolbar
 import kotlinx.android.synthetic.main.fragment_exercise.recyclerView
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.time.Instant
 import java.util.Calendar
 import java.util.Date
@@ -61,8 +64,10 @@ class NewWorkoutDialog : WorkoutController.AdapterCallbacks, DialogFragment() {
 
     override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)
-        viewModel.saveWorkoutSession(
-            newWorkoutNameText.text.toString(), newWorkoutDateText.text.toString(), workouts)
+        CoroutineScope(Dispatchers.IO).launch {
+            viewModel.saveWorkoutSession(
+                newWorkoutNameText.text.toString(), newWorkoutDateText.text.toString(), workouts)
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

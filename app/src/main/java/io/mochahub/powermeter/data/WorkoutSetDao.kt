@@ -13,11 +13,11 @@ interface WorkoutSetDao {
     @Query("SELECT * FROM workout_sets ORDER BY createdAt ASC")
     fun getAll(): LiveData<List<WorkoutSet>>
 
-    @Query("SELECT * FROM workout_sets where workoutID= :workoutID")
-    fun getWorkoutSetsByWorkout(workoutID: Int): LiveData<List<WorkoutSetEntity>>
+    @Query("SELECT * FROM workout_sets where workoutUUID= :workoutID")
+    fun getWorkoutSetsByWorkout(workoutID: String): LiveData<List<WorkoutSetEntity>>
 
-    @Query("SELECT * FROM workout_sets where workoutSessionID= :workoutSessionID")
-    fun getWorkoutSetsByWorkoutSession(workoutSessionID: Int): LiveData<List<WorkoutSetEntity>>
+    @Query("SELECT * FROM workout_sets where workoutSessionUUID= :workoutSessionID")
+    fun getWorkoutSetsByWorkoutSession(workoutSessionID: String): LiveData<List<WorkoutSetEntity>>
 
     @Insert
     suspend fun insertAll(vararg workoutSet: WorkoutSetEntity)

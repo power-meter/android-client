@@ -82,6 +82,7 @@ class ExerciseFragment : Fragment() {
         addExerciseBtn.setOnClickListener {
             val action = ExerciseFragmentDirections
                 .actionDestinationExercisesScreenToExerciseDialog(
+                    exerciseId = null,
                     exerciseName = null,
                     muscleGroup = null,
                     shouldEdit = false

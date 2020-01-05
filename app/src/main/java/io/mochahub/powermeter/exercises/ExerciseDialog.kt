@@ -76,7 +76,7 @@ class ExerciseDialog : DialogFragment() {
         if (args.shouldEdit) {
             newExerciseSharedViewModel.saveEditExercise(
                 ExerciseEntity(
-                    id = args.exerciseId,
+                    id = args.exerciseId!!,
                     name = newExerciseNameText.text.toString(),
                     personalRecord = newExercisePRText.toDoubleOrZero(),
                     muscleGroup = newExerciseGroupText.text.toString()

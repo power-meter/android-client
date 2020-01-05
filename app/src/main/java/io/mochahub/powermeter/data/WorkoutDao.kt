@@ -12,8 +12,8 @@ interface WorkoutDao {
     @Query("SELECT * FROM workouts ORDER BY createdAt ASC")
     fun getAll(): LiveData<List<WorkoutEntity>>
 
-    @Query("SELECT * FROM workouts where workoutSessionID= :workoutSessionID")
-    fun getWorkoutsByWorkoutSession(workoutSessionID: Int): LiveData<List<WorkoutEntity>>
+    @Query("SELECT * FROM workouts where workoutSessionUUID= :workoutSessionUUID")
+    fun getWorkoutsByWorkoutSession(workoutSessionUUID: String): LiveData<List<WorkoutEntity>>
 
     @Insert
     suspend fun insertAll(vararg workout: WorkoutEntity)

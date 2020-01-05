@@ -3,11 +3,12 @@ package io.mochahub.powermeter.data
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.time.Instant
+import java.util.UUID
 
 @Entity(tableName = "workout_sessions")
 data class WorkoutSessionEntity(
-    @PrimaryKey(autoGenerate = true) var id: Int = 0,
+    @PrimaryKey var id: String = UUID.randomUUID().toString(),
     var name: String,
     var date: Long,
-    var createdAt: Long = Instant.now().epochSecond
+    val createdAt: Long = Instant.now().epochSecond
 )

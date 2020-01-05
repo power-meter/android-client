@@ -4,26 +4,31 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 import java.time.Instant
+import java.util.UUID
 
 // TODO: Add indices
 @Entity(tableName = "workout_sets", foreignKeys = arrayOf(
     ForeignKey(
         entity = WorkoutSessionEntity::class,
         parentColumns = arrayOf("id"),
-        childColumns = arrayOf("workoutSessionID"),
-        onDelete = ForeignKey.NO_ACTION
+        childColumns = arrayOf("workoutSessionUUID"),
+        onDelete = ForeignKey.CASCADE,
+        onUpdate = ForeignKey.CASCADE,
+        deferred = true
     ),
     ForeignKey(
         entity = WorkoutEntity::class,
         parentColumns = arrayOf("id"),
-        childColumns = arrayOf("workoutID"),
-        onDelete = ForeignKey.NO_ACTION
+        childColumns = arrayOf("workoutUUID"),
+        onDelete = ForeignKey.CASCADE,
+        onUpdate = ForeignKey.CASCADE,
+        deferred = true
     )
 ))data class WorkoutSetEntity(
-    @PrimaryKey(autoGenerate = true) var id: Int = 0,
-    var workoutSessionID: Int,
-    var workoutID: Int,
+    @PrimaryKey var id: String = UUID.randomUUID().toString(),
+    val workoutSessionUUID: String,
+    val workoutUUID: String,
     var reps: Int,
     var weight: Double,
-    var createdAt: Long = Instant.now().epochSecond
+    val createdAt: Long = Instant.now().epochSecond
 )

@@ -79,8 +79,8 @@
                 app:argType="boolean" />
         <argument
                 android:name="exerciseId"
-                android:defaultValue="0"
-                app:argType="integer" />
+                app:nullable="true"
+                app:argType="string" />
     </dialog>
     <dialog
             android:id="@+id/newWorkoutDialog"

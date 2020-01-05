@@ -16,32 +16,32 @@ import java.text.SimpleDateFormat
 import java.util.Locale
 
 class NewWorkoutViewModel(val db: AppDatabase) : ViewModel() {
-    val myFormat = "MM/dd/yy"
+    private val myFormat = "MM/dd/yy"
     val sdf = SimpleDateFormat(myFormat, Locale.US)
 
     val exercises: LiveData<List<ExerciseEntity>> = db.exerciseDao().getAll()
 
-    fun saveWorkoutSession(name: String, date: String, workouts: List<Workout>) {
-        var workoutSessionEntity = WorkoutSessionEntity(name = name, date = sdf.parse(date).time / 1000L)
-        var workoutEntities = ArrayList<WorkoutEntity>()
-        var workoutSetEntities = ArrayList<WorkoutSetEntity>()
+    suspend fun saveWorkoutSession(name: String, date: String, workouts: List<Workout>) {
+        val workoutSessionEntity = WorkoutSessionEntity(name = name, date = sdf.parse(date).time / 1000L)
 
-        val exerciseToID = getExerciseMap()
+        val workoutEntities = ArrayList<WorkoutEntity>()
+        val workoutSetEntities = ArrayList<WorkoutSetEntity>()
+
         // TODO: Validate all the data first
         workouts.forEach {
-            var exerciseID = exerciseToID.getValue(it.exercise.name)
+            val exercise = db.exerciseDao().findByName(it.exercise.name)
+            exercise.id
 
-            var workoutEntity = WorkoutEntity(workoutSessionID = workoutSessionEntity.id, exerciseID = exerciseID)
+            val workoutEntity = WorkoutEntity(workoutSessionUUID = workoutSessionEntity.id, exerciseUUID = exercise.id)
+
             workoutEntities.add(workoutEntity)
-
             it.sets.forEach { workoutSet ->
-                var workoutSetEntity = WorkoutSetEntity(
-                    workoutSessionID = workoutSessionEntity.id, workoutID = workoutEntity.id,
+                val workoutSetEntity = WorkoutSetEntity(
+                    workoutSessionUUID = workoutSessionEntity.id, workoutUUID = workoutEntity.id,
                     reps = workoutSet.reps, weight = workoutSet.weight)
                 workoutSetEntities.add(workoutSetEntity)
             }
         }
-
         viewModelScope.launch(Dispatchers.IO) {
             db.withTransaction {
                 db.workoutSessionDao().insertAll(workoutSessionEntity)
@@ -49,14 +49,5 @@ class NewWorkoutViewModel(val db: AppDatabase) : ViewModel() {
                 db.workoutSetDao().insertAll(*(workoutSetEntities.toTypedArray()))
             }
         }
-    }
-
-    private fun getExerciseMap(): Map<String, Int> {
-        var exercises = db.exerciseDao().getAll().value
-        var exerciseToID = HashMap<String, Int>()
-        exercises?.forEach {
-            exerciseToID[it.name] = it.id
-        }
-        return exerciseToID
     }
 }
