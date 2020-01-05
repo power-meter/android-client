@@ -74,7 +74,6 @@ class NewWorkoutDialog : WorkoutController.AdapterCallbacks, DialogFragment() {
             NewWorkoutViewModel(
                 db = AppDatabase(requireContext())
             )
-//        val emptyWorkout = Workout(Exercise("", 0.0, ""), listOf(WorkoutSet(0.0, 0)))
         workoutController =
             WorkoutController(
                 ArrayAdapter(
