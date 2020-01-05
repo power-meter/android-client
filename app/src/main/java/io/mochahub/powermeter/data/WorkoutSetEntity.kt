@@ -3,8 +3,7 @@ package io.mochahub.powermeter.data
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
-import java.time.OffsetDateTime
-import java.util.UUID
+import java.time.Instant
 
 // TODO: Add indices
 @Entity(tableName = "workout_sets", foreignKeys = arrayOf(
@@ -21,11 +20,10 @@ import java.util.UUID
         onDelete = ForeignKey.NO_ACTION
     )
 ))data class WorkoutSetEntity(
-    @PrimaryKey(autoGenerate = true)
-    var id: Int = 0,
-    var workoutSessionID: UUID,
-    var workoutID: UUID,
+    @PrimaryKey(autoGenerate = true) var id: Int = 0,
+    var workoutSessionID: Int,
+    var workoutID: Int,
     var reps: Int,
     var weight: Double,
-    var createdAt: OffsetDateTime = OffsetDateTime.now()
+    var createdAt: Long = Instant.now().epochSecond
 )

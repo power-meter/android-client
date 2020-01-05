@@ -6,8 +6,7 @@ import java.time.OffsetDateTime
 
 @Entity(tableName = "exercises")
 data class ExerciseEntity(
-    @PrimaryKey(autoGenerate = true)
-    var id: Int = 0,
+    @PrimaryKey(autoGenerate = true) var id: Int = 0,
     var name: String,
     var muscleGroup: String,
     var personalRecord: Double,

@@ -6,7 +6,6 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
-import java.util.UUID
 
 @Dao
 interface WorkoutDao {
@@ -14,7 +13,7 @@ interface WorkoutDao {
     fun getAll(): LiveData<List<WorkoutEntity>>
 
     @Query("SELECT * FROM workouts where workoutSessionID= :workoutSessionID")
-    fun getWorkoutsByWorkoutSession(workoutSessionID: UUID): LiveData<List<WorkoutEntity>>
+    fun getWorkoutsByWorkoutSession(workoutSessionID: Int): LiveData<List<WorkoutEntity>>
 
     @Insert
     suspend fun insertAll(vararg workout: WorkoutEntity)

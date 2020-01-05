@@ -7,7 +7,6 @@ import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
 import io.mochahub.powermeter.models.WorkoutSet
-import java.util.UUID
 
 @Dao
 interface WorkoutSetDao {
@@ -15,10 +14,10 @@ interface WorkoutSetDao {
     fun getAll(): LiveData<List<WorkoutSet>>
 
     @Query("SELECT * FROM workout_sets where workoutID= :workoutID")
-    fun getWorkoutSetsByWorkout(workoutID: UUID): LiveData<List<WorkoutSetEntity>>
+    fun getWorkoutSetsByWorkout(workoutID: Int): LiveData<List<WorkoutSetEntity>>
 
     @Query("SELECT * FROM workout_sets where workoutSessionID= :workoutSessionID")
-    fun getWorkoutSetsByWorkoutSession(workoutSessionID: UUID): LiveData<List<WorkoutSetEntity>>
+    fun getWorkoutSetsByWorkoutSession(workoutSessionID: Int): LiveData<List<WorkoutSetEntity>>
 
     @Insert
     suspend fun insertAll(vararg workoutSet: WorkoutSetEntity)
