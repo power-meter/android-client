@@ -12,6 +12,9 @@ interface ExerciseDao {
     @Query("SELECT * FROM exercises ORDER BY createdAt ASC")
     fun getAll(): LiveData<List<ExerciseEntity>>
 
+    @Query("SELECT * FROM exercises where name=:exerciseName")
+    fun findbyName(exerciseName: String): ExerciseEntity
+
     @Insert
     suspend fun insertAll(vararg exercise: ExerciseEntity)
 
