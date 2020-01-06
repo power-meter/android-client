@@ -43,6 +43,18 @@ class NewWorkoutDialog : WorkoutController.AdapterCallbacks, DialogFragment() {
             STYLE_NORMAL,
             R.style.FullScreenDialog
         )
+
+        viewModel =
+            NewWorkoutViewModel(
+                db = AppDatabase(requireContext())
+            )
+        workoutController =
+            WorkoutController(
+                ArrayAdapter(
+                    requireContext(),
+                    R.layout.dropdown_menu_popup_item
+                ), this
+            )
     }
 
     override fun onStart() {
@@ -74,18 +86,6 @@ class NewWorkoutDialog : WorkoutController.AdapterCallbacks, DialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        viewModel =
-            NewWorkoutViewModel(
-                db = AppDatabase(requireContext())
-            )
-        workoutController =
-            WorkoutController(
-                ArrayAdapter(
-                    requireContext(),
-                    R.layout.dropdown_menu_popup_item
-                ), this
-            )
 
         initFields()
         initDatePicker()
