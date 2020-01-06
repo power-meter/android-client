@@ -9,10 +9,11 @@ import io.mochahub.powermeter.data.ExerciseEntity
 import io.mochahub.powermeter.data.WorkoutEntity
 import io.mochahub.powermeter.data.WorkoutSessionEntity
 import io.mochahub.powermeter.data.WorkoutSetEntity
-import io.mochahub.powermeter.models.Workout
+import io.mochahub.powermeter.models.WorkoutSession
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
+import java.time.Instant
 import java.util.Locale
 
 class NewWorkoutViewModel(val db: AppDatabase) : ViewModel() {
@@ -21,14 +22,17 @@ class NewWorkoutViewModel(val db: AppDatabase) : ViewModel() {
 
     val exercises: LiveData<List<ExerciseEntity>> = db.exerciseDao().getAll()
 
-    suspend fun saveWorkoutSession(name: String, date: String, workouts: List<Workout>) {
-        val workoutSessionEntity = WorkoutSessionEntity(name = name, date = sdf.parse(date).time / 1000L)
-
+    suspend fun saveWorkoutSession(workoutSession: WorkoutSession) {
+//        sdf.parse(date).time / 1000L
+        if (!isWorkoutSessionValid(workoutSession)) {
+            // TODO: Provide descriptive feedback on what was wrong
+            return
+        }
+        val workoutSessionEntity = WorkoutSessionEntity(name = workoutSession.name, date = workoutSession.date.epochSecond)
         val workoutEntities = ArrayList<WorkoutEntity>()
         val workoutSetEntities = ArrayList<WorkoutSetEntity>()
 
-        // TODO: Validate all the data first
-        workouts.forEach {
+        workoutSession.workouts.forEach {
             val exercise = db.exerciseDao().findByName(it.exercise.name)
             exercise.id
 
@@ -49,5 +53,24 @@ class NewWorkoutViewModel(val db: AppDatabase) : ViewModel() {
                 db.workoutSetDao().insertAll(*(workoutSetEntities.toTypedArray()))
             }
         }
+    }
+
+    private fun isWorkoutSessionValid(workoutSession: WorkoutSession): Boolean {
+        if (workoutSession.date.isAfter(Instant.now())) {
+            return false
+        }
+
+        workoutSession.workouts.forEach {
+            if (it.exercise.name.isNullOrBlank() || it.exercise.name.isNullOrEmpty()) {
+                return false
+            }
+
+            it.sets.forEach { workoutSet ->
+                if (workoutSet.reps == 0 || workoutSet.weight == 0.0) {
+                    return false
+                }
+            }
+        }
+        return true
     }
 }

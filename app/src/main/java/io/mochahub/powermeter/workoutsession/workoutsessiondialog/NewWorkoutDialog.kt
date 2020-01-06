@@ -13,6 +13,7 @@ import io.mochahub.powermeter.R
 import io.mochahub.powermeter.data.AppDatabase
 import io.mochahub.powermeter.models.Exercise
 import io.mochahub.powermeter.models.Workout
+import io.mochahub.powermeter.models.WorkoutSession
 import io.mochahub.powermeter.models.WorkoutSet
 import io.mochahub.powermeter.models.addSet
 import io.mochahub.powermeter.models.setReps
@@ -65,8 +66,9 @@ class NewWorkoutDialog : WorkoutController.AdapterCallbacks, DialogFragment() {
     override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)
         CoroutineScope(Dispatchers.IO).launch {
-            viewModel.saveWorkoutSession(
-                newWorkoutNameText.text.toString(), newWorkoutDateText.text.toString(), workouts)
+            val date = viewModel.sdf.parse(newWorkoutDateText.text.toString()).toInstant()
+            val workoutSession = WorkoutSession(newWorkoutNameText.text.toString(), date, workouts)
+            viewModel.saveWorkoutSession(workoutSession)
         }
     }
 
