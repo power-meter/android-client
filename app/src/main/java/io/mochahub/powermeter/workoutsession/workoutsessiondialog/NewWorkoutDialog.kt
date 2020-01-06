@@ -81,7 +81,7 @@ class NewWorkoutDialog : WorkoutController.AdapterCallbacks, DialogFragment() {
             WorkoutController(
                 ArrayAdapter(
                     requireContext(),
-                    android.R.layout.simple_spinner_item
+                    R.layout.dropdown_menu_popup_item
                 ), this
             )
 
@@ -105,7 +105,7 @@ class NewWorkoutDialog : WorkoutController.AdapterCallbacks, DialogFragment() {
 
         viewModel.exercises.observe(viewLifecycleOwner, Observer {
             val adapter = ArrayAdapter<String>(
-                requireContext(), android.R.layout.simple_spinner_item,
+                requireContext(), R.layout.dropdown_menu_popup_item,
                 viewModel.exercises.value?.map { it.name } ?: listOf())
             workoutController.setAdapter(adapter)
             recyclerView.setController(workoutController)
