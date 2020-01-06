@@ -32,8 +32,6 @@ class NewWorkoutViewModel(val db: AppDatabase) : ViewModel() {
 
         workoutSession.workouts.forEach {
             val exercise = db.exerciseDao().findByName(it.exercise.name)
-            exercise.id
-
             val workoutEntity = WorkoutEntity(workoutSessionUUID = workoutSessionEntity.id, exerciseUUID = exercise.id)
 
             workoutEntities.add(workoutEntity)
