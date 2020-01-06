@@ -78,7 +78,7 @@ class NewWorkoutDialog : WorkoutController.AdapterCallbacks, DialogFragment() {
     override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)
 
-        val date = viewModel.sdf.parse(newWorkoutDateText.text.toString()).toInstant()
+        val date = viewModel.simpleDateFormat.parse(newWorkoutDateText.text.toString()).toInstant()
         val workoutSession = WorkoutSession(newWorkoutNameText.text.toString(), date, workouts)
         CoroutineScope(Dispatchers.IO).launch {
             viewModel.saveWorkoutSession(workoutSession)
@@ -138,7 +138,7 @@ class NewWorkoutDialog : WorkoutController.AdapterCallbacks, DialogFragment() {
     private fun initDatePicker() {
 
         if (newWorkoutDateText.text.isNullOrEmpty()) {
-            newWorkoutDateText.setText(viewModel.sdf.format(Date.from(Instant.now())))
+            newWorkoutDateText.setText(viewModel.simpleDateFormat.format(Date.from(Instant.now())))
         }
 
         val myCalendar = Calendar.getInstance()
@@ -147,7 +147,7 @@ class NewWorkoutDialog : WorkoutController.AdapterCallbacks, DialogFragment() {
             set(Calendar.YEAR, year)
             set(Calendar.MONTH, month)
             set(Calendar.DAY_OF_MONTH, day)
-            newWorkoutDateText.setText(viewModel.sdf.format(myCalendar.time))
+            newWorkoutDateText.setText(viewModel.simpleDateFormat.format(myCalendar.time))
         }
         }
 
