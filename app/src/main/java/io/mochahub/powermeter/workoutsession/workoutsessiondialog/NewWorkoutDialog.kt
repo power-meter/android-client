@@ -77,9 +77,10 @@ class NewWorkoutDialog : WorkoutController.AdapterCallbacks, DialogFragment() {
 
     override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)
+
+        val date = viewModel.sdf.parse(newWorkoutDateText.text.toString()).toInstant()
+        val workoutSession = WorkoutSession(newWorkoutNameText.text.toString(), date, workouts)
         CoroutineScope(Dispatchers.IO).launch {
-            val date = viewModel.sdf.parse(newWorkoutDateText.text.toString()).toInstant()
-            val workoutSession = WorkoutSession(newWorkoutNameText.text.toString(), date, workouts)
             viewModel.saveWorkoutSession(workoutSession)
         }
     }
