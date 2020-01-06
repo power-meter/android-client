@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -18,6 +17,7 @@ import io.mochahub.powermeter.R
 import io.mochahub.powermeter.models.WorkoutSession
 import io.mochahub.powermeter.shared.SwipeToDeleteCallback
 import kotlinx.android.synthetic.main.fragment_workout_session.*
+import splitties.toast.longToast
 
 private const val DELETED_WORKOUT_MSSG = "Workout session deleted!"
 private const val UNDO_WORKOUT_MSSG = "UNDO"
@@ -61,7 +61,7 @@ class WorkoutSessionFragment : Fragment() {
 
     // TODO: Show a dialog fragment with editor where we can CRUD this session
     private fun onWorkoutSessionClicked(workoutSession: WorkoutSession) {
-        Toast.makeText(requireContext(), "Clicked: ${workoutSession.date}", Toast.LENGTH_LONG).show()
+        longToast("Clicked: ${workoutSession.date}")
     }
 
     private fun enableSwipeToDelete() {

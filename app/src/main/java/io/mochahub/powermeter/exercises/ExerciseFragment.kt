@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -18,6 +17,7 @@ import io.mochahub.powermeter.data.AppDatabase
 import io.mochahub.powermeter.data.ExerciseEntity
 import io.mochahub.powermeter.shared.SwipeToDeleteCallback
 import kotlinx.android.synthetic.main.fragment_exercise.*
+import splitties.toast.toast
 
 class ExerciseFragment : Fragment() {
     override fun onCreateView(
@@ -111,11 +111,7 @@ class ExerciseFragment : Fragment() {
         val currentExercises = viewModel.exercises.value ?: emptyList()
         val collision = currentExercises.filter { it.name == newExercise.name }
         if (collision.isNotEmpty()) {
-            Toast.makeText(
-                requireContext(),
-                getString(R.string.alert_exercise_exists),
-                Toast.LENGTH_SHORT
-            ).show()
+            toast(R.string.alert_exercise_exists)
         } else {
             viewModel.addExercise(newExercise)
         }
@@ -126,11 +122,7 @@ class ExerciseFragment : Fragment() {
         val currentExercises = viewModel.exercises.value ?: emptyList()
         val collision = currentExercises.filter { it.name == exercise.name && it.id != exercise.id }
         if (collision.isNotEmpty()) {
-            Toast.makeText(
-                requireContext(),
-                getString(R.string.alert_exercise_exists),
-                Toast.LENGTH_SHORT
-            ).show()
+            toast(R.string.alert_exercise_exists)
         } else {
             viewModel.updateExercise(exercise)
         }
