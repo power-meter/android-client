@@ -2,8 +2,10 @@ package io.mochahub.powermeter.models
 
 import io.mochahub.powermeter.models.WorkoutSet.Companion.REP_MAX_LIMIT
 import io.mochahub.powermeter.models.WorkoutSet.Companion.REP_MIN_LIMIT
+import java.util.UUID
 
 data class WorkoutSet(
+    val id: String = UUID.randomUUID().toString(),
     val weight: Double,
     val reps: Int = 0
 ) {
