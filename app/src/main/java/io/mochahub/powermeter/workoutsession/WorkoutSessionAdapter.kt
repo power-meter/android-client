@@ -29,8 +29,7 @@ class WorkoutSessionAdapter(
 
     override fun onBindViewHolder(holder: WorkoutSessionViewHolder, position: Int) {
         holder.view.dateView.text = sdf.format(workoutSessions[position].date)
-        // TODO: Get number of workouts
-        // holder.view.workoutView.text = "${workoutSessions[position].workouts.size} workouts"
+        holder.view.workoutView.text = workoutSessions[position].name
         holder.view.setOnClickListener { clickListener(workoutSessions[position]) }
     }
 
