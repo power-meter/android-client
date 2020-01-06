@@ -1,5 +1,6 @@
 package io.mochahub.powermeter.workoutsession.workoutsessiondialog
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -53,16 +54,22 @@ class NewWorkoutViewModel(val db: AppDatabase) : ViewModel() {
 
     private fun isWorkoutSessionValid(workoutSession: WorkoutSession): Boolean {
         if (workoutSession.date.isAfter(Instant.now())) {
+            Log.d(this.javaClass.canonicalName, "Workout session date is in the future")
             return false
         }
 
         workoutSession.workouts.forEach {
             if (it.exercise.name.isBlank() || it.exercise.name.isEmpty()) {
+                Log.d(this.javaClass.canonicalName, "Empty workout name")
                 return false
             }
 
             it.sets.forEach { workoutSet ->
-                if (workoutSet.reps == 0 || workoutSet.weight == 0.0) {
+                if (workoutSet.reps == 0) {
+                    Log.d(this.javaClass.canonicalName, "Empty reps")
+                    return false
+                } else if (workoutSet.weight == 0.0) {
+                    Log.d(this.javaClass.canonicalName, "Empty weight")
                     return false
                 }
             }

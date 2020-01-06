@@ -1,46 +1,21 @@
 package io.mochahub.powermeter.workoutsession
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import io.mochahub.powermeter.models.WorkoutSession
+import androidx.lifecycle.viewModelScope
+import io.mochahub.powermeter.data.AppDatabase
+import io.mochahub.powermeter.data.WorkoutSessionEntity
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
-class WorkoutSessionViewModel : ViewModel() {
-    val _workoutSessions = MutableLiveData<List<WorkoutSession>>(
-        listOf(
-            WorkoutSession(
-                workouts = listOf()
-            ),
-            WorkoutSession(
-                workouts = listOf()
-            )
-        )
-    )
+class WorkoutSessionViewModel(val db: AppDatabase) : ViewModel() {
+    val workoutSessions: LiveData<List<WorkoutSessionEntity>> = db.workoutSessionDao().getAll()
 
-    val workoutSessions: LiveData<List<WorkoutSession>> = _workoutSessions
-
-    fun addWorkoutSession() {
-        val currentList = workoutSessions.value ?: listOf()
-
-        _workoutSessions.postValue(listOf(WorkoutSession(workouts = listOf())) + currentList)
-    }
-
-    fun restoreWorkoutSession(index: Int, session: WorkoutSession) {
-        val updatedList = (workoutSessions.value ?: listOf()).toMutableList().apply {
-            add(index, session)
+    fun removeWorkoutSession(position: Int): WorkoutSessionEntity {
+        val workoutSession = workoutSessions.value!![position]
+        viewModelScope.launch(Dispatchers.IO) {
+            db.workoutSessionDao().delete(workoutSession)
         }
-
-        _workoutSessions.postValue(updatedList)
-    }
-
-    fun removeWorkoutSession(index: Int): WorkoutSession {
-        val removedWorkoutSession: WorkoutSession
-        val updatedList = (workoutSessions.value ?: listOf()).toMutableList().apply {
-            removedWorkoutSession = removeAt(index)
-        }
-
-        _workoutSessions.postValue(updatedList)
-
-        return removedWorkoutSession
+        return workoutSession
     }
 }

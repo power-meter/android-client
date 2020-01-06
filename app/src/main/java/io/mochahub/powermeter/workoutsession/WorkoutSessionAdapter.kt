@@ -6,16 +6,16 @@ import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import io.mochahub.powermeter.R
-import io.mochahub.powermeter.models.WorkoutSession
+import io.mochahub.powermeter.data.WorkoutSessionEntity
 import kotlinx.android.synthetic.main.row_workout_session.view.*
-import java.time.ZoneId
-import java.time.format.DateTimeFormatter
+import java.text.SimpleDateFormat
 
 class WorkoutSessionAdapter(
-    private var workoutSessions: List<WorkoutSession>,
-    val clickListener: (WorkoutSession) -> Unit
+    private var workoutSessions: List<WorkoutSessionEntity>,
+    val clickListener: (WorkoutSessionEntity) -> Unit
 ) : Adapter<WorkoutSessionAdapter.WorkoutSessionViewHolder>() {
 
+    private val sdf = SimpleDateFormat("LLL dd yyyy (E)")
     class WorkoutSessionViewHolder(val view: CardView) : ViewHolder(view)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WorkoutSessionViewHolder {
@@ -28,14 +28,13 @@ class WorkoutSessionAdapter(
     override fun getItemCount(): Int = workoutSessions.size
 
     override fun onBindViewHolder(holder: WorkoutSessionViewHolder, position: Int) {
-        holder.view.dateView.text = DateTimeFormatter.ofPattern("LLL dd yyyy (E) - HH:mm")
-            .withZone(ZoneId.systemDefault())
-            .format(workoutSessions[position].date)
-        holder.view.workoutView.text = "${workoutSessions[position].workouts.size} workouts"
+        holder.view.dateView.text = sdf.format(workoutSessions[position].date)
+        // TODO: Get number of workouts
+        // holder.view.workoutView.text = "${workoutSessions[position].workouts.size} workouts"
         holder.view.setOnClickListener { clickListener(workoutSessions[position]) }
     }
 
-    fun setData(workoutSessions: List<WorkoutSession>) {
+    fun setData(workoutSessions: List<WorkoutSessionEntity>) {
         this.workoutSessions = workoutSessions
         notifyDataSetChanged()
     }
