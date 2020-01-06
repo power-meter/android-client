@@ -17,13 +17,11 @@ import java.time.Instant
 import java.util.Locale
 
 class NewWorkoutViewModel(val db: AppDatabase) : ViewModel() {
-    private val myFormat = "MM/dd/yy"
-    val sdf = SimpleDateFormat(myFormat, Locale.US)
+    val sdf = SimpleDateFormat("MM/dd/yy", Locale.US)
 
     val exercises: LiveData<List<ExerciseEntity>> = db.exerciseDao().getAll()
 
     suspend fun saveWorkoutSession(workoutSession: WorkoutSession) {
-//        sdf.parse(date).time / 1000L
         if (!isWorkoutSessionValid(workoutSession)) {
             // TODO: Provide descriptive feedback on what was wrong
             return
