@@ -11,6 +11,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
 import io.mochahub.powermeter.R
 import io.mochahub.powermeter.data.AppDatabase
+import io.mochahub.powermeter.data.WorkoutSessionEntity
 import io.mochahub.powermeter.models.Exercise
 import io.mochahub.powermeter.models.Workout
 import io.mochahub.powermeter.models.WorkoutSession
@@ -35,7 +36,8 @@ class NewWorkoutDialog : WorkoutController.AdapterCallbacks, DialogFragment() {
 
     private lateinit var workoutController: WorkoutController
     private lateinit var viewModel: NewWorkoutViewModel
-    var workouts = ArrayList<Workout>()
+    private var workouts = ArrayList<Workout>()
+    private var workoutSessionEntity: WorkoutSessionEntity? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -92,7 +94,7 @@ class NewWorkoutDialog : WorkoutController.AdapterCallbacks, DialogFragment() {
         initDatePicker()
 
         newWorkoutToolbar.apply {
-            title = resources.getString(if (workouts.isEmpty()) R.string.new_workout else R.string.edit_workout)
+            title = resources.getString(if (workoutSessionEntity == null) R.string.new_workout else R.string.edit_workout)
             setNavigationOnClickListener { dismiss() }
         }
 
@@ -131,6 +133,9 @@ class NewWorkoutDialog : WorkoutController.AdapterCallbacks, DialogFragment() {
     // Init
     // //////////////////////////////////////////////////////////////
     private fun initFields() {
+        if (workoutSessionEntity == null) {
+            return
+        }
         // TODO: Set fields from a shared view models
         // This is for when we are editing a workout
     }

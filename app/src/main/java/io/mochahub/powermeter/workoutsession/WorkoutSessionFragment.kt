@@ -29,7 +29,7 @@ class WorkoutSessionFragment : Fragment() {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val position = viewHolder.adapterPosition
 
-                val deletedExercise: WorkoutSessionEntity = sessionViewModel.removeWorkoutSession(position)
+                val deletedWorkoutSession: WorkoutSessionEntity = sessionViewModel.removeWorkoutSession(position)
                 Snackbar.make(
                     viewHolder.itemView,
                     getString(R.string.exercise_deleted),
@@ -76,8 +76,13 @@ class WorkoutSessionFragment : Fragment() {
         }
     }
 
-    // TODO: Pass WorkoutEntity to edit
     private fun onWorkoutSessionClicked(workoutSession: WorkoutSessionEntity) {
-        navController.navigate(R.id.action_destination_workout_session_screen_to_newWorkoutDialog)
+        val action = WorkoutSessionFragmentDirections
+            .actionDestinationWorkoutSessionScreenToNewWorkoutDialog(
+                workoutSessionID = workoutSession.id,
+                workoutSessionName = workoutSession.name,
+                workoutSessionDate = workoutSession.date
+            )
+        navController.navigate(action)
     }
 }
