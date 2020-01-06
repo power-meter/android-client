@@ -57,7 +57,7 @@ class NewWorkoutViewModel(val db: AppDatabase) : ViewModel() {
         }
 
         workoutSession.workouts.forEach {
-            if (it.exercise.name.isNullOrBlank() || it.exercise.name.isNullOrEmpty()) {
+            if (it.exercise.name.isBlank() || it.exercise.name.isEmpty()) {
                 return false
             }
 
