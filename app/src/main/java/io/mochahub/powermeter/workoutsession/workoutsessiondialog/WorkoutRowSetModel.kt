@@ -1,5 +1,7 @@
 package io.mochahub.powermeter.workoutsession.workoutsessiondialog
 
+import android.text.Editable
+import android.text.TextWatcher
 import com.airbnb.epoxy.EpoxyAttribute
 import com.airbnb.epoxy.EpoxyModelClass
 import com.airbnb.epoxy.EpoxyModelWithHolder
@@ -16,23 +18,49 @@ abstract class WorkoutRowSetModel(
 ) : EpoxyModelWithHolder<WorkoutRowSetModel.Holder>() {
 
     override fun bind(holder: Holder) {
-        holder.repsEditText.setText(workoutSet.reps.toString())
-        holder.weightEditText.setText(workoutSet.weight.toString())
+        if (workoutSet.reps != 0) {
+            holder.repsEditText.setText(workoutSet.reps.toString())
+        }
+        if (workoutSet.weight != 0.0) {
+            // We do not want to display 1.0 when the user simply inputs 1
+            if (workoutSet.weight % 1 == 0.0) {
+                holder.weightEditText.setText(workoutSet.weight.toInt().toString())
+            } else {
+                holder.weightEditText.setText(workoutSet.weight.toString())
+            }
+        }
 
-        holder.repsEditText.setOnFocusChangeListener { _, hasFocus ->
-            if (!hasFocus && holder.repsEditText.text.toString().isNotEmpty()) {
+        if (holder.repsEditText.hasFocus() && holder.repsEditText.text != null) {
+            holder.repsEditText.setSelection(holder.repsEditText.text!!.length)
+        }
+        if (holder.weightEditText.hasFocus() && holder.weightEditText.text != null) {
+            holder.weightEditText.setSelection(holder.weightEditText.length())
+        }
+
+        holder.repsEditText.addTextChangedListener(WorkoutSetTextChangeListener {
+            if (holder.repsEditText.text.toString().isNotEmpty() &&
+                    holder.repsEditText.text.toString().isNotBlank()) {
                 onRepFocusChanged(holder.repsEditText.text.toString().toInt())
             }
-        }
-        holder.weightEditText.setOnFocusChangeListener { _, hasFocus ->
-            if (!hasFocus && holder.weightEditText.toString().isNotEmpty()) {
+        })
+        holder.weightEditText.addTextChangedListener(WorkoutSetTextChangeListener {
+            if (holder.weightEditText.text.toString().isNotEmpty() &&
+                    holder.weightEditText.text.toString().isNotBlank()) {
                 onWeightFocusChanged(holder.weightEditText.text.toString().toDouble())
             }
-        }
+        })
     }
 
     class Holder : KotlinEpoxyHolder() {
         val repsEditText by bind<TextInputEditText>(R.id.newWorkoutSetRepsNumber)
         val weightEditText by bind<TextInputEditText>(R.id.newWorkoutSetWeightNumber)
     }
+}
+
+private class WorkoutSetTextChangeListener(
+    private val callback: () -> Unit
+) : TextWatcher {
+    override fun afterTextChanged(s: Editable?) { callback() }
+    override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+    override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
 }
