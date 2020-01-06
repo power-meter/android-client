@@ -30,6 +30,7 @@ abstract class WorkoutRowSetModel(
             }
         }
 
+        // Move cursor to the end
         if (holder.repsEditText.hasFocus() && holder.repsEditText.text != null) {
             holder.repsEditText.setSelection(holder.repsEditText.text!!.length)
         }
