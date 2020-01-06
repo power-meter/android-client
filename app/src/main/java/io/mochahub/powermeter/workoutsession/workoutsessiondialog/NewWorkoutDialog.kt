@@ -118,8 +118,8 @@ class NewWorkoutDialog : WorkoutController.AdapterCallbacks, DialogFragment() {
 
     private fun addEmptyWorkout() {
         val workout = Workout(
-            Exercise("", 0.0, ""),
-            ArrayList()
+            exercise = Exercise("", 0.0, ""),
+            sets = ArrayList()
         )
         workouts.add(0, workout)
     }
@@ -159,7 +159,7 @@ class NewWorkoutDialog : WorkoutController.AdapterCallbacks, DialogFragment() {
     // Interface methods for workout controller
     // //////////////////////////////////////////////////////////////
     override fun onAddSetClicked(index: Int) {
-        workouts[index] = workouts[index].addSet(WorkoutSet(0.0, 0))
+        workouts[index] = workouts[index].addSet(WorkoutSet(weight = 0.0, reps = 0))
         workoutController.setData(workouts)
     }
 

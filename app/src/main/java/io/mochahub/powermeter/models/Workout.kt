@@ -1,6 +1,9 @@
 package io.mochahub.powermeter.models
 
+import java.util.UUID
+
 data class Workout(
+    val id: String = UUID.randomUUID().toString(),
     val exercise: Exercise,
     val sets: MutableList<WorkoutSet>
 )
