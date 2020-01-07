@@ -21,6 +21,8 @@ import java.time.Instant
 import java.util.Locale
 
 class NewWorkoutViewModel(val db: AppDatabase) : ViewModel() {
+    var workouts = ArrayList<Workout>()
+
     val simpleDateFormat = SimpleDateFormat("MM/dd/yy", Locale.US)
 
     val exercises: LiveData<List<ExerciseEntity>> = db.exerciseDao().getAll()

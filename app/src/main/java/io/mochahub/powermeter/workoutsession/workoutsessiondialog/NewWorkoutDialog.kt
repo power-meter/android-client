@@ -2,6 +2,7 @@ package io.mochahub.powermeter.workoutsession.workoutsessiondialog
 
 import android.app.DatePickerDialog
 import android.content.DialogInterface
+import android.content.res.Configuration
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -39,7 +40,6 @@ class NewWorkoutDialog : WorkoutController.AdapterCallbacks, DialogFragment() {
     private var shouldSave = true
     private lateinit var workoutController: WorkoutController
     private lateinit var viewModel: NewWorkoutViewModel
-    private var workouts = ArrayList<Workout>()
     private var exercises = listOf<ExerciseEntity>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -73,6 +73,11 @@ class NewWorkoutDialog : WorkoutController.AdapterCallbacks, DialogFragment() {
             val height = ViewGroup.LayoutParams.MATCH_PARENT
             dialog!!.window!!.setLayout(width, height)
         }
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        workoutController.setData(viewModel.workouts)
     }
 
     override fun onCreateView(
@@ -115,7 +120,7 @@ class NewWorkoutDialog : WorkoutController.AdapterCallbacks, DialogFragment() {
 
         addWorkoutBtn.setOnClickListener {
             this.addEmptyWorkout()
-            workoutController.setData(workouts)
+            workoutController.setData(viewModel.workouts)
         }
 
         val adapter = ArrayAdapter<String>(
@@ -125,7 +130,7 @@ class NewWorkoutDialog : WorkoutController.AdapterCallbacks, DialogFragment() {
 
         workoutController.setAdapter(adapter)
         recyclerView.setController(workoutController)
-        workoutController.setData(workouts)
+        workoutController.setData(viewModel.workouts)
     }
     // //////////////////////////////////////////////////////////////
     // Helpers
@@ -136,12 +141,12 @@ class NewWorkoutDialog : WorkoutController.AdapterCallbacks, DialogFragment() {
             exercise = Exercise("", 0.0, ""),
             sets = ArrayList()
         )
-        workouts.add(0, workout)
+        viewModel.workouts.add(0, workout)
     }
 
     private fun saveWorkoutSession() {
         val date = viewModel.simpleDateFormat.parse(newWorkoutDateText.text.toString()).toInstant()
-        val workoutSession = WorkoutSession(newWorkoutNameText.text.toString(), date, workouts)
+        val workoutSession = WorkoutSession(newWorkoutNameText.text.toString(), date, viewModel.workouts)
         CoroutineScope(Dispatchers.IO).launch {
             viewModel.saveWorkoutSession(workoutSession)
         }
@@ -169,7 +174,7 @@ class NewWorkoutDialog : WorkoutController.AdapterCallbacks, DialogFragment() {
                     .format(Date.from(Instant.ofEpochSecond(args.workoutSessionDate))))
         }
         CoroutineScope(Dispatchers.IO).launch {
-            workouts = viewModel.getWorkouts(args.workoutSessionID!!)
+            viewModel.workouts = viewModel.getWorkouts(args.workoutSessionID!!)
         }
     }
 
@@ -200,18 +205,18 @@ class NewWorkoutDialog : WorkoutController.AdapterCallbacks, DialogFragment() {
     // Interface methods for workout controller
     // //////////////////////////////////////////////////////////////
     override fun onAddSetClicked(index: Int) {
-        workouts[index] = workouts[index].addSet(WorkoutSet(weight = 0.0, reps = 0))
-        workoutController.setData(workouts)
+        viewModel.workouts[index] = viewModel.workouts[index].addSet(WorkoutSet(weight = 0.0, reps = 0))
+        workoutController.setData(viewModel.workouts)
     }
 
     override fun onRepFocusChanged(workoutIndex: Int, setIndex: Int, value: Int) {
-        workouts[workoutIndex].sets[setIndex] = workouts[workoutIndex].sets[setIndex].setReps(value)
-        workoutController.setData(workouts)
+        viewModel.workouts[workoutIndex].sets[setIndex] = viewModel.workouts[workoutIndex].sets[setIndex].setReps(value)
+        workoutController.setData(viewModel.workouts)
     }
 
     override fun onWeightFocusChanged(workoutIndex: Int, setIndex: Int, value: Double) {
-        workouts[workoutIndex].sets[setIndex] = workouts[workoutIndex].sets[setIndex].setWeight(value)
-        workoutController.setData(workouts)
+        viewModel.workouts[workoutIndex].sets[setIndex] = viewModel.workouts[workoutIndex].sets[setIndex].setWeight(value)
+        workoutController.setData(viewModel.workouts)
     }
 
     override fun onExerciseSelected(workoutIndex: Int, exercise: String) {
@@ -221,8 +226,8 @@ class NewWorkoutDialog : WorkoutController.AdapterCallbacks, DialogFragment() {
             Log.e(this.javaClass.canonicalName, "Exercise not found")
             return
         }
-        workouts[workoutIndex] = workouts[workoutIndex]
+        viewModel.workouts[workoutIndex] = viewModel.workouts[workoutIndex]
             .updateExercise(Exercise(foundExercise.name, foundExercise.personalRecord, foundExercise.muscleGroup))
-        workoutController.setData(workouts)
+        workoutController.setData(viewModel.workouts)
     }
 }
