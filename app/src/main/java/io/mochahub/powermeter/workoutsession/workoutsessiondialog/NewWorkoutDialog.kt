@@ -3,15 +3,16 @@ package io.mochahub.powermeter.workoutsession.workoutsessiondialog
 import android.app.DatePickerDialog
 import android.content.DialogInterface
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.fragment.app.DialogFragment
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.navArgs
 import io.mochahub.powermeter.R
 import io.mochahub.powermeter.data.AppDatabase
+import io.mochahub.powermeter.data.ExerciseEntity
 import io.mochahub.powermeter.models.Exercise
 import io.mochahub.powermeter.models.Workout
 import io.mochahub.powermeter.models.WorkoutSession
@@ -37,6 +38,7 @@ class NewWorkoutDialog : WorkoutController.AdapterCallbacks, DialogFragment() {
     private lateinit var workoutController: WorkoutController
     private lateinit var viewModel: NewWorkoutViewModel
     private var workouts = ArrayList<Workout>()
+    private var exercises = listOf<ExerciseEntity>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,6 +58,9 @@ class NewWorkoutDialog : WorkoutController.AdapterCallbacks, DialogFragment() {
                     R.layout.dropdown_menu_popup_item
                 ), this
             )
+        CoroutineScope(Dispatchers.IO).launch {
+            exercises = viewModel.getExercises()
+        }
     }
 
     override fun onStart() {
@@ -112,14 +117,14 @@ class NewWorkoutDialog : WorkoutController.AdapterCallbacks, DialogFragment() {
             workoutController.setData(workouts)
         }
 
-        viewModel.exercises.observe(viewLifecycleOwner, Observer {
-            val adapter = ArrayAdapter<String>(
-                requireContext(), R.layout.dropdown_menu_popup_item,
-                viewModel.exercises.value?.map { it.name } ?: listOf())
-            workoutController.setAdapter(adapter)
-            recyclerView.setController(workoutController)
-            workoutController.setData(workouts)
-        })
+        val adapter = ArrayAdapter<String>(
+            requireContext(),
+            R.layout.dropdown_menu_popup_item,
+            exercises.map { it.name })
+
+        workoutController.setAdapter(adapter)
+        recyclerView.setController(workoutController)
+        workoutController.setData(workouts)
     }
     // //////////////////////////////////////////////////////////////
     // Helpers
@@ -196,16 +201,14 @@ class NewWorkoutDialog : WorkoutController.AdapterCallbacks, DialogFragment() {
     }
 
     override fun onExerciseSelected(workoutIndex: Int, exercise: String) {
-        val exercises = viewModel.exercises.value
-        exercises?.find { it ->
-            if (it.name == exercise) {
-                workouts[workoutIndex] = workouts[workoutIndex]
-                    .updateExercise(Exercise(it.name, it.personalRecord, it.muscleGroup))
-                workoutController.setData(workouts)
-                true
-            } else {
-                false
-            }
+
+        var exercise = exercises?.find { it -> it.name == exercise }
+        if (exercise == null) {
+            Log.e(this.javaClass.canonicalName, "Exercise not found")
+            return
         }
+        workouts[workoutIndex] = workouts[workoutIndex]
+            .updateExercise(Exercise(exercise.name, exercise.personalRecord, exercise.muscleGroup))
+        workoutController.setData(workouts)
     }
 }

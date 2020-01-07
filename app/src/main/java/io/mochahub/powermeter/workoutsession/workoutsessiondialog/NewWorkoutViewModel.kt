@@ -25,6 +25,10 @@ class NewWorkoutViewModel(val db: AppDatabase) : ViewModel() {
 
     val exercises: LiveData<List<ExerciseEntity>> = db.exerciseDao().getAll()
 
+    fun getExercises(): List<ExerciseEntity> {
+        return db.exerciseDao().getAllAsList()
+    }
+
     fun getWorkouts(workoutSessionID: String): ArrayList<Workout> {
         val workouts = ArrayList<Workout>()
         val workoutEntities = db.workoutDao().getWorkoutsByWorkoutSession(workoutSessionID)
@@ -49,6 +53,7 @@ class NewWorkoutViewModel(val db: AppDatabase) : ViewModel() {
         }
         return workouts
     }
+
     fun deleteWorkoutSession(workoutSessionID: String) {
         db.workoutSessionDao().deleteByID(workoutSessionID = workoutSessionID)
     }
