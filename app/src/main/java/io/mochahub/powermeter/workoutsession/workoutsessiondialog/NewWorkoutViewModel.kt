@@ -99,7 +99,9 @@ class NewWorkoutViewModel(val db: AppDatabase) : ViewModel() {
                 Log.d(this.javaClass.canonicalName, "Empty workout name")
                 return false
             }
-
+            if (it.sets.isEmpty()) {
+                Log.d(this.javaClass.canonicalName, "Empty workoutsets")
+            }
             it.sets.forEach { workoutSet ->
                 if (workoutSet.reps == 0) {
                     Log.d(this.javaClass.canonicalName, "Empty reps")
