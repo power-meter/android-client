@@ -26,7 +26,7 @@ abstract class WorkoutRowModel(
 
         holder.workoutExerciseTextView.setAdapter(arrayAdapter)
 
-        holder.workoutExerciseTextView.setOnItemClickListener { parent, view, position, id ->
+        holder.workoutExerciseTextView.setOnItemClickListener { _, _, _, _ ->
             onExerciseSelected(holder.workoutExerciseTextView.text.toString())
         }
 
