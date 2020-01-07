@@ -104,6 +104,7 @@ class NewWorkoutDialog : WorkoutController.AdapterCallbacks, DialogFragment() {
 
         newWorkoutToolbar.apply {
             title = resources.getString(if (args.workoutSessionID == null) R.string.new_workout else R.string.edit_workout)
+            inflateMenu(R.menu.menu_cancel)
             setNavigationOnClickListener { dismiss() }
         }
 
