@@ -143,7 +143,7 @@ class NewWorkoutDialog : WorkoutController.AdapterCallbacks, DialogFragment() {
         if (args.workoutSessionName != null) {
             newWorkoutNameText.setText(args.workoutSessionName)
         }
-        if (args.workoutSessionDate != null) {
+        if (args.workoutSessionDate != 0.toLong()) {
             newWorkoutDateText.setText(
                 viewModel
                     .simpleDateFormat
@@ -197,7 +197,7 @@ class NewWorkoutDialog : WorkoutController.AdapterCallbacks, DialogFragment() {
 
     override fun onExerciseSelected(workoutIndex: Int, exercise: String) {
 
-        var exercise = exercises?.find { it -> it.name == exercise }
+        val exercise = exercises.find { it.name == exercise }
         if (exercise == null) {
             Log.e(this.javaClass.canonicalName, "Exercise not found")
             return
