@@ -197,13 +197,13 @@ class NewWorkoutDialog : WorkoutController.AdapterCallbacks, DialogFragment() {
 
     override fun onExerciseSelected(workoutIndex: Int, exercise: String) {
 
-        val exercise = exercises.find { it.name == exercise }
-        if (exercise == null) {
+        val foundExercise = exercises.find { it.name == exercise }
+        if (foundExercise == null) {
             Log.e(this.javaClass.canonicalName, "Exercise not found")
             return
         }
         workouts[workoutIndex] = workouts[workoutIndex]
-            .updateExercise(Exercise(exercise.name, exercise.personalRecord, exercise.muscleGroup))
+            .updateExercise(Exercise(foundExercise.name, foundExercise.personalRecord, foundExercise.muscleGroup))
         workoutController.setData(workouts)
     }
 }
