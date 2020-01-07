@@ -93,7 +93,10 @@ class NewWorkoutViewModel(val db: AppDatabase) : ViewModel() {
             Log.d(this.javaClass.canonicalName, "Workout session date is in the future")
             return false
         }
-
+        if (workoutSession.workouts.isEmpty()) {
+            Log.d(this.javaClass.canonicalName, "Empty workouts")
+            return false
+        }
         workoutSession.workouts.forEach {
             if (it.exercise.name.isBlank() || it.exercise.name.isEmpty()) {
                 Log.d(this.javaClass.canonicalName, "Empty workout name")
