@@ -9,6 +9,7 @@ import io.mochahub.powermeter.R
 import io.mochahub.powermeter.data.WorkoutSessionEntity
 import kotlinx.android.synthetic.main.row_workout_session.view.*
 import java.text.SimpleDateFormat
+import java.util.Date
 
 class WorkoutSessionAdapter(
     private var workoutSessions: List<WorkoutSessionEntity>,
@@ -28,7 +29,8 @@ class WorkoutSessionAdapter(
     override fun getItemCount(): Int = workoutSessions.size
 
     override fun onBindViewHolder(holder: WorkoutSessionViewHolder, position: Int) {
-        holder.view.dateView.text = sdf.format(workoutSessions[position].date)
+        var date = Date(workoutSessions[position].date * 1000L)
+        holder.view.dateView.text = sdf.format(date)
         holder.view.workoutView.text = workoutSessions[position].name
         holder.view.setOnClickListener { clickListener(workoutSessions[position]) }
     }
