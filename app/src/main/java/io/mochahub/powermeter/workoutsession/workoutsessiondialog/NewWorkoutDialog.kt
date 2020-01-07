@@ -107,11 +107,6 @@ class NewWorkoutDialog : WorkoutController.AdapterCallbacks, DialogFragment() {
             setNavigationOnClickListener { dismiss() }
         }
 
-        // init with an empty workout to edit
-        if (workouts.isEmpty()) {
-            this.addEmptyWorkout()
-        }
-
         addWorkoutBtn.setOnClickListener {
             this.addEmptyWorkout()
             workoutController.setData(workouts)
