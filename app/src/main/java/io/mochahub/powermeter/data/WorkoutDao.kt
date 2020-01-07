@@ -13,7 +13,7 @@ interface WorkoutDao {
     fun getAll(): LiveData<List<WorkoutEntity>>
 
     @Query("SELECT * FROM workouts where workoutSessionUUID= :workoutSessionUUID")
-    fun getWorkoutsByWorkoutSession(workoutSessionUUID: String): LiveData<List<WorkoutEntity>>
+    fun getWorkoutsByWorkoutSession(workoutSessionUUID: String): List<WorkoutEntity>
 
     @Insert
     suspend fun insertAll(vararg workout: WorkoutEntity)

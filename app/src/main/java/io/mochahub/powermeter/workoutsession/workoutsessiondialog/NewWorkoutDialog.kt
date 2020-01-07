@@ -9,9 +9,9 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.navArgs
 import io.mochahub.powermeter.R
 import io.mochahub.powermeter.data.AppDatabase
-import io.mochahub.powermeter.data.WorkoutSessionEntity
 import io.mochahub.powermeter.models.Exercise
 import io.mochahub.powermeter.models.Workout
 import io.mochahub.powermeter.models.WorkoutSession
@@ -33,11 +33,10 @@ import java.util.Calendar
 import java.util.Date
 
 class NewWorkoutDialog : WorkoutController.AdapterCallbacks, DialogFragment() {
-
+    private val args: NewWorkoutDialogArgs by navArgs()
     private lateinit var workoutController: WorkoutController
     private lateinit var viewModel: NewWorkoutViewModel
     private var workouts = ArrayList<Workout>()
-    private var workoutSessionEntity: WorkoutSessionEntity? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -85,6 +84,11 @@ class NewWorkoutDialog : WorkoutController.AdapterCallbacks, DialogFragment() {
         CoroutineScope(Dispatchers.IO).launch {
             viewModel.saveWorkoutSession(workoutSession)
         }
+        if (args.workoutSessionID != null) {
+            CoroutineScope(Dispatchers.IO).launch {
+                viewModel.deleteWorkoutSession(args.workoutSessionID!!)
+            }
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -94,7 +98,7 @@ class NewWorkoutDialog : WorkoutController.AdapterCallbacks, DialogFragment() {
         initDatePicker()
 
         newWorkoutToolbar.apply {
-            title = resources.getString(if (workoutSessionEntity == null) R.string.new_workout else R.string.edit_workout)
+            title = resources.getString(if (args.workoutSessionID == null) R.string.new_workout else R.string.edit_workout)
             setNavigationOnClickListener { dismiss() }
         }
 
@@ -133,11 +137,21 @@ class NewWorkoutDialog : WorkoutController.AdapterCallbacks, DialogFragment() {
     // Init
     // //////////////////////////////////////////////////////////////
     private fun initFields() {
-        if (workoutSessionEntity == null) {
+        if (args.workoutSessionID == null) {
             return
         }
-        // TODO: Set fields from a shared view models
-        // This is for when we are editing a workout
+        if (args.workoutSessionName != null) {
+            newWorkoutNameText.setText(args.workoutSessionName)
+        }
+        if (args.workoutSessionDate != null) {
+            newWorkoutDateText.setText(
+                viewModel
+                    .simpleDateFormat
+                    .format(Date.from(Instant.ofEpochSecond(args.workoutSessionDate))))
+        }
+        CoroutineScope(Dispatchers.IO).launch {
+            workouts = viewModel.getWorkouts(args.workoutSessionID!!)
+        }
     }
 
     private fun initDatePicker() {

@@ -72,7 +72,13 @@ class WorkoutSessionFragment : Fragment() {
         })
 
         addSessionButton.setOnClickListener {
-            navController.navigate(R.id.action_destination_workout_session_screen_to_newWorkoutDialog)
+            val action = WorkoutSessionFragmentDirections
+                .actionDestinationWorkoutSessionScreenToNewWorkoutDialog(
+                    workoutSessionID = null,
+                    workoutSessionName = null,
+                    workoutSessionDate = 0
+                )
+            navController.navigate(action)
         }
     }
 

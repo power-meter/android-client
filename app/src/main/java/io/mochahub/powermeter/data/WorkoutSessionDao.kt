@@ -12,6 +12,9 @@ interface WorkoutSessionDao {
     @Query("SELECT * FROM workout_sessions ORDER BY createdAt ASC")
     fun getAll(): LiveData<List<WorkoutSessionEntity>>
 
+    @Query("DELETE FROM workout_sessions WHERE id = :workoutSessionID")
+    fun deleteByID(workoutSessionID: String)
+
     @Insert
     suspend fun insertAll(vararg workoutSession: WorkoutSessionEntity)
 

@@ -10,7 +10,10 @@ import io.mochahub.powermeter.data.ExerciseEntity
 import io.mochahub.powermeter.data.WorkoutEntity
 import io.mochahub.powermeter.data.WorkoutSessionEntity
 import io.mochahub.powermeter.data.WorkoutSetEntity
+import io.mochahub.powermeter.models.Exercise
+import io.mochahub.powermeter.models.Workout
 import io.mochahub.powermeter.models.WorkoutSession
+import io.mochahub.powermeter.models.WorkoutSet
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
@@ -21,6 +24,34 @@ class NewWorkoutViewModel(val db: AppDatabase) : ViewModel() {
     val simpleDateFormat = SimpleDateFormat("MM/dd/yy", Locale.US)
 
     val exercises: LiveData<List<ExerciseEntity>> = db.exerciseDao().getAll()
+
+    fun getWorkouts(workoutSessionID: String): ArrayList<Workout> {
+        val workouts = ArrayList<Workout>()
+        val workoutEntities = db.workoutDao().getWorkoutsByWorkoutSession(workoutSessionID)
+
+        workoutEntities.forEach { workoutEntity ->
+            val exercise = db.exerciseDao().findByID(workoutEntity.exerciseUUID)
+            val workout = Workout(
+                exercise = Exercise(
+                    name = exercise.name,
+                    personalRecord = exercise.personalRecord,
+                    muscleGroup = exercise.muscleGroup),
+                sets = ArrayList())
+
+            val workoutSets = db.workoutSetDao().getWorkoutSetsByWorkout(workoutEntity.id)
+            workoutSets.forEach { workoutSetEntity ->
+                val workoutSet = WorkoutSet(
+                    weight = workoutSetEntity.weight,
+                    reps = workoutSetEntity.reps)
+                workout.sets.add(workoutSet)
+            }
+            workouts.add(workout)
+        }
+        return workouts
+    }
+    fun deleteWorkoutSession(workoutSessionID: String) {
+        db.workoutSessionDao().deleteByID(workoutSessionID = workoutSessionID)
+    }
 
     suspend fun saveWorkoutSession(workoutSession: WorkoutSession) {
         if (!isWorkoutSessionValid(workoutSession)) {
