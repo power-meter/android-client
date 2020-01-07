@@ -34,7 +34,9 @@ import java.util.Calendar
 import java.util.Date
 
 class NewWorkoutDialog : WorkoutController.AdapterCallbacks, DialogFragment() {
+
     private val args: NewWorkoutDialogArgs by navArgs()
+    private var shouldSave = true
     private lateinit var workoutController: WorkoutController
     private lateinit var viewModel: NewWorkoutViewModel
     private var workouts = ArrayList<Workout>()
@@ -84,15 +86,10 @@ class NewWorkoutDialog : WorkoutController.AdapterCallbacks, DialogFragment() {
     override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)
 
-        val date = viewModel.simpleDateFormat.parse(newWorkoutDateText.text.toString()).toInstant()
-        val workoutSession = WorkoutSession(newWorkoutNameText.text.toString(), date, workouts)
-        CoroutineScope(Dispatchers.IO).launch {
-            viewModel.saveWorkoutSession(workoutSession)
-        }
-        if (args.workoutSessionID != null) {
-            CoroutineScope(Dispatchers.IO).launch {
-                viewModel.deleteWorkoutSession(args.workoutSessionID!!)
-            }
+        if (shouldSave) {
+            saveWorkoutSession()
+        } else {
+            shouldSave = true
         }
     }
 
@@ -106,6 +103,14 @@ class NewWorkoutDialog : WorkoutController.AdapterCallbacks, DialogFragment() {
             title = resources.getString(if (args.workoutSessionID == null) R.string.new_workout else R.string.edit_workout)
             inflateMenu(R.menu.menu_cancel)
             setNavigationOnClickListener { dismiss() }
+            setOnMenuItemClickListener {
+                when (it?.itemId) {
+                    R.id.action_cancel -> {
+                        shouldSave = false
+                        dismiss() }
+                }
+                true
+            }
         }
 
         addWorkoutBtn.setOnClickListener {
@@ -132,6 +137,19 @@ class NewWorkoutDialog : WorkoutController.AdapterCallbacks, DialogFragment() {
             sets = ArrayList()
         )
         workouts.add(0, workout)
+    }
+
+    private fun saveWorkoutSession() {
+        val date = viewModel.simpleDateFormat.parse(newWorkoutDateText.text.toString()).toInstant()
+        val workoutSession = WorkoutSession(newWorkoutNameText.text.toString(), date, workouts)
+        CoroutineScope(Dispatchers.IO).launch {
+            viewModel.saveWorkoutSession(workoutSession)
+        }
+        if (args.workoutSessionID != null) {
+            CoroutineScope(Dispatchers.IO).launch {
+                viewModel.deleteWorkoutSession(args.workoutSessionID!!)
+            }
+        }
     }
 
     // //////////////////////////////////////////////////////////////
