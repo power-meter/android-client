@@ -45,7 +45,7 @@ class NewWorkoutDialog : WorkoutController.AdapterCallbacks, DialogFragment() {
     private val args: NewWorkoutDialogArgs by navArgs()
     private var shouldSave = true
     private lateinit var workoutController: WorkoutController
-    private lateinit var viewModel: NewWorkoutViewModel
+    private val viewModel by lazy { NewWorkoutViewModel(db = AppDatabase(requireContext())) }
     private var exercises = listOf<ExerciseEntity>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,11 +54,6 @@ class NewWorkoutDialog : WorkoutController.AdapterCallbacks, DialogFragment() {
             STYLE_NORMAL,
             R.style.FullScreenDialog
         )
-
-        viewModel =
-            NewWorkoutViewModel(
-                db = AppDatabase(requireContext())
-            )
         CoroutineScope(Dispatchers.IO).launch {
             exercises = viewModel.getExercises()
         }.invokeOnCompletion {
@@ -103,14 +98,20 @@ class NewWorkoutDialog : WorkoutController.AdapterCallbacks, DialogFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         recyclerView.setController(workoutController)
-
         EpoxyTouchHelper.initSwiping(recyclerView)
             .left()
             .withTarget(WorkoutRowSetModel::class.java)
-            .andCallbacks(WorkoutRowSetSwipeCallBack(requireContext().resources) { workoutIndex, workoutSetIndex ->
-                viewModel.workouts[workoutIndex] =
-                    viewModel.workouts[workoutIndex].removeSet(workoutSetIndex)
-                workoutController.setData(viewModel.workouts)
+            .andCallbacks(WorkoutRowSetSwipeCallBack(requireContext().resources) { workoutSet ->
+                for (i in 0 until viewModel.workouts.size) {
+                    for (k in 0 until viewModel.workouts[i].sets.size) {
+                        if (viewModel.workouts[i].sets[i].id == workoutSet.id) {
+                            viewModel.workouts[i] =
+                                viewModel.workouts[i].removeSet(k)
+                            workoutController.setData(viewModel.workouts)
+                            break
+                        }
+                    }
+                }
             })
 
         workoutController.setData(viewModel.workouts)
@@ -272,7 +273,7 @@ class NewWorkoutDialog : WorkoutController.AdapterCallbacks, DialogFragment() {
 
 private class WorkoutRowSetSwipeCallBack(
     private val resources: Resources,
-    private val onLeftSwipe: (Int, Int) -> Unit
+    private val onLeftSwipe: (WorkoutSet) -> Unit
 ) : EpoxyTouchHelper.SwipeCallbacks<WorkoutRowSetModel>() {
 
     private val paint = Paint()
@@ -297,7 +298,7 @@ private class WorkoutRowSetSwipeCallBack(
         direction: Int
     ) {
         if (direction == (ItemTouchHelper.LEFT) && model != null) {
-            onLeftSwipe(model.workoutIndex, model.workoutSetIndex)
+            onLeftSwipe(model.workoutSet)
         }
     }
 

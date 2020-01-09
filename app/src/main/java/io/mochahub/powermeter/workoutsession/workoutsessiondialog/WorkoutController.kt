@@ -21,16 +21,19 @@ class WorkoutController(
     }
 
     override fun buildModels(workouts: List<Workout>?) {
-        workouts?.forEachIndexed { workoutIndex, workout ->
-            workoutRow(workout, ArrayAdapter(context, R.layout.dropdown_menu_popup_item, exercises),
-                { callbacks.onAddSetClicked(workout) },
-                { value -> callbacks.onExerciseSelected(workout, value) }) {
+        workouts?.forEachIndexed { _, workout ->
+            workoutRow(
+                workout = workout,
+                arrayAdapter = ArrayAdapter(context, R.layout.dropdown_menu_popup_item, exercises),
+                addButtonClickListener = { callbacks.onAddSetClicked(workout) },
+                onExerciseSelected = { value -> callbacks.onExerciseSelected(workout, value) }) {
                 id(workout.id)
             }
-            workout.sets.forEachIndexed { workoutSetIndex, workoutSet ->
-                workoutRowSet(workoutSet, workoutIndex, workoutSetIndex,
-                    { value -> callbacks.onRepFocusChanged(workout, workoutSet, value) },
-                    { value -> callbacks.onWeightFocusChanged(workout, workoutSet, value) }) {
+            workout.sets.forEachIndexed { _, workoutSet ->
+                workoutRowSet(
+                    workoutSet = workoutSet,
+                    onRepFocusChanged = { value -> callbacks.onRepFocusChanged(workout, workoutSet, value) },
+                    onWeightFocusChanged = { value -> callbacks.onWeightFocusChanged(workout, workoutSet, value) }) {
                     id(workoutSet.id)
                 }
             }

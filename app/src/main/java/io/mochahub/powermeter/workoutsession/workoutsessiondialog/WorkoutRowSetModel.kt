@@ -13,8 +13,6 @@ import io.mochahub.powermeter.shared.KotlinEpoxyHolder
 @EpoxyModelClass(layout = R.layout.row_workout_set_edit)
 abstract class WorkoutRowSetModel(
     @EpoxyAttribute var workoutSet: WorkoutSet,
-    @EpoxyAttribute var workoutIndex: Int,
-    @EpoxyAttribute var workoutSetIndex: Int,
     @EpoxyAttribute(EpoxyAttribute.Option.DoNotHash) var onRepFocusChanged: (reps: Int) -> Unit,
     @EpoxyAttribute(EpoxyAttribute.Option.DoNotHash) var onWeightFocusChanged: (weight: Double) -> Unit
 ) : EpoxyModelWithHolder<WorkoutRowSetModel.Holder>() {
