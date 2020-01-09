@@ -19,11 +19,11 @@ abstract class WorkoutRowModel(
 ) : EpoxyModelWithHolder<WorkoutRowModel.Holder>() {
 
     override fun bind(holder: Holder) {
-        holder.workoutExerciseTextView.setAdapter(arrayAdapter)
 
         if (workout.exercise.name.isNotEmpty() || workout.exercise.name.isNotBlank()) {
             holder.workoutExerciseTextView.setText(workout.exercise.name)
         }
+        holder.workoutExerciseTextView.setAdapter(arrayAdapter)
 
         holder.workoutExerciseTextView.setOnItemClickListener { _, _, _, _ ->
             onExerciseSelected(holder.workoutExerciseTextView.text.toString())
