@@ -217,31 +217,59 @@ class NewWorkoutDialog : WorkoutController.AdapterCallbacks, DialogFragment() {
     // //////////////////////////////////////////////////////////////
     // Interface methods for workout controller
     // //////////////////////////////////////////////////////////////
-    override fun onAddSetClicked(index: Int) {
-        viewModel.workouts[index] = viewModel.workouts[index].addSet(0, WorkoutSet(weight = 0.0, reps = 0))
-        workoutController.setData(viewModel.workouts)
+    // Need to use a loop method because it is more reliable then indexing
+    // If we use index's there is a bug when deleting sets/ workouts
+    // that causes out of bounds exceptions
+    override fun onAddSetClicked(workout: Workout) {
+        for (i in 0 until viewModel.workouts.size) {
+            if (viewModel.workouts[i].id == workout.id) {
+                viewModel.workouts[i] = viewModel.workouts[i].addSet(0, WorkoutSet(weight = 0.0, reps = 0))
+                workoutController.setData(viewModel.workouts)
+            }
+        }
     }
 
-    override fun onRepFocusChanged(workoutIndex: Int, setIndex: Int, value: Int) {
-        viewModel.workouts[workoutIndex].sets[setIndex] = viewModel.workouts[workoutIndex].sets[setIndex].setReps(value)
-        workoutController.setData(viewModel.workouts)
+    override fun onRepFocusChanged(workout: Workout, workoutSet: WorkoutSet, value: Int) {
+        for (i in 0 until viewModel.workouts.size) {
+            if (viewModel.workouts[i].id == workout.id) {
+                for (k in 0 until viewModel.workouts[i].sets.size) {
+                    if (viewModel.workouts[i].sets[k].id == workoutSet.id) {
+                        viewModel.workouts[i].sets[k] = viewModel.workouts[i].sets[k].setReps(value)
+                        workoutController.setData(viewModel.workouts)
+                    }
+                }
+            }
+        }
     }
 
-    override fun onWeightFocusChanged(workoutIndex: Int, setIndex: Int, value: Double) {
-        viewModel.workouts[workoutIndex].sets[setIndex] = viewModel.workouts[workoutIndex].sets[setIndex].setWeight(value)
-        workoutController.setData(viewModel.workouts)
+    override fun onWeightFocusChanged(workout: Workout, workoutSet: WorkoutSet, value: Double) {
+        for (i in 0 until viewModel.workouts.size) {
+            if (viewModel.workouts[i].id == workout.id) {
+                for (k in 0 until viewModel.workouts[i].sets.size) {
+                    if (viewModel.workouts[i].sets[k].id == workoutSet.id) {
+                        viewModel.workouts[i].sets[k] = viewModel.workouts[i].sets[k].setWeight(value)
+                        workoutController.setData(viewModel.workouts)
+                    }
+                }
+            }
+        }
     }
 
-    override fun onExerciseSelected(workoutIndex: Int, exercise: String) {
+    override fun onExerciseSelected(workout: Workout, exercise: String) {
 
         val foundExercise = exercises.find { it.name == exercise }
         if (foundExercise == null) {
             Log.e(this.javaClass.canonicalName, "Exercise not found")
             return
         }
-        viewModel.workouts[workoutIndex] = viewModel.workouts[workoutIndex]
-            .updateExercise(Exercise(foundExercise.name, foundExercise.personalRecord, foundExercise.muscleGroup))
-        workoutController.setData(viewModel.workouts)
+
+        for (i in 0 until viewModel.workouts.size) {
+            if (viewModel.workouts[i].id == workout.id) {
+                viewModel.workouts[i] = viewModel.workouts[i]
+                    .updateExercise(Exercise(foundExercise.name, foundExercise.personalRecord, foundExercise.muscleGroup))
+                workoutController.setData(viewModel.workouts)
+            }
+        }
     }
 }
 
