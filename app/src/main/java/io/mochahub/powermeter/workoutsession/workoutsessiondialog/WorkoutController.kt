@@ -27,7 +27,7 @@ class WorkoutController(
                 id(workout.id)
             }
             workout.sets.forEachIndexed { workoutSetIndex, workoutSet ->
-                workoutRowSet(workoutSet,
+                workoutRowSet(workoutSet, workoutIndex, workoutSetIndex,
                     { value -> callbacks.onRepFocusChanged(workoutIndex, workoutSetIndex, value) },
                     { value -> callbacks.onWeightFocusChanged(workoutIndex, workoutSetIndex, value) }) {
                     id(workoutSet.id)
