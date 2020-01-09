@@ -100,8 +100,8 @@ class NewWorkoutDialog : WorkoutController.AdapterCallbacks, DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initFields()
-        initDatePicker()
+        recyclerView.setController(workoutController)
+        workoutController.setData(viewModel.workouts)
 
         newWorkoutToolbar.apply {
             title = resources.getString(if (args.workoutSessionID == null) R.string.new_workout else R.string.edit_workout)
@@ -116,14 +116,13 @@ class NewWorkoutDialog : WorkoutController.AdapterCallbacks, DialogFragment() {
                 true
             }
         }
-
         addWorkoutBtn.setOnClickListener {
             this.addEmptyWorkout()
             workoutController.setData(viewModel.workouts)
         }
 
-        recyclerView.setController(workoutController)
-        workoutController.setData(viewModel.workouts)
+        initFields()
+        initDatePicker()
     }
     // //////////////////////////////////////////////////////////////
     // Helpers
@@ -140,12 +139,13 @@ class NewWorkoutDialog : WorkoutController.AdapterCallbacks, DialogFragment() {
     private fun saveWorkoutSession() {
         val date = viewModel.simpleDateFormat.parse(newWorkoutDateText.text.toString()).toInstant()
         val workoutSession = WorkoutSession(newWorkoutNameText.text.toString(), date, viewModel.workouts)
+        var error: String? = null
         CoroutineScope(Dispatchers.IO).launch {
-            viewModel.saveWorkoutSession(workoutSession)
-        }
-        if (args.workoutSessionID != null) {
-            CoroutineScope(Dispatchers.IO).launch {
-                viewModel.deleteWorkoutSession(args.workoutSessionID!!)
+            error = viewModel.saveWorkoutSession(workoutSession)
+            if (error == null && args.workoutSessionID != null) {
+                CoroutineScope(Dispatchers.IO).launch {
+                    viewModel.deleteWorkoutSession(args.workoutSessionID!!)
+                }
             }
         }
     }
@@ -168,6 +168,7 @@ class NewWorkoutDialog : WorkoutController.AdapterCallbacks, DialogFragment() {
         }
         CoroutineScope(Dispatchers.IO).launch {
             viewModel.workouts = viewModel.getWorkouts(args.workoutSessionID!!)
+            workoutController.setData(viewModel.workouts)
         }
     }
 
