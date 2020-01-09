@@ -90,7 +90,7 @@ dependencies {
     // Coroutines
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
-
+    
     //debug
     debugImplementation 'com.amitshekhar.android:debug-db:1.0.6'
     debugImplementation 'com.amitshekhar.android:debug-db-encrypt:1.0.6'

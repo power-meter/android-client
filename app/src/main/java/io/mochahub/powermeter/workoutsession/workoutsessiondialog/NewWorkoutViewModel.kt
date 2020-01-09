@@ -1,7 +1,6 @@
 package io.mochahub.powermeter.workoutsession.workoutsessiondialog
 
 import android.util.Log
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.room.withTransaction
@@ -24,8 +23,6 @@ class NewWorkoutViewModel(val db: AppDatabase) : ViewModel() {
     var workouts = ArrayList<Workout>()
 
     val simpleDateFormat = SimpleDateFormat("MM/dd/yy", Locale.US)
-
-    val exercises: LiveData<List<ExerciseEntity>> = db.exerciseDao().getAll()
 
     fun getExercises(): List<ExerciseEntity> {
         return db.exerciseDao().getAllAsList()
