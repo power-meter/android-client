@@ -269,7 +269,7 @@ class NewWorkoutDialog : WorkoutController.AdapterCallbacks, DialogFragment() {
         for (i in 0 until viewModel.workouts.size) {
             if (viewModel.workouts[i].id == workout.id) {
                 viewModel.workouts[i] = viewModel.workouts[i]
-                    .updateExercise(Exercise(foundExercise.name, foundExercise.personalRecord, foundExercise!!.muscleGroup))
+                    .updateExercise(Exercise(foundExercise!!.name, foundExercise.personalRecord, foundExercise!!.muscleGroup))
                 workoutController.setData(viewModel.workouts)
             }
         }
