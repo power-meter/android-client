@@ -143,10 +143,10 @@ class NewWorkoutDialog : WorkoutController.AdapterCallbacks, DialogFragment() {
         initFields()
         initDatePicker()
     }
+
     // //////////////////////////////////////////////////////////////
     // Helpers
     // //////////////////////////////////////////////////////////////
-
     private fun addEmptyWorkout() {
         val workout = Workout(
             exercise = Exercise("", 0.0, ""),
