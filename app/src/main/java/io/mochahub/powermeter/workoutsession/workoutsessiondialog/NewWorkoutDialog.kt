@@ -148,9 +148,15 @@ class NewWorkoutDialog : WorkoutController.AdapterCallbacks, DialogFragment() {
     // Helpers
     // //////////////////////////////////////////////////////////////
     private fun addEmptyWorkout() {
+        val sets = ArrayList<WorkoutSet>()
+        sets.add(
+            WorkoutSet(
+            weight = 0.0,
+            reps = 0
+        ))
         val workout = Workout(
             exercise = Exercise("", 0.0, ""),
-            sets = ArrayList()
+            sets = sets
         )
         viewModel.workouts.add(0, workout)
     }
@@ -174,6 +180,8 @@ class NewWorkoutDialog : WorkoutController.AdapterCallbacks, DialogFragment() {
     // //////////////////////////////////////////////////////////////
     private fun initFields() {
         if (args.workoutSessionID == null) {
+            this.addEmptyWorkout()
+            workoutController.setData(viewModel.workouts)
             return
         }
         if (args.workoutSessionName != null) {
