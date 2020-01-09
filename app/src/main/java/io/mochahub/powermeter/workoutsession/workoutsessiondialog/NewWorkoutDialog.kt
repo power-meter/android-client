@@ -9,7 +9,6 @@ import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.RectF
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -266,15 +265,11 @@ class NewWorkoutDialog : WorkoutController.AdapterCallbacks, DialogFragment() {
     override fun onExerciseSelected(workout: Workout, exercise: String) {
 
         val foundExercise = exercises.find { it.name == exercise }
-        if (foundExercise == null) {
-            Log.e(this.javaClass.canonicalName, "Exercise not found")
-            return
-        }
 
         for (i in 0 until viewModel.workouts.size) {
             if (viewModel.workouts[i].id == workout.id) {
                 viewModel.workouts[i] = viewModel.workouts[i]
-                    .updateExercise(Exercise(foundExercise.name, foundExercise.personalRecord, foundExercise.muscleGroup))
+                    .updateExercise(Exercise(foundExercise.name, foundExercise.personalRecord, foundExercise!!.muscleGroup))
                 workoutController.setData(viewModel.workouts)
             }
         }
