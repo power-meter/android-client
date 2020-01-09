@@ -199,7 +199,7 @@ class NewWorkoutDialog : WorkoutController.AdapterCallbacks, DialogFragment() {
     // Interface methods for workout controller
     // //////////////////////////////////////////////////////////////
     override fun onAddSetClicked(index: Int) {
-        viewModel.workouts[index] = viewModel.workouts[index].addSet(WorkoutSet(weight = 0.0, reps = 0))
+        viewModel.workouts[index] = viewModel.workouts[index].addSet(0, WorkoutSet(weight = 0.0, reps = 0))
         workoutController.setData(viewModel.workouts)
     }
 
