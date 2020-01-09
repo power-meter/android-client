@@ -8,7 +8,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
 import androidx.fragment.app.DialogFragment
 import androidx.navigation.fragment.navArgs
 import io.mochahub.powermeter.R
@@ -53,15 +52,15 @@ class NewWorkoutDialog : WorkoutController.AdapterCallbacks, DialogFragment() {
             NewWorkoutViewModel(
                 db = AppDatabase(requireContext())
             )
-        workoutController =
-            WorkoutController(
-                ArrayAdapter(
-                    requireContext(),
-                    R.layout.dropdown_menu_popup_item
-                ), this
-            )
         CoroutineScope(Dispatchers.IO).launch {
             exercises = viewModel.getExercises()
+        }.invokeOnCompletion {
+            workoutController =
+                WorkoutController(
+                    requireContext(),
+                    exercises.map { it.name },
+                    this
+                )
         }
     }
 
@@ -123,12 +122,6 @@ class NewWorkoutDialog : WorkoutController.AdapterCallbacks, DialogFragment() {
             workoutController.setData(viewModel.workouts)
         }
 
-        val adapter = ArrayAdapter<String>(
-            requireContext(),
-            R.layout.dropdown_menu_popup_item,
-            exercises.map { it.name })
-
-        workoutController.setAdapter(adapter)
         recyclerView.setController(workoutController)
         workoutController.setData(viewModel.workouts)
     }

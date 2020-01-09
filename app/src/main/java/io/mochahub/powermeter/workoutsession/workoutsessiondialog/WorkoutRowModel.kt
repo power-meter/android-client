@@ -13,18 +13,17 @@ import io.mochahub.powermeter.shared.KotlinEpoxyHolder
 @EpoxyModelClass(layout = R.layout.row_workout_edit)
 abstract class WorkoutRowModel(
     @EpoxyAttribute var workout: Workout,
-    @EpoxyAttribute(EpoxyAttribute.Option.DoNotHash) var arrayAdapter: ArrayAdapter<String>,
+    @EpoxyAttribute var arrayAdapter: ArrayAdapter<String>,
     @EpoxyAttribute(EpoxyAttribute.Option.DoNotHash) var addButtonClickListener: () -> Unit,
     @EpoxyAttribute(EpoxyAttribute.Option.DoNotHash) var onExerciseSelected: (exercise: String) -> Unit
 ) : EpoxyModelWithHolder<WorkoutRowModel.Holder>() {
 
     override fun bind(holder: Holder) {
+        holder.workoutExerciseTextView.setAdapter(arrayAdapter)
 
-        if (workout.exercise.name.isNotEmpty()) {
+        if (workout.exercise.name.isNotEmpty() || workout.exercise.name.isNotBlank()) {
             holder.workoutExerciseTextView.setText(workout.exercise.name)
         }
-
-        holder.workoutExerciseTextView.setAdapter(arrayAdapter)
 
         holder.workoutExerciseTextView.setOnItemClickListener { _, _, _, _ ->
             onExerciseSelected(holder.workoutExerciseTextView.text.toString())

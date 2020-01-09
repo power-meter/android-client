@@ -1,11 +1,14 @@
 package io.mochahub.powermeter.workoutsession.workoutsessiondialog
 
+import android.content.Context
 import android.widget.ArrayAdapter
 import com.airbnb.epoxy.TypedEpoxyController
+import io.mochahub.powermeter.R
 import io.mochahub.powermeter.models.Workout
 
 class WorkoutController(
-    private var arrayAdapter: ArrayAdapter<String>,
+    private val context: Context,
+    private val exercises: List<String>,
     private val callbacks: AdapterCallbacks
 ) : TypedEpoxyController<List<Workout>>() {
 
@@ -18,7 +21,7 @@ class WorkoutController(
 
     override fun buildModels(workouts: List<Workout>?) {
         workouts?.forEachIndexed { workoutIndex, workout ->
-            workoutRow(workout, arrayAdapter,
+            workoutRow(workout, ArrayAdapter(context, R.layout.dropdown_menu_popup_item, exercises),
                 { callbacks.onAddSetClicked(workoutIndex) },
                 { value -> callbacks.onExerciseSelected(workoutIndex, value) }) {
                 id(workout.id)
@@ -31,9 +34,5 @@ class WorkoutController(
                 }
             }
         }
-    }
-
-    fun setAdapter(arrayAdapter: ArrayAdapter<String>) {
-        this.arrayAdapter = arrayAdapter
     }
 }
