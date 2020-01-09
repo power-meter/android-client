@@ -9,7 +9,7 @@ import androidx.room.Update
 
 @Dao
 interface WorkoutSessionDao {
-    @Query("SELECT * FROM workout_sessions ORDER BY createdAt ASC")
+    @Query("SELECT * FROM workout_sessions ORDER BY date DESC, createdAt DESC")
     fun getAll(): LiveData<List<WorkoutSessionEntity>>
 
     @Query("DELETE FROM workout_sessions WHERE id = :workoutSessionID")
