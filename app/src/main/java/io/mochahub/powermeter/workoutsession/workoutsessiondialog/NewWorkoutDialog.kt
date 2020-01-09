@@ -2,7 +2,6 @@ package io.mochahub.powermeter.workoutsession.workoutsessiondialog
 
 import android.app.DatePickerDialog
 import android.content.DialogInterface
-import android.content.res.Configuration
 import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.Canvas
@@ -80,11 +79,6 @@ class NewWorkoutDialog : WorkoutController.AdapterCallbacks, DialogFragment() {
             val height = ViewGroup.LayoutParams.MATCH_PARENT
             dialog!!.window!!.setLayout(width, height)
         }
-    }
-
-    override fun onConfigurationChanged(newConfig: Configuration) {
-        super.onConfigurationChanged(newConfig)
-        workoutController.setData(viewModel.workouts)
     }
 
     override fun onCreateView(
