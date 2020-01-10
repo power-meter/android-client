@@ -30,7 +30,7 @@ class WorkoutSessionAdapter(
 
     override fun onBindViewHolder(holder: WorkoutSessionViewHolder, position: Int) {
         var date = Date(workoutSessions[position].date * 1000L)
-        holder.view.dateView.text = sdf.format(date)
+        holder.view.dateView.text = SimpleDateFormat("LLL dd yyyy (E)").format(date)
         holder.view.workoutView.text = workoutSessions[position].name
         holder.view.setOnClickListener { clickListener(workoutSessions[position]) }
     }
