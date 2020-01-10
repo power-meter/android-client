@@ -13,7 +13,7 @@ interface WorkoutSessionDao {
     fun getAll(): Flow<List<WorkoutSessionEntity>>
 
     @Query("DELETE FROM workout_sessions WHERE id = :workoutSessionID")
-    fun deleteByID(workoutSessionID: String)
+    suspend fun deleteByID(workoutSessionID: String)
 
     @Insert
     suspend fun insertAll(vararg workoutSession: WorkoutSessionEntity)
