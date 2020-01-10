@@ -6,7 +6,6 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import io.mochahub.powermeter.data.AppDatabase
 import io.mochahub.powermeter.data.WorkoutSessionEntity
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class WorkoutSessionViewModel(val db: AppDatabase) : ViewModel() {

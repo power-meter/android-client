@@ -29,13 +29,14 @@ class WorkoutSessionFragment : Fragment() {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val position = viewHolder.adapterPosition
 
-                val deletedWorkoutSession: WorkoutSessionEntity = sessionViewModel.removeWorkoutSession(position)
+                sessionViewModel.removeWorkoutSession(position)
+                // TODO: UNDO. This is more tricky because we need to undo the cascade delete
                 Snackbar.make(
                     viewHolder.itemView,
                     getString(R.string.exercise_deleted),
                     Snackbar.LENGTH_LONG
                 )
-                    // TODO: UNDO. This is more tricky because we need to undo the cascade delete
+
                     .apply {
                         setAction(getString(R.string.undo)) { Log.d(this.javaClass.toString(), "TODO: UNDO DELETED WORKOUTSESSION") }
                         setActionTextColor(Color.YELLOW)

@@ -54,7 +54,9 @@ class NewWorkoutViewModel(val db: AppDatabase) : ViewModel() {
     }
 
     fun deleteWorkoutSession(workoutSessionID: String) {
-        db.workoutSessionDao().deleteByID(workoutSessionID = workoutSessionID)
+        viewModelScope.launch {
+            db.workoutSessionDao().deleteByID(workoutSessionID = workoutSessionID)
+        }
     }
 
     suspend fun saveWorkoutSession(workoutSession: WorkoutSession): String? {
