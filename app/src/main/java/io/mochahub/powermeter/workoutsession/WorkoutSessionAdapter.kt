@@ -16,7 +16,6 @@ class WorkoutSessionAdapter(
     val clickListener: (WorkoutSessionEntity) -> Unit
 ) : Adapter<WorkoutSessionAdapter.WorkoutSessionViewHolder>() {
 
-    private val sdf = SimpleDateFormat("LLL dd yyyy (E)")
     class WorkoutSessionViewHolder(val view: CardView) : ViewHolder(view)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WorkoutSessionViewHolder {
