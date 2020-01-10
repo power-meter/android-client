@@ -14,7 +14,7 @@ class WorkoutSessionViewModel(val db: AppDatabase) : ViewModel() {
 
     fun removeWorkoutSession(position: Int): WorkoutSessionEntity {
         val workoutSession = workoutSessions.value!![position]
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             db.workoutSessionDao().delete(workoutSession)
         }
         return workoutSession
