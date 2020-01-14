@@ -13,7 +13,6 @@ import io.mochahub.powermeter.models.Exercise
 import io.mochahub.powermeter.models.Workout
 import io.mochahub.powermeter.models.WorkoutSession
 import io.mochahub.powermeter.models.WorkoutSet
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.time.Instant
@@ -81,7 +80,7 @@ class NewWorkoutViewModel(val db: AppDatabase) : ViewModel() {
                 workoutSetEntities.add(workoutSetEntity)
             }
         }
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             db.withTransaction {
                 db.workoutSessionDao().insertAll(workoutSessionEntity)
                 db.workoutDao().insertAll(*(workoutEntities.toTypedArray()))
