@@ -82,8 +82,6 @@ class NewWorkoutDialog : WorkoutController.AdapterCallbacks, DialogFragment() {
 
         if (shouldSave) {
             saveWorkoutSession()
-        } else {
-            shouldSave = true
         }
     }
 
