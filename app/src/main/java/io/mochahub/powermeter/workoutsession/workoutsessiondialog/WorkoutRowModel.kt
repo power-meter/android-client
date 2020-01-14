@@ -20,7 +20,7 @@ abstract class WorkoutRowModel(
 
     override fun bind(holder: Holder) {
 
-        if (workout.exercise.name.isNotEmpty() || workout.exercise.name.isNotBlank()) {
+        if (workout.exercise.name.isNotBlank()) {
             holder.workoutExerciseTextView.setText(workout.exercise.name)
         }
         holder.workoutExerciseTextView.setAdapter(arrayAdapter)
