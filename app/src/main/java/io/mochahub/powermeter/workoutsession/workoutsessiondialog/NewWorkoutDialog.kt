@@ -147,15 +147,7 @@ class NewWorkoutDialog : WorkoutController.AdapterCallbacks, DialogFragment() {
     private fun saveWorkoutSession() {
         val date = viewModel.simpleDateFormat.parse(newWorkoutDateText.text.toString()).toInstant()
         val workoutSession = WorkoutSession(newWorkoutNameText.text.toString(), date, viewModel.workouts)
-        var error: String?
-        CoroutineScope(Dispatchers.IO).launch {
-            error = viewModel.saveWorkoutSession(workoutSession)
-            if (error == null && args.workoutSessionID != null) {
-                CoroutineScope(Dispatchers.IO).launch {
-                    viewModel.deleteWorkoutSession(args.workoutSessionID!!)
-                }
-            }
-        }
+        viewModel.saveWorkoutSession(workoutSession, args.workoutSessionID)
     }
 
     // //////////////////////////////////////////////////////////////

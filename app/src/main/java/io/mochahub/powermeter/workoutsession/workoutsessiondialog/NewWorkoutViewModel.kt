@@ -5,7 +5,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
-import androidx.lifecycle.viewModelScope
 import androidx.room.withTransaction
 import io.mochahub.powermeter.data.AppDatabase
 import io.mochahub.powermeter.data.ExerciseEntity
@@ -16,6 +15,8 @@ import io.mochahub.powermeter.models.Exercise
 import io.mochahub.powermeter.models.Workout
 import io.mochahub.powermeter.models.WorkoutSession
 import io.mochahub.powermeter.models.WorkoutSet
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.time.Instant
@@ -57,13 +58,7 @@ class NewWorkoutViewModel(val db: AppDatabase) : ViewModel() {
         return workouts
     }
 
-    fun deleteWorkoutSession(workoutSessionID: String) {
-        viewModelScope.launch {
-            db.workoutSessionDao().deleteByID(workoutSessionID = workoutSessionID)
-        }
-    }
-
-    suspend fun saveWorkoutSession(workoutSession: WorkoutSession): String? {
+    fun saveWorkoutSession(workoutSession: WorkoutSession, workoutSessionToDelete: String?): String? {
         val errorMsg = isWorkoutSessionValid(workoutSession)
         if (errorMsg != null) {
             return errorMsg
@@ -73,23 +68,27 @@ class NewWorkoutViewModel(val db: AppDatabase) : ViewModel() {
         val workoutEntities = ArrayList<WorkoutEntity>()
         val workoutSetEntities = ArrayList<WorkoutSetEntity>()
 
-        workoutSession.workouts.forEach {
-            val exercise = db.exerciseDao().findByName(it.exercise.name)
-            val workoutEntity = WorkoutEntity(workoutSessionUUID = workoutSessionEntity.id, exerciseUUID = exercise.id)
+        CoroutineScope(Dispatchers.IO).launch {
+            workoutSession.workouts.forEach {
+                val exercise = db.exerciseDao().findByName(it.exercise.name)
+                val workoutEntity = WorkoutEntity(workoutSessionUUID = workoutSessionEntity.id, exerciseUUID = exercise.id)
 
-            workoutEntities.add(workoutEntity)
-            it.sets.forEach { workoutSet ->
-                val workoutSetEntity = WorkoutSetEntity(
-                    workoutSessionUUID = workoutSessionEntity.id, workoutUUID = workoutEntity.id,
-                    reps = workoutSet.reps, weight = workoutSet.weight)
-                workoutSetEntities.add(workoutSetEntity)
+                workoutEntities.add(workoutEntity)
+                it.sets.forEach { workoutSet ->
+                    val workoutSetEntity = WorkoutSetEntity(
+                        workoutSessionUUID = workoutSessionEntity.id, workoutUUID = workoutEntity.id,
+                        reps = workoutSet.reps, weight = workoutSet.weight)
+                    workoutSetEntities.add(workoutSetEntity)
+                }
             }
-        }
-        viewModelScope.launch {
+
             db.withTransaction {
                 db.workoutSessionDao().insertAll(workoutSessionEntity)
                 db.workoutDao().insertAll(*(workoutEntities.toTypedArray()))
                 db.workoutSetDao().insertAll(*(workoutSetEntities.toTypedArray()))
+                if (workoutSessionToDelete != null) {
+                    db.workoutSessionDao().deleteByID(workoutSessionID = workoutSessionToDelete)
+                }
             }
         }
         return null
