@@ -1,7 +1,10 @@
 package io.mochahub.powermeter.workoutsession.workoutsessiondialog
 
 import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.room.withTransaction
 import io.mochahub.powermeter.data.AppDatabase
@@ -21,10 +24,12 @@ import java.util.Locale
 class NewWorkoutViewModel(val db: AppDatabase) : ViewModel() {
     var workouts = ArrayList<Workout>()
 
+    var isReady = MutableLiveData<Boolean>()
+
     val simpleDateFormat = SimpleDateFormat("MM/dd/yy", Locale.US)
 
-    fun getExercises(): List<ExerciseEntity> {
-        return db.exerciseDao().getAllAsList()
+    fun getExercises(): LiveData<List<ExerciseEntity>> {
+        return db.exerciseDao().getAll().asLiveData()
     }
 
     fun getWorkouts(workoutSessionID: String): ArrayList<Workout> {

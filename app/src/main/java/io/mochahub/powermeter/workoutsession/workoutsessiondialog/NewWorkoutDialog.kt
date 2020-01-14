@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.navArgs
 import com.airbnb.epoxy.EpoxyTouchHelper
 import io.mochahub.powermeter.R
@@ -47,21 +48,10 @@ class NewWorkoutDialog : WorkoutController.AdapterCallbacks, DialogFragment() {
             STYLE_NORMAL,
             R.style.FullScreenDialog
         )
-        CoroutineScope(Dispatchers.IO).launch {
-            exercises = viewModel.getExercises()
-        }.invokeOnCompletion {
-            workoutController =
-                WorkoutController(
-                    requireContext(),
-                    exercises.map { it.name },
-                    this
-                )
-        }
     }
 
     override fun onStart() {
         super.onStart()
-
         if (dialog != null) {
             val width = ViewGroup.LayoutParams.MATCH_PARENT
             val height = ViewGroup.LayoutParams.MATCH_PARENT
@@ -79,7 +69,6 @@ class NewWorkoutDialog : WorkoutController.AdapterCallbacks, DialogFragment() {
 
     override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)
-
         if (shouldSave) {
             saveWorkoutSession()
         }
@@ -87,7 +76,19 @@ class NewWorkoutDialog : WorkoutController.AdapterCallbacks, DialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initialize()
+        viewModel.isReady.observe(viewLifecycleOwner, Observer {
+            if (it) {
+                onViewCreatedReady()
+                viewModel.isReady.postValue(false)
+            }
+        })
+    }
 
+    // //////////////////////////////////////////////////////////////
+    // Helpers
+    // //////////////////////////////////////////////////////////////
+    private fun onViewCreatedReady() {
         recyclerView.setController(workoutController)
         EpoxyTouchHelper.initSwiping(recyclerView)
             .left()
@@ -127,14 +128,8 @@ class NewWorkoutDialog : WorkoutController.AdapterCallbacks, DialogFragment() {
             this.addEmptyWorkout()
             workoutController.setData(viewModel.workouts)
         }
-
-        initFields()
-        initDatePicker()
     }
 
-    // //////////////////////////////////////////////////////////////
-    // Helpers
-    // //////////////////////////////////////////////////////////////
     private fun addEmptyWorkout() {
         val sets = ArrayList<WorkoutSet>()
         sets.add(
@@ -166,24 +161,42 @@ class NewWorkoutDialog : WorkoutController.AdapterCallbacks, DialogFragment() {
     // //////////////////////////////////////////////////////////////
     // Init
     // //////////////////////////////////////////////////////////////
+    private fun initialize() {
+        initDatePicker()
+
+        viewModel.getExercises().observe(viewLifecycleOwner, Observer { exerciseList ->
+            exercises = exerciseList
+            workoutController =
+                WorkoutController(
+                    requireContext(),
+                    exercises.map { it.name },
+                    this
+                )
+                initFields()
+        })
+    }
     private fun initFields() {
         if (args.workoutSessionID == null) {
             this.addEmptyWorkout()
             workoutController.setData(viewModel.workouts)
-            return
-        }
-        if (args.workoutSessionName != null) {
-            newWorkoutNameText.setText(args.workoutSessionName)
-        }
-        if (args.workoutSessionDate != 0.toLong()) {
-            newWorkoutDateText.setText(
-                viewModel
-                    .simpleDateFormat
-                    .format(Date.from(Instant.ofEpochSecond(args.workoutSessionDate))))
-        }
-        CoroutineScope(Dispatchers.IO).launch {
-            viewModel.workouts = viewModel.getWorkouts(args.workoutSessionID!!)
-            workoutController.setData(viewModel.workouts)
+            viewModel.isReady.postValue(true)
+        } else {
+            if (args.workoutSessionName != null) {
+                newWorkoutNameText.setText(args.workoutSessionName)
+            }
+            if (args.workoutSessionDate != 0.toLong()) {
+                newWorkoutDateText.setText(
+                    viewModel
+                        .simpleDateFormat
+                        .format(Date.from(Instant.ofEpochSecond(args.workoutSessionDate))))
+            }
+            // TODO: Remove this
+            CoroutineScope(Dispatchers.IO).launch {
+                viewModel.workouts = viewModel.getWorkouts(args.workoutSessionID!!)
+                workoutController.setData(viewModel.workouts)
+            }.invokeOnCompletion {
+                viewModel.isReady.postValue(true)
+            }
         }
     }
 
