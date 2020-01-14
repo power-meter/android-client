@@ -2,18 +2,12 @@ package io.mochahub.powermeter.workoutsession.workoutsessiondialog
 
 import android.app.DatePickerDialog
 import android.content.DialogInterface
-import android.content.res.Resources
-import android.graphics.Bitmap
-import android.graphics.Canvas
-import android.graphics.Paint
-import android.graphics.RectF
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.navigation.fragment.navArgs
-import androidx.recyclerview.widget.ItemTouchHelper
 import com.airbnb.epoxy.EpoxyTouchHelper
 import io.mochahub.powermeter.R
 import io.mochahub.powermeter.data.AppDatabase
@@ -38,7 +32,6 @@ import kotlinx.coroutines.launch
 import java.time.Instant
 import java.util.Calendar
 import java.util.Date
-import kotlin.math.absoluteValue
 
 class NewWorkoutDialog : WorkoutController.AdapterCallbacks, DialogFragment() {
 
@@ -101,18 +94,21 @@ class NewWorkoutDialog : WorkoutController.AdapterCallbacks, DialogFragment() {
         EpoxyTouchHelper.initSwiping(recyclerView)
             .left()
             .withTarget(WorkoutRowSetModel::class.java)
-            .andCallbacks(WorkoutRowSetSwipeCallBack(requireContext().resources) { workoutSet ->
-                for (i in 0 until viewModel.workouts.size) {
-                    for (k in 0 until viewModel.workouts[i].sets.size) {
-                        if (viewModel.workouts[i].sets[i].id == workoutSet.id) {
-                            viewModel.workouts[i] =
-                                viewModel.workouts[i].removeSet(k)
-                            workoutController.setData(viewModel.workouts)
-                            break
+            .andCallbacks(
+                WorkoutRowSetSwipeCallBack(
+                    requireContext().resources
+                ) { workoutSet ->
+                    for (i in 0 until viewModel.workouts.size) {
+                        for (k in 0 until viewModel.workouts[i].sets.size) {
+                            if (viewModel.workouts[i].sets[i].id == workoutSet.id) {
+                                viewModel.workouts[i] =
+                                    viewModel.workouts[i].removeSet(k)
+                                workoutController.setData(viewModel.workouts)
+                                break
+                            }
                         }
                     }
-                }
-            })
+                })
 
         workoutController.setData(viewModel.workouts)
 
@@ -267,64 +263,6 @@ class NewWorkoutDialog : WorkoutController.AdapterCallbacks, DialogFragment() {
                     .updateExercise(Exercise(foundExercise!!.name, foundExercise.personalRecord, foundExercise.muscleGroup))
                 workoutController.setData(viewModel.workouts)
             }
-        }
-    }
-}
-
-private class WorkoutRowSetSwipeCallBack(
-    private val resources: Resources,
-    private val onLeftSwipe: (WorkoutSet) -> Unit
-) : EpoxyTouchHelper.SwipeCallbacks<WorkoutRowSetModel>() {
-
-    private val paint = Paint()
-
-    init {
-        paint.setARGB(255, 255, 0, 0)
-    }
-
-    private fun getDeleteIcon(): Bitmap {
-        val vectorDrawable = (resources.getDrawable(R.drawable.ic_delete_white_24dp, null))
-        val icon = Bitmap.createBitmap(vectorDrawable.intrinsicWidth, vectorDrawable.intrinsicHeight, Bitmap.Config.ARGB_8888)
-        val canvas = Canvas(icon)
-        vectorDrawable.setBounds(0, 0, canvas.width, canvas.height)
-        vectorDrawable.draw(canvas)
-        return icon
-    }
-
-    override fun onSwipeCompleted(
-        model: WorkoutRowSetModel?,
-        itemView: View?,
-        position: Int,
-        direction: Int
-    ) {
-        if (direction == (ItemTouchHelper.LEFT) && model != null) {
-            onLeftSwipe(model.workoutSet)
-        }
-    }
-
-    override fun onSwipeProgressChanged(
-        model: WorkoutRowSetModel?,
-        itemView: View?,
-        swipeProgress: Float,
-        canvas: Canvas?
-    ) {
-        super.onSwipeProgressChanged(model, itemView, swipeProgress, canvas)
-        if (itemView != null && canvas != null && model != null) {
-            val icon = getDeleteIcon()
-
-            canvas.drawRect(
-                (itemView.width.toFloat() - itemView.width.toFloat()*(swipeProgress.absoluteValue)),
-                itemView.top.toFloat(),
-                itemView.width.toFloat(), itemView.bottom.toFloat(), paint)
-
-            val width = (itemView.bottom.toFloat() - itemView.top.toFloat()) / 3
-            val iconDest = RectF(
-                itemView.right.toFloat() - 2 * width,
-                itemView.top.toFloat() + width,
-                itemView.right.toFloat() - width,
-                itemView.bottom.toFloat() - width
-            )
-            canvas.drawBitmap(icon, null, iconDest, paint)
         }
     }
 }
