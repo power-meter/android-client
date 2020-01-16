@@ -101,7 +101,7 @@ class NewWorkoutDialog : WorkoutController.AdapterCallbacks, DialogFragment() {
                 ) { workoutSet ->
                     for (i in 0 until viewModel.workouts.size) {
                         for (k in 0 until viewModel.workouts[i].sets.size) {
-                            if (viewModel.workouts[i].sets[i].id == workoutSet.id) {
+                            if (viewModel.workouts[i].sets[k].id == workoutSet.id) {
                                 viewModel.workouts[i] =
                                     viewModel.workouts[i].removeSet(k)
                                 workoutController.setData(viewModel.workouts)
