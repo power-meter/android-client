@@ -98,6 +98,8 @@ class NewWorkoutDialog : WorkoutController.AdapterCallbacks, DialogFragment() {
     // //////////////////////////////////////////////////////////////
     private fun onViewCreatedReady() {
         recyclerView.setController(workoutController)
+        workoutController.setData(viewModel.workouts)
+
         EpoxyTouchHelper.initSwiping(recyclerView)
             .left()
             .withTarget(WorkoutRowSetModel::class.java)
@@ -117,8 +119,6 @@ class NewWorkoutDialog : WorkoutController.AdapterCallbacks, DialogFragment() {
                     }
                 })
 
-        workoutController.setData(viewModel.workouts)
-
         newWorkoutToolbar.apply {
             title = resources.getString(if (args.workoutSessionID == null) R.string.new_workout else R.string.edit_workout)
             inflateMenu(R.menu.menu_cancel)
@@ -132,6 +132,7 @@ class NewWorkoutDialog : WorkoutController.AdapterCallbacks, DialogFragment() {
                 true
             }
         }
+
         addWorkoutBtn.setOnClickListener {
             this.addEmptyWorkout()
             workoutController.setData(viewModel.workouts)
@@ -165,16 +166,39 @@ class NewWorkoutDialog : WorkoutController.AdapterCallbacks, DialogFragment() {
         initDatePicker()
 
         viewModel.getExercises().observeOnce(viewLifecycleOwner, Observer { exerciseList ->
-            exercises = exerciseList
             workoutController =
                 WorkoutController(
                     requireContext(),
-                    exercises.map { it.name },
+                    exerciseList.map { it.name },
                     this
                 )
                 initFields()
         })
     }
+
+    private fun initDatePicker() {
+
+        if (newWorkoutDateText.text.isNullOrEmpty()) {
+            newWorkoutDateText.setText(viewModel.simpleDateFormat.format(Date.from(Instant.now())))
+        }
+
+        val myCalendar = Calendar.getInstance()
+        val dateSetListener = DatePickerDialog.OnDateSetListener {
+                _, year, month, day -> myCalendar.apply {
+            set(Calendar.YEAR, year)
+            set(Calendar.MONTH, month)
+            set(Calendar.DAY_OF_MONTH, day)
+            newWorkoutDateText.setText(viewModel.simpleDateFormat.format(myCalendar.time))
+        }
+        }
+
+        newWorkoutDateText.setOnClickListener {
+            DatePickerDialog(requireContext(), dateSetListener, myCalendar
+                .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                myCalendar.get(Calendar.DAY_OF_MONTH)).show()
+        }
+    }
+
     private fun initFields() {
         if (args.workoutSessionID == null) {
             if (viewModel.workouts.isEmpty()) {
@@ -199,29 +223,6 @@ class NewWorkoutDialog : WorkoutController.AdapterCallbacks, DialogFragment() {
             }.invokeOnCompletion {
                 viewModel.isReady.postValue(true)
             }
-        }
-    }
-
-    private fun initDatePicker() {
-
-        if (newWorkoutDateText.text.isNullOrEmpty()) {
-            newWorkoutDateText.setText(viewModel.simpleDateFormat.format(Date.from(Instant.now())))
-        }
-
-        val myCalendar = Calendar.getInstance()
-        val dateSetListener = DatePickerDialog.OnDateSetListener {
-                _, year, month, day -> myCalendar.apply {
-            set(Calendar.YEAR, year)
-            set(Calendar.MONTH, month)
-            set(Calendar.DAY_OF_MONTH, day)
-            newWorkoutDateText.setText(viewModel.simpleDateFormat.format(myCalendar.time))
-        }
-        }
-
-        newWorkoutDateText.setOnClickListener {
-            DatePickerDialog(requireContext(), dateSetListener, myCalendar
-                .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
-                myCalendar.get(Calendar.DAY_OF_MONTH)).show()
         }
     }
 
