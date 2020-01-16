@@ -214,7 +214,7 @@ class NewWorkoutDialog : WorkoutController.AdapterCallbacks, DialogFragment() {
                         .simpleDateFormat
                         .format(Date.from(Instant.ofEpochSecond(args.workoutSessionDate))))
             }
-            // TODO: Remove this. Requires implementing kotlin relations
+            // TODO: Remove this. Requires implementing room relations
             CoroutineScope(Dispatchers.IO).launch {
                 viewModel.workouts = viewModel.getWorkouts(args.workoutSessionID!!)
                 workoutController.setData(viewModel.workouts)

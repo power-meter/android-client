@@ -38,7 +38,7 @@ class NewWorkoutViewModel(val db: AppDatabase) : ViewModelProvider.Factory, View
         return db.exerciseDao().getAll().asLiveData()
     }
 
-    // TODO: This needs to refactored using kotlin relations. Should not need to make so many db calls
+    // TODO: This needs to refactored using room relations. Should not need to make so many db calls
     // manually like this
     suspend fun getWorkouts(workoutSessionID: String): ArrayList<Workout> {
         val workouts = ArrayList<Workout>()
