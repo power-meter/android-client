@@ -17,10 +17,10 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 1.8
-    - name: set up python 3.8.0
+    - name: set up python 3
       uses: actions/setup-python@v1
       with:
-        python-version: 3.8.0
+        python-version: '3.x'
     - name: Create Key Files
       run: python3 gh-actions-post-clone.py  ${{ secrets.app_center_secret }} ${{ secrets.firebase_dev_json }} ${{ secrets.firebase_prod_json }}
     - name: Build with Gradle and ktlint
