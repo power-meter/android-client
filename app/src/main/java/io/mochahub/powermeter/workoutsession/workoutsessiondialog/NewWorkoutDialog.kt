@@ -42,9 +42,11 @@ class NewWorkoutDialog : WorkoutController.AdapterCallbacks, DialogFragment() {
     private val args: NewWorkoutDialogArgs by navArgs()
     private var shouldSave = true
     private lateinit var workoutController: WorkoutController
-//    private val viewModel by lazy { NewWorkoutViewModel(db = AppDatabase(requireContext())) }
     private val viewModel by lazy {
-        ViewModelProviders.of(this, NewWorkoutViewModel(AppDatabase(requireContext())))[NewWorkoutViewModel::class.java]
+        ViewModelProviders.of(
+            this,
+            NewWorkoutViewModel(AppDatabase(requireContext()))
+        )[NewWorkoutViewModel::class.java]
     }
     private var exercises = listOf<ExerciseEntity>()
 
