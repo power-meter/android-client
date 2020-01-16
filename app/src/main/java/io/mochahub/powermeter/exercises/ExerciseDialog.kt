@@ -10,7 +10,10 @@ import androidx.navigation.fragment.navArgs
 import com.google.android.material.textfield.TextInputEditText
 import io.mochahub.powermeter.R
 import io.mochahub.powermeter.data.ExerciseEntity
-import kotlinx.android.synthetic.main.dialog_new_exercise.*
+import kotlinx.android.synthetic.main.dialog_new_exercise.newExerciseGroupText
+import kotlinx.android.synthetic.main.dialog_new_exercise.newExerciseNameText
+import kotlinx.android.synthetic.main.dialog_new_exercise.newExercisePRText
+import kotlinx.android.synthetic.main.dialog_new_exercise.newExerciseToolbar
 
 class ExerciseDialog : DialogFragment() {
 
@@ -56,7 +59,7 @@ class ExerciseDialog : DialogFragment() {
         newExerciseToolbar.apply {
             title = if (args.shouldEdit) resources.getString(R.string.edit_exercise) else resources.getString(R.string.new_exercise)
             setNavigationOnClickListener { dismiss() }
-            inflateMenu(R.menu.menu_new_exercise)
+            inflateMenu(R.menu.menu_save)
             setOnMenuItemClickListener { item ->
                 when (item?.itemId) {
                     R.id.action_save -> {
@@ -73,7 +76,7 @@ class ExerciseDialog : DialogFragment() {
         if (args.shouldEdit) {
             newExerciseSharedViewModel.saveEditExercise(
                 ExerciseEntity(
-                    id = args.exerciseId,
+                    id = args.exerciseId!!,
                     name = newExerciseNameText.text.toString(),
                     personalRecord = newExercisePRText.toDoubleOrZero(),
                     muscleGroup = newExerciseGroupText.text.toString()

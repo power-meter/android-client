@@ -6,14 +6,14 @@ import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import io.mochahub.powermeter.R
-import io.mochahub.powermeter.models.WorkoutSession
+import io.mochahub.powermeter.data.WorkoutSessionEntity
 import kotlinx.android.synthetic.main.row_workout_session.view.*
-import java.time.ZoneId
-import java.time.format.DateTimeFormatter
+import java.text.SimpleDateFormat
+import java.util.Date
 
 class WorkoutSessionAdapter(
-    private var workoutSessions: List<WorkoutSession>,
-    val clickListener: (WorkoutSession) -> Unit
+    private var workoutSessions: List<WorkoutSessionEntity>,
+    val clickListener: (WorkoutSessionEntity) -> Unit
 ) : Adapter<WorkoutSessionAdapter.WorkoutSessionViewHolder>() {
 
     class WorkoutSessionViewHolder(val view: CardView) : ViewHolder(view)
@@ -28,14 +28,13 @@ class WorkoutSessionAdapter(
     override fun getItemCount(): Int = workoutSessions.size
 
     override fun onBindViewHolder(holder: WorkoutSessionViewHolder, position: Int) {
-        holder.view.dateView.text = DateTimeFormatter.ofPattern("LLL dd yyyy (E) - HH:mm")
-            .withZone(ZoneId.systemDefault())
-            .format(workoutSessions[position].date)
-        holder.view.workoutView.text = "${workoutSessions[position].workouts.size} workouts"
+        var date = Date(workoutSessions[position].date * 1000L)
+        holder.view.dateView.text = SimpleDateFormat("LLL dd yyyy (E)").format(date)
+        holder.view.workoutView.text = workoutSessions[position].name
         holder.view.setOnClickListener { clickListener(workoutSessions[position]) }
     }
 
-    fun setData(workoutSessions: List<WorkoutSession>) {
+    fun setData(workoutSessions: List<WorkoutSessionEntity>) {
         this.workoutSessions = workoutSessions
         notifyDataSetChanged()
     }

@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Power Meter</string>
-
+    <!-- TODO Group these-->
     <string name="exercise_screen_label">Exercises</string>
     <string name="workout_session_screen_label">Workouts</string>
     <string name="stats_screen_label">Stats</string>
@@ -9,10 +9,20 @@
     <string name="save">SAVE</string>
     <string name="muscle_group">Muscle Group</string>
     <string name="personal_record">Personal Record</string>
+    <string name="exercise">Exercise</string>
     <string name="name">Name</string>
     <string name="alert_exercise_exists">Exercise already exists!</string>
     <string name="exercise_deleted">Exercise deleted!</string>
     <string name="undo">UNDO</string>
     <string name="edit_exercise">Edit Exercise</string>
+    <string name="date">Date</string>
+
+    <string name="reps">Reps</string>
+    <string name="weight">Weight</string>
+    <string name="new_set">New Set</string>
+    <string name="new_workout">"New Workout"</string>
+    <string name="edit_workout">Edit Workout</string>
+    <string name="cancel">Cancel</string>
+
 
 </resources>

@@ -3,13 +3,13 @@ package io.mochahub.powermeter.data
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.time.OffsetDateTime
+import java.util.UUID
 
 @Entity(tableName = "exercises")
 data class ExerciseEntity(
-    @PrimaryKey(autoGenerate = true)
-    var id: Int = 0,
+    @PrimaryKey var id: String = UUID.randomUUID().toString(),
     var name: String,
     var muscleGroup: String,
     var personalRecord: Double,
-    var createdAt: OffsetDateTime = OffsetDateTime.now()
+    val createdAt: OffsetDateTime = OffsetDateTime.now()
 )
