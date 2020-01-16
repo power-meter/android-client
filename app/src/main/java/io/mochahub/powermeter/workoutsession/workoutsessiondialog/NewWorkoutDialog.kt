@@ -7,8 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.navArgs
@@ -164,8 +162,8 @@ class NewWorkoutDialog : WorkoutController.AdapterCallbacks, DialogFragment() {
     // //////////////////////////////////////////////////////////////
     private fun initialize() {
         initDatePicker()
-
-        viewModel.getExercises().observeOnce(viewLifecycleOwner, Observer { exerciseList ->
+        viewModel.getExercises().observe(viewLifecycleOwner, Observer { exerciseList ->
+            exercises = exerciseList
             workoutController =
                 WorkoutController(
                     requireContext(),
@@ -279,13 +277,4 @@ class NewWorkoutDialog : WorkoutController.AdapterCallbacks, DialogFragment() {
             }
         }
     }
-}
-
-fun <T> LiveData<T>.observeOnce(lifecycleOwner: LifecycleOwner, observer: Observer<T>) {
-    observe(lifecycleOwner, object : Observer<T> {
-        override fun onChanged(t: T?) {
-            observer.onChanged(t)
-            removeObserver(this)
-        }
-    })
 }
