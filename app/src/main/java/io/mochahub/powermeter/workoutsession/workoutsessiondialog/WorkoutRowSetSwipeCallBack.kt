@@ -57,10 +57,12 @@ class WorkoutRowSetSwipeCallBack(
         if (itemView != null && canvas != null && model != null) {
             val icon = getDeleteIcon()
 
-            canvas.drawRect(
+            val backgroundRect = RectF(
                 (itemView.width.toFloat() - itemView.width.toFloat()*(swipeProgress.absoluteValue)),
                 itemView.top.toFloat(),
-                itemView.width.toFloat(), itemView.bottom.toFloat(), paint)
+                itemView.width.toFloat(), itemView.bottom.toFloat()
+            )
+            canvas.drawRect(backgroundRect, paint)
 
             val width = (itemView.bottom.toFloat() - itemView.top.toFloat()) / 3
             val iconDest = RectF(
@@ -69,7 +71,9 @@ class WorkoutRowSetSwipeCallBack(
                 itemView.right.toFloat() - width,
                 itemView.bottom.toFloat() - width
             )
-            canvas.drawBitmap(icon, null, iconDest, paint)
+            if (backgroundRect.left <= iconDest.left) {
+                canvas.drawBitmap(icon, null, iconDest, paint)
+            }
         }
     }
 }
