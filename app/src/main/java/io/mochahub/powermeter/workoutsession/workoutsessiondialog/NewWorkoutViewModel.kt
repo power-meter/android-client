@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
 import androidx.room.withTransaction
 import io.mochahub.powermeter.data.AppDatabase
@@ -22,7 +23,11 @@ import java.text.SimpleDateFormat
 import java.time.Instant
 import java.util.Locale
 
-class NewWorkoutViewModel(val db: AppDatabase) : ViewModel() {
+class NewWorkoutViewModel(val db: AppDatabase) : ViewModelProvider.Factory, ViewModel() {
+    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+        return NewWorkoutViewModel(db) as T
+    }
+
     var workouts = ArrayList<Workout>()
 
     var isReady = MutableLiveData<Boolean>()

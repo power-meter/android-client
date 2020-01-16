@@ -10,6 +10,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.navArgs
 import com.airbnb.epoxy.EpoxyTouchHelper
 import io.mochahub.powermeter.R
@@ -41,7 +42,10 @@ class NewWorkoutDialog : WorkoutController.AdapterCallbacks, DialogFragment() {
     private val args: NewWorkoutDialogArgs by navArgs()
     private var shouldSave = true
     private lateinit var workoutController: WorkoutController
-    private val viewModel by lazy { NewWorkoutViewModel(db = AppDatabase(requireContext())) }
+//    private val viewModel by lazy { NewWorkoutViewModel(db = AppDatabase(requireContext())) }
+    private val viewModel by lazy {
+        ViewModelProviders.of(this, NewWorkoutViewModel(AppDatabase(requireContext())))[NewWorkoutViewModel::class.java]
+    }
     private var exercises = listOf<ExerciseEntity>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -171,8 +175,10 @@ class NewWorkoutDialog : WorkoutController.AdapterCallbacks, DialogFragment() {
     }
     private fun initFields() {
         if (args.workoutSessionID == null) {
-            this.addEmptyWorkout()
-            workoutController.setData(viewModel.workouts)
+            if (viewModel.workouts.isEmpty()) {
+                this.addEmptyWorkout()
+                workoutController.setData(viewModel.workouts)
+            }
             viewModel.isReady.postValue(true)
         } else {
             if (args.workoutSessionName != null) {
