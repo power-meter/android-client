@@ -33,7 +33,7 @@ class NewWorkoutViewModel(val db: AppDatabase) : ViewModel() {
         return db.exerciseDao().getAll().asLiveData()
     }
 
-    fun getWorkouts(workoutSessionID: String): ArrayList<Workout> {
+    suspend fun getWorkouts(workoutSessionID: String): ArrayList<Workout> {
         val workouts = ArrayList<Workout>()
         val workoutEntities = db.workoutDao().getWorkoutsByWorkoutSession(workoutSessionID)
 

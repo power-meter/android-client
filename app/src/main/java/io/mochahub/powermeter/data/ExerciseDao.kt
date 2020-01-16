@@ -13,10 +13,10 @@ interface ExerciseDao {
     fun getAll(): Flow<List<ExerciseEntity>>
 
     @Query("SELECT * FROM exercises where name=:exerciseName")
-    fun findByName(exerciseName: String): ExerciseEntity
+    suspend fun findByName(exerciseName: String): ExerciseEntity
 
     @Query("SELECT * FROM exercises where id=:exerciseID")
-    fun findByID(exerciseID: String): ExerciseEntity
+    suspend fun findByID(exerciseID: String): ExerciseEntity
 
     @Insert
     suspend fun insertAll(vararg exercise: ExerciseEntity)
