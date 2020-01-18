@@ -247,7 +247,7 @@ class NewWorkoutDialog : WorkoutController.AdapterCallbacks, DialogFragment() {
         }
     }
 
-    override fun onRepFocusChanged(workout: Workout, workoutSet: WorkoutSet, value: Int) {
+    override fun onRepTextChanged(workout: Workout, workoutSet: WorkoutSet, value: Int) {
         for (i in 0 until viewModel.workouts.size) {
             if (viewModel.workouts[i].id == workout.id) {
                 for (k in 0 until viewModel.workouts[i].sets.size) {
@@ -260,7 +260,7 @@ class NewWorkoutDialog : WorkoutController.AdapterCallbacks, DialogFragment() {
         }
     }
 
-    override fun onWeightFocusChanged(workout: Workout, workoutSet: WorkoutSet, value: Double) {
+    override fun onWeightTextChanged(workout: Workout, workoutSet: WorkoutSet, value: Double) {
         for (i in 0 until viewModel.workouts.size) {
             if (viewModel.workouts[i].id == workout.id) {
                 for (k in 0 until viewModel.workouts[i].sets.size) {

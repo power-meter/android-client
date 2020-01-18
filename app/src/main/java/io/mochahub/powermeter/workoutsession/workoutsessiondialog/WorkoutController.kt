@@ -16,8 +16,8 @@ class WorkoutController(
     interface AdapterCallbacks {
         fun onExerciseSelected(workout: Workout, exercise: String)
         fun onAddSetClicked(workout: Workout)
-        fun onRepFocusChanged(workout: Workout, workoutSet: WorkoutSet, value: Int)
-        fun onWeightFocusChanged(workout: Workout, workoutSet: WorkoutSet, value: Double)
+        fun onRepTextChanged(workout: Workout, workoutSet: WorkoutSet, value: Int)
+        fun onWeightTextChanged(workout: Workout, workoutSet: WorkoutSet, value: Double)
     }
 
     override fun buildModels(workouts: List<Workout>?) {
@@ -33,14 +33,14 @@ class WorkoutController(
                 workoutRowSet(
                     workoutSet = workoutSet,
                     onRepFocusChanged = { value ->
-                        callbacks.onRepFocusChanged(
+                        callbacks.onRepTextChanged(
                             workout,
                             workoutSet,
                             value
                         )
                     },
                     onWeightFocusChanged = { value ->
-                        callbacks.onWeightFocusChanged(
+                        callbacks.onWeightTextChanged(
                             workout,
                             workoutSet,
                             value
