@@ -3,8 +3,8 @@ package io.mochahub.powermeter.shared
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
-import android.graphics.Paint
 import android.graphics.Color
+import android.graphics.Paint
 import android.graphics.RectF
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
@@ -24,7 +24,11 @@ abstract class SwipeToDeleteCallback(val context: Context) : ItemTouchHelper.Sim
 
     private fun getDeleteIcon(): Bitmap {
         val vectorDrawable = (context.getDrawable(R.drawable.ic_delete_white_24dp))!!
-        val icon = Bitmap.createBitmap(vectorDrawable.intrinsicWidth, vectorDrawable.intrinsicHeight, Bitmap.Config.ARGB_8888)
+        val icon = Bitmap.createBitmap(
+            vectorDrawable.intrinsicWidth,
+            vectorDrawable.intrinsicHeight,
+            Bitmap.Config.ARGB_8888
+        )
         val canvas = Canvas(icon)
         vectorDrawable.setBounds(0, 0, canvas.width, canvas.height)
         vectorDrawable.draw(canvas)

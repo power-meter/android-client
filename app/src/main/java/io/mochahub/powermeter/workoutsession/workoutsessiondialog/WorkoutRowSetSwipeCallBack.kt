@@ -58,7 +58,7 @@ class WorkoutRowSetSwipeCallBack(
             val icon = getDeleteIcon()
 
             val backgroundRect = RectF(
-                (itemView.width.toFloat() - itemView.width.toFloat()*(swipeProgress.absoluteValue)),
+                (itemView.width.toFloat() - itemView.width.toFloat() * (swipeProgress.absoluteValue)),
                 itemView.top.toFloat(),
                 itemView.width.toFloat(), itemView.bottom.toFloat()
             )

@@ -6,10 +6,15 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 
-@Database(entities = [
-    ExerciseEntity::class,
-    WorkoutSessionEntity::class,
-    WorkoutEntity::class, WorkoutSetEntity::class], version = 1, exportSchema = false)
+@Database(
+    entities = [
+        ExerciseEntity::class,
+        WorkoutSessionEntity::class,
+        WorkoutEntity::class, WorkoutSetEntity::class
+    ],
+    version = 1,
+    exportSchema = false
+)
 @TypeConverters(DateTypeConverters::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun exerciseDao(): ExerciseDao
@@ -30,7 +35,6 @@ abstract class AppDatabase : RoomDatabase() {
         private fun buildDatabase(context: Context) = Room.databaseBuilder(
             context,
             AppDatabase::class.java, "power-meter.db"
-        )
-            .build()
+        ).build()
     }
 }

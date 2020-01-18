@@ -3,8 +3,8 @@
         xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
             android:id="@+id/action_settings"
+            android:icon="@drawable/ic_more_vert_white_24dp"
             android:orderInCategory="100"
-            android:title="Settings"
-            app:showAsAction="ifRoom"
-            android:icon="@drawable/ic_more_vert_white_24dp"/>
+            android:title="@string/settings"
+            app:showAsAction="ifRoom" />
 </menu>

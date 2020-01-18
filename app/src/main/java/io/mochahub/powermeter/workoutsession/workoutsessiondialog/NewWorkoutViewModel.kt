@@ -23,7 +23,7 @@ import java.text.SimpleDateFormat
 import java.time.Instant
 import java.util.Locale
 
-class NewWorkoutViewModel(val db: AppDatabase) : ViewModelProvider.Factory, ViewModel() {
+class NewWorkoutViewModel(private val db: AppDatabase) : ViewModelProvider.Factory, ViewModel() {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         return NewWorkoutViewModel(db) as T
     }
@@ -50,14 +50,17 @@ class NewWorkoutViewModel(val db: AppDatabase) : ViewModelProvider.Factory, View
                 exercise = Exercise(
                     name = exercise.name,
                     personalRecord = exercise.personalRecord,
-                    muscleGroup = exercise.muscleGroup),
-                sets = ArrayList())
+                    muscleGroup = exercise.muscleGroup
+                ),
+                sets = ArrayList()
+            )
 
             val workoutSets = db.workoutSetDao().getWorkoutSetsByWorkout(workoutEntity.id)
             workoutSets.forEach { workoutSetEntity ->
                 val workoutSet = WorkoutSet(
                     weight = workoutSetEntity.weight,
-                    reps = workoutSetEntity.reps)
+                    reps = workoutSetEntity.reps
+                )
                 workout.sets.add(workoutSet)
             }
             workouts.add(workout)
@@ -65,26 +68,36 @@ class NewWorkoutViewModel(val db: AppDatabase) : ViewModelProvider.Factory, View
         return workouts
     }
 
-    fun saveWorkoutSession(workoutSession: WorkoutSession, workoutSessionToDelete: String?): String? {
+    fun saveWorkoutSession(
+        workoutSession: WorkoutSession,
+        workoutSessionToDelete: String?
+    ): String? {
         val errorMsg = isWorkoutSessionValid(workoutSession)
         if (errorMsg != null) {
             return errorMsg
         }
 
-        val workoutSessionEntity = WorkoutSessionEntity(name = workoutSession.name, date = workoutSession.date.epochSecond)
+        val workoutSessionEntity =
+            WorkoutSessionEntity(name = workoutSession.name, date = workoutSession.date.epochSecond)
         val workoutEntities = ArrayList<WorkoutEntity>()
         val workoutSetEntities = ArrayList<WorkoutSetEntity>()
 
         CoroutineScope(Dispatchers.IO).launch {
             workoutSession.workouts.forEach {
                 val exercise = db.exerciseDao().findByName(it.exercise.name)
-                val workoutEntity = WorkoutEntity(workoutSessionUUID = workoutSessionEntity.id, exerciseUUID = exercise.id)
+                val workoutEntity = WorkoutEntity(
+                    workoutSessionUUID = workoutSessionEntity.id,
+                    exerciseUUID = exercise.id
+                )
 
                 workoutEntities.add(workoutEntity)
                 it.sets.forEach { workoutSet ->
                     val workoutSetEntity = WorkoutSetEntity(
-                        workoutSessionUUID = workoutSessionEntity.id, workoutUUID = workoutEntity.id,
-                        reps = workoutSet.reps, weight = workoutSet.weight)
+                        workoutSessionUUID = workoutSessionEntity.id,
+                        workoutUUID = workoutEntity.id,
+                        reps = workoutSet.reps,
+                        weight = workoutSet.weight
+                    )
                     workoutSetEntities.add(workoutSetEntity)
                 }
             }
