@@ -17,12 +17,15 @@ import io.mochahub.powermeter.R
 import io.mochahub.powermeter.data.AppDatabase
 import io.mochahub.powermeter.data.WorkoutSessionEntity
 import io.mochahub.powermeter.shared.SwipeToDeleteCallback
-import kotlinx.android.synthetic.main.fragment_workout_session.*
+import kotlinx.android.synthetic.main.fragment_workout_session.addSessionButton
+import kotlinx.android.synthetic.main.fragment_workout_session.recyclerView
 
 class WorkoutSessionFragment : Fragment() {
 
     private val navController by lazy { this.findNavController() }
-    private val sessionViewModel by lazy { WorkoutSessionViewModel(db = AppDatabase(requireContext())) }
+    private val sessionViewModel by lazy {
+        WorkoutSessionViewModel(AppDatabase(requireContext()).workoutSessionDao())
+    }
     private val itemTouchHelper by lazy { ItemTouchHelper(swipeHandler) }
     private val swipeHandler by lazy {
         object : SwipeToDeleteCallback(requireContext()) {
@@ -35,13 +38,16 @@ class WorkoutSessionFragment : Fragment() {
                     viewHolder.itemView,
                     getString(R.string.exercise_deleted),
                     Snackbar.LENGTH_LONG
-                )
-
-                    .apply {
-                        setAction(getString(R.string.undo)) { Log.d(this.javaClass.toString(), "TODO: UNDO DELETED WORKOUTSESSION") }
-                        setActionTextColor(Color.YELLOW)
-                        show()
+                ).apply {
+                    setAction(getString(R.string.undo)) {
+                        Log.d(
+                            this.javaClass.toString(),
+                            "TODO: UNDO DELETED WORKOUTSESSION"
+                        )
                     }
+                    setActionTextColor(Color.YELLOW)
+                    show()
+                }
             }
         }
     }
@@ -59,8 +65,10 @@ class WorkoutSessionFragment : Fragment() {
         activity?.title = resources.getString(R.string.workout_session_screen_label)
 
         val workoutAdapter = WorkoutSessionAdapter(
-            sessionViewModel.workoutSessions.value ?: listOf()) {
-            onWorkoutSessionClicked(it) }
+            sessionViewModel.workoutSessions.value ?: emptyList()
+        ) {
+            onWorkoutSessionClicked(it)
+        }
 
         recyclerView.apply {
             layoutManager = LinearLayoutManager(requireContext())
@@ -69,7 +77,7 @@ class WorkoutSessionFragment : Fragment() {
         itemTouchHelper.attachToRecyclerView(recyclerView)
 
         sessionViewModel.workoutSessions.observe(viewLifecycleOwner, Observer {
-            workoutAdapter.setData(it ?: listOf())
+            workoutAdapter.setData(it ?: emptyList())
         })
 
         addSessionButton.setOnClickListener {

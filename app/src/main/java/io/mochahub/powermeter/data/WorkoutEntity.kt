@@ -7,22 +7,25 @@ import java.time.Instant
 import java.util.UUID
 
 // TODO: Add indices
-@Entity(tableName = "workouts", foreignKeys = arrayOf(
-    ForeignKey(
-        entity = WorkoutSessionEntity::class,
-        parentColumns = arrayOf("id"),
-        childColumns = arrayOf("workoutSessionUUID"),
-        onDelete = ForeignKey.CASCADE,
-        deferred = true
-    ),
-    ForeignKey(
-        entity = ExerciseEntity::class,
-        parentColumns = arrayOf("id"),
-        childColumns = arrayOf("exerciseUUID"),
-        onDelete = ForeignKey.CASCADE,
-        deferred = true
-    )
-))
+@Entity(
+    tableName = "workouts",
+    foreignKeys = [
+        ForeignKey(
+            entity = WorkoutSessionEntity::class,
+            parentColumns = arrayOf("id"),
+            childColumns = arrayOf("workoutSessionUUID"),
+            onDelete = ForeignKey.CASCADE,
+            deferred = true
+        ),
+        ForeignKey(
+            entity = ExerciseEntity::class,
+            parentColumns = arrayOf("id"),
+            childColumns = arrayOf("exerciseUUID"),
+            onDelete = ForeignKey.CASCADE,
+            deferred = true
+        )
+    ]
+)
 data class WorkoutEntity(
     @PrimaryKey var id: String = UUID.randomUUID().toString(),
     var workoutSessionUUID: String,

@@ -15,7 +15,8 @@ import com.microsoft.appcenter.AppCenter
 import com.microsoft.appcenter.analytics.Analytics
 import com.microsoft.appcenter.crashes.Crashes
 import com.microsoft.appcenter.push.Push
-import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_main.bottom_navigation
+import kotlinx.android.synthetic.main.activity_main.toolbar
 
 private const val NIGHT_MODE = "night_mode"
 
@@ -26,8 +27,10 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        AppCenter.start(application, BuildConfig.HOCKEY_APP_SECRET,
-            Push::class.java, Analytics::class.java, Crashes::class.java)
+        AppCenter.start(
+            application, BuildConfig.HOCKEY_APP_SECRET,
+            Push::class.java, Analytics::class.java, Crashes::class.java
+        )
 
 //        TODO (Zahin): uncomment the following line when prod app is ready
 //        Eventually we should do a switch on this so that it only triggers on a prod product flavour
@@ -36,7 +39,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
-        val navController: NavController = Navigation.findNavController(this, R.id.nav_host_fragment)
+        val navController: NavController =
+            Navigation.findNavController(this, R.id.nav_host_fragment)
         NavigationUI.setupWithNavController(bottom_navigation, navController)
 
         preferences.registerOnSharedPreferenceChangeListener { sharedPreferences, key ->
@@ -57,11 +61,16 @@ class MainActivity : AppCompatActivity() {
         menuInflater.inflate(R.menu.menu_toolbar, menu)
         return true
     }
+
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         return when (item?.itemId) {
             R.id.action_settings -> {
                 Navigation.findNavController(this, R.id.nav_host_fragment)
-                    .navigate(R.id.settingsFragment, null, NavOptions.Builder().setLaunchSingleTop(true).build())
+                    .navigate(
+                        R.id.settingsFragment,
+                        null,
+                        NavOptions.Builder().setLaunchSingleTop(true).build()
+                    )
                 return true
             }
             else -> super.onOptionsItemSelected(item)

@@ -79,14 +79,14 @@
                 app:argType="boolean" />
         <argument
                 android:name="exerciseId"
-                app:nullable="true"
-                app:argType="string" />
+                app:argType="string"
+                app:nullable="true" />
     </dialog>
     <dialog
             android:id="@+id/newWorkoutDialog"
             android:name="io.mochahub.powermeter.workoutsession.workoutsessiondialog.NewWorkoutDialog"
             android:label="dialog_new_workout_dialog"
-            tools:layout="@layout/dialog_new_workout" >
+            tools:layout="@layout/dialog_new_workout">
         <argument
                 android:name="workoutSessionID"
                 app:argType="string"

@@ -6,8 +6,8 @@ import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import io.mochahub.powermeter.R
 import io.mochahub.powermeter.models.StatCard
-import kotlinx.android.synthetic.main.row_exercise.view.*
-import kotlinx.android.synthetic.main.row_stat.view.*
+import kotlinx.android.synthetic.main.row_stat.view.card_description
+import kotlinx.android.synthetic.main.row_stat.view.card_title
 
 class StatsAdapter(
     private var statCards: List<StatCard>,
@@ -22,10 +22,10 @@ class StatsAdapter(
         holder.view.setOnClickListener { clickListener(statCards[position]) }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StatsAdapter.StatsViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StatsViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.row_stat, parent, false) as CardView
-        return StatsAdapter.StatsViewHolder(view)
+        return StatsViewHolder(view)
     }
 
     override fun getItemCount(): Int = statCards.size

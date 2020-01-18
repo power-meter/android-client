@@ -16,7 +16,8 @@ import io.mochahub.powermeter.R
 import io.mochahub.powermeter.data.AppDatabase
 import io.mochahub.powermeter.data.ExerciseEntity
 import io.mochahub.powermeter.shared.SwipeToDeleteCallback
-import kotlinx.android.synthetic.main.fragment_exercise.*
+import kotlinx.android.synthetic.main.fragment_exercise.addExerciseBtn
+import kotlinx.android.synthetic.main.fragment_exercise.recyclerView
 import splitties.toast.toast
 
 class ExerciseFragment : Fragment() {
@@ -29,7 +30,9 @@ class ExerciseFragment : Fragment() {
     }
 
     private val navController by lazy { this.findNavController() }
-    private val viewModel by lazy { ExerciseViewModel(db = AppDatabase(requireContext())) }
+    private val viewModel by lazy {
+        ExerciseViewModel(AppDatabase(requireContext()).exerciseDao())
+    }
     private val exerciseController =
         ExerciseController { clicked: ExerciseEntity -> onExerciseClick(clicked) }
     private val itemTouchHelper by lazy { ItemTouchHelper(swipeHandler) }
@@ -50,12 +53,11 @@ class ExerciseFragment : Fragment() {
                     viewHolder.itemView,
                     getString(R.string.exercise_deleted),
                     Snackbar.LENGTH_LONG
-                )
-                    .apply {
-                        setAction(getString(R.string.undo)) { viewModel.addExercise(deletedExercise) }
-                        setActionTextColor(Color.YELLOW)
-                        show()
-                    }
+                ).apply {
+                    setAction(getString(R.string.undo)) { viewModel.addExercise(deletedExercise) }
+                    setActionTextColor(Color.YELLOW)
+                    show()
+                }
             }
         }
     }
@@ -91,7 +93,7 @@ class ExerciseFragment : Fragment() {
         }
 
         viewModel.exercises.observe(viewLifecycleOwner, Observer {
-            exerciseController.setData(it ?: listOf())
+            exerciseController.setData(it ?: emptyList())
         })
 
         exerciseSharedViewModel.newExercise.observe(viewLifecycleOwner, Observer {

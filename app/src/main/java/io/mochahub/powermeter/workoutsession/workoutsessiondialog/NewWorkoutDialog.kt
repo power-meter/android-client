@@ -118,14 +118,16 @@ class NewWorkoutDialog : WorkoutController.AdapterCallbacks, DialogFragment() {
                 })
 
         newWorkoutToolbar.apply {
-            title = resources.getString(if (args.workoutSessionID == null) R.string.new_workout else R.string.edit_workout)
+            title =
+                resources.getString(if (args.workoutSessionID == null) R.string.new_workout else R.string.edit_workout)
             inflateMenu(R.menu.menu_cancel)
             setNavigationOnClickListener { dismiss() }
             setOnMenuItemClickListener {
                 when (it?.itemId) {
                     R.id.action_cancel -> {
                         shouldSave = false
-                        dismiss() }
+                        dismiss()
+                    }
                 }
                 true
             }
@@ -141,9 +143,10 @@ class NewWorkoutDialog : WorkoutController.AdapterCallbacks, DialogFragment() {
         val sets = ArrayList<WorkoutSet>()
         sets.add(
             WorkoutSet(
-            weight = 0.0,
-            reps = 0
-        ))
+                weight = 0.0,
+                reps = 0
+            )
+        )
         val workout = Workout(
             exercise = Exercise("", 0.0, ""),
             sets = sets
@@ -153,7 +156,8 @@ class NewWorkoutDialog : WorkoutController.AdapterCallbacks, DialogFragment() {
 
     private fun saveWorkoutSession() {
         val date = viewModel.simpleDateFormat.parse(newWorkoutDateText.text.toString()).toInstant()
-        val workoutSession = WorkoutSession(newWorkoutNameText.text.toString(), date, viewModel.workouts)
+        val workoutSession =
+            WorkoutSession(newWorkoutNameText.text.toString(), date, viewModel.workouts)
         viewModel.saveWorkoutSession(workoutSession, args.workoutSessionID)
     }
 
@@ -170,7 +174,7 @@ class NewWorkoutDialog : WorkoutController.AdapterCallbacks, DialogFragment() {
                     exerciseList.map { it.name },
                     this
                 )
-                initFields()
+            initFields()
         })
     }
 
@@ -181,19 +185,21 @@ class NewWorkoutDialog : WorkoutController.AdapterCallbacks, DialogFragment() {
         }
 
         val myCalendar = Calendar.getInstance()
-        val dateSetListener = DatePickerDialog.OnDateSetListener {
-                _, year, month, day -> myCalendar.apply {
-            set(Calendar.YEAR, year)
-            set(Calendar.MONTH, month)
-            set(Calendar.DAY_OF_MONTH, day)
-            newWorkoutDateText.setText(viewModel.simpleDateFormat.format(myCalendar.time))
-        }
+        val dateSetListener = DatePickerDialog.OnDateSetListener { _, year, month, day ->
+            myCalendar.apply {
+                set(Calendar.YEAR, year)
+                set(Calendar.MONTH, month)
+                set(Calendar.DAY_OF_MONTH, day)
+                newWorkoutDateText.setText(viewModel.simpleDateFormat.format(myCalendar.time))
+            }
         }
 
         newWorkoutDateText.setOnClickListener {
-            DatePickerDialog(requireContext(), dateSetListener, myCalendar
-                .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
-                myCalendar.get(Calendar.DAY_OF_MONTH)).show()
+            DatePickerDialog(
+                requireContext(), dateSetListener, myCalendar
+                    .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                myCalendar.get(Calendar.DAY_OF_MONTH)
+            ).show()
         }
     }
 
@@ -212,7 +218,8 @@ class NewWorkoutDialog : WorkoutController.AdapterCallbacks, DialogFragment() {
                 newWorkoutDateText.setText(
                     viewModel
                         .simpleDateFormat
-                        .format(Date.from(Instant.ofEpochSecond(args.workoutSessionDate))))
+                        .format(Date.from(Instant.ofEpochSecond(args.workoutSessionDate)))
+                )
             }
             // TODO: Remove this. Requires implementing room relations
             CoroutineScope(Dispatchers.IO).launch {
@@ -233,7 +240,8 @@ class NewWorkoutDialog : WorkoutController.AdapterCallbacks, DialogFragment() {
     override fun onAddSetClicked(workout: Workout) {
         for (i in 0 until viewModel.workouts.size) {
             if (viewModel.workouts[i].id == workout.id) {
-                viewModel.workouts[i] = viewModel.workouts[i].addSet(0, WorkoutSet(weight = 0.0, reps = 0))
+                viewModel.workouts[i] =
+                    viewModel.workouts[i].addSet(0, WorkoutSet(weight = 0.0, reps = 0))
                 workoutController.setData(viewModel.workouts)
             }
         }
@@ -257,7 +265,8 @@ class NewWorkoutDialog : WorkoutController.AdapterCallbacks, DialogFragment() {
             if (viewModel.workouts[i].id == workout.id) {
                 for (k in 0 until viewModel.workouts[i].sets.size) {
                     if (viewModel.workouts[i].sets[k].id == workoutSet.id) {
-                        viewModel.workouts[i].sets[k] = viewModel.workouts[i].sets[k].setWeight(value)
+                        viewModel.workouts[i].sets[k] =
+                            viewModel.workouts[i].sets[k].setWeight(value)
                         workoutController.setData(viewModel.workouts)
                     }
                 }
@@ -272,7 +281,13 @@ class NewWorkoutDialog : WorkoutController.AdapterCallbacks, DialogFragment() {
         for (i in 0 until viewModel.workouts.size) {
             if (viewModel.workouts[i].id == workout.id) {
                 viewModel.workouts[i] = viewModel.workouts[i]
-                    .updateExercise(Exercise(foundExercise!!.name, foundExercise.personalRecord, foundExercise.muscleGroup))
+                    .updateExercise(
+                        Exercise(
+                            foundExercise!!.name,
+                            foundExercise.personalRecord,
+                            foundExercise.muscleGroup
+                        )
+                    )
                 workoutController.setData(viewModel.workouts)
             }
         }

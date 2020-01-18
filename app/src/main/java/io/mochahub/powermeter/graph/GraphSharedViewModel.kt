@@ -1,4 +1,4 @@
-package io.mochahub.powermeter.shared.viewmodels
+package io.mochahub.powermeter.graph
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

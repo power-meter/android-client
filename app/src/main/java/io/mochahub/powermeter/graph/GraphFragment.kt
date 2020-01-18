@@ -12,8 +12,9 @@ import androidx.lifecycle.ViewModelProviders
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import io.mochahub.powermeter.R
-import io.mochahub.powermeter.shared.viewmodels.GraphSharedViewModel
-import kotlinx.android.synthetic.main.graph_fragment.*
+import kotlinx.android.synthetic.main.graph_fragment.graph
+import kotlinx.android.synthetic.main.graph_fragment.graph_pr
+import kotlinx.android.synthetic.main.graph_fragment.graph_title
 
 // TODO (ZAHIN): Should this be graph? Maybe we should find a way to the copy
 //  paste nature of setting the title per fragment.
@@ -36,7 +37,8 @@ class GraphFragment : Fragment() {
         activity?.title = resources.getString(R.string.stats_screen_label)
 
         val sharedViewModel = requireActivity().run {
-            ViewModelProviders.of(this)[GraphSharedViewModel::class.java] }
+            ViewModelProviders.of(this)[GraphSharedViewModel::class.java]
+        }
 
         initGraph()
         ContextCompat.getColor(requireContext(), R.color.GraphText)
@@ -44,11 +46,11 @@ class GraphFragment : Fragment() {
         viewModel.data.observe(viewLifecycleOwner, Observer {
             val lineDataSet = LineDataSet(viewModel.data.value, DATA_SET_LABEL)
                 .apply {
-                mode = LineDataSet.Mode.HORIZONTAL_BEZIER
-                lineWidth = 3.0f
-                setDrawCircles(false)
-                valueTextSize = 0.0f
-            }
+                    mode = LineDataSet.Mode.HORIZONTAL_BEZIER
+                    lineWidth = 3.0f
+                    setDrawCircles(false)
+                    valueTextSize = 0.0f
+                }
             val lineData = LineData(lineDataSet)
             graph.data = lineData
             graph.invalidate() // refresh

@@ -6,21 +6,23 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         tools:context=".workoutsession.workoutsessiondialog.NewWorkoutDialog">
+
     <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
         <androidx.appcompat.widget.Toolbar
                 android:id="@+id/newWorkoutToolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:background="@color/colorPrimary"
-                app:theme="@style/ToolBarStyle"
-                app:navigationIcon="@drawable/ic_arrow_back_white_24dp" />
+                app:navigationIcon="@drawable/ic_arrow_back_white_24dp"
+                app:theme="@style/ToolBarStyle" />
 
         <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:id="@+id/newWorkoutName"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
@@ -33,8 +35,8 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:id="@+id/newWorkoutDate"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
@@ -51,9 +53,9 @@
 
         <com.airbnb.epoxy.EpoxyRecyclerView
                 android:id="@+id/recyclerView"
-                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:orientation="vertical" />
     </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -62,9 +64,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
             android:layout_margin="16dp"
-            app:borderWidth="0dp"
             app:backgroundTint="@color/colorPrimary"
-            app:tint="@android:color/white"
-            app:srcCompat="@drawable/ic_add_white_24dp" />
+            app:borderWidth="0dp"
+            app:srcCompat="@drawable/ic_add_white_24dp"
+            app:tint="@android:color/white" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
