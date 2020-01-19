@@ -4,17 +4,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import com.github.mikephil.charting.data.LineData
-import com.github.mikephil.charting.data.LineDataSet
 import io.mochahub.powermeter.R
 import kotlinx.android.synthetic.main.graph_fragment.graph
 import kotlinx.android.synthetic.main.graph_fragment.graph_pr
 import kotlinx.android.synthetic.main.graph_fragment.graph_title
+import kotlinx.android.synthetic.main.graph_fragment.scrub_value
 
 // TODO (ZAHIN): Should this be graph? Maybe we should find a way to the copy
 //  paste nature of setting the title per fragment.
@@ -23,6 +21,7 @@ private const val DATA_SET_LABEL = "Power Score"
 class GraphFragment : Fragment() {
 
     private val viewModel: GraphViewModel by viewModels()
+    private val graphAdapter = GraphAdapter(emptyList())
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -40,50 +39,24 @@ class GraphFragment : Fragment() {
             ViewModelProviders.of(this)[GraphSharedViewModel::class.java]
         }
 
-        initGraph()
-        ContextCompat.getColor(requireContext(), R.color.GraphText)
+        graph.adapter = graphAdapter
+
+        graph.setScrubListener {
+            if (it != null) {
+                val value: Float = it as Float
+                scrub_value.text = value.toString()
+            } else {
+                scrub_value.text = getString(R.string.scrub_empty)
+            }
+        }
 
         viewModel.data.observe(viewLifecycleOwner, Observer {
-            val lineDataSet = LineDataSet(viewModel.data.value, DATA_SET_LABEL)
-                .apply {
-                    mode = LineDataSet.Mode.HORIZONTAL_BEZIER
-                    lineWidth = 3.0f
-                    setDrawCircles(false)
-                    valueTextSize = 0.0f
-                }
-            val lineData = LineData(lineDataSet)
-            graph.data = lineData
-            graph.invalidate() // refresh
+            graphAdapter.setData(it ?: emptyList())
         })
 
         sharedViewModel.selectedExercise.observe(viewLifecycleOwner, Observer {
             graph_title.text = it.name
             graph_pr.text = it.personalRecord.toString()
         })
-    }
-
-    private fun initGraph() {
-        graph.apply {
-            setDrawBorders(false)
-            setDrawGridBackground(false)
-            setDrawMarkers(false)
-            description.text = "" // TODO: Fill this in and move somewhere on graph
-
-            xAxis.setDrawAxisLine(false)
-            xAxis.setDrawGridLines(false)
-            xAxis.isEnabled = false
-
-            axisLeft.setDrawGridLines(false)
-            axisLeft.setDrawAxisLine(false)
-            axisLeft.textSize = 15.0f
-            axisLeft.textColor = ContextCompat.getColor(requireContext(), R.color.GraphText)
-
-            axisRight.setDrawGridLines(false)
-            axisRight.setDrawAxisLine(false)
-            axisRight.isEnabled = false
-
-            legend.isEnabled = false
-            isDoubleTapToZoomEnabled = false
-        }
     }
 }
