@@ -151,7 +151,7 @@ class NewWorkoutDialog : WorkoutController.AdapterCallbacks, DialogFragment() {
             exercise = Exercise("", 0.0, ""),
             sets = sets
         )
-        viewModel.workouts.add(0, workout)
+        viewModel.workouts.add(workout)
     }
 
     private fun saveWorkoutSession() {
@@ -241,7 +241,7 @@ class NewWorkoutDialog : WorkoutController.AdapterCallbacks, DialogFragment() {
         for (i in 0 until viewModel.workouts.size) {
             if (viewModel.workouts[i].id == workout.id) {
                 viewModel.workouts[i] =
-                    viewModel.workouts[i].addSet(0, WorkoutSet(weight = 0.0, reps = 0))
+                    viewModel.workouts[i].addSet(WorkoutSet(weight = 0.0, reps = 0))
                 workoutController.setData(viewModel.workouts)
             }
         }
