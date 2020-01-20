@@ -8,8 +8,8 @@ data class Workout(
     val sets: MutableList<WorkoutSet>
 )
 
-fun Workout.addSet(position: Int, set: WorkoutSet): Workout {
-    sets.add(position, set)
+fun Workout.addSet(set: WorkoutSet): Workout {
+    sets.add(set)
     return this.copy(sets = this.sets)
 }
 
