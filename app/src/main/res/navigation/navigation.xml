@@ -92,10 +92,6 @@
                 app:argType="string"
                 app:nullable="true" />
         <argument
-                android:name="workoutSessionName"
-                app:argType="string"
-                app:nullable="true" />
-        <argument
                 android:name="workoutSessionDate"
                 app:argType="long" />
     </dialog>

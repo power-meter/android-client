@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import io.mochahub.powermeter.R
 import io.mochahub.powermeter.data.WorkoutSessionEntity
 import kotlinx.android.synthetic.main.row_workout_session.view.dateView
-import kotlinx.android.synthetic.main.row_workout_session.view.workoutView
 import java.text.SimpleDateFormat
 import java.util.Date
 
@@ -31,7 +30,6 @@ class WorkoutSessionAdapter(
     override fun onBindViewHolder(holder: WorkoutSessionViewHolder, position: Int) {
         val date = Date(workoutSessions[position].date * 1000L)
         holder.view.dateView.text = SimpleDateFormat("LLL dd yyyy (E)").format(date)
-        holder.view.workoutView.text = workoutSessions[position].name
         holder.view.setOnClickListener { clickListener(workoutSessions[position]) }
     }
 

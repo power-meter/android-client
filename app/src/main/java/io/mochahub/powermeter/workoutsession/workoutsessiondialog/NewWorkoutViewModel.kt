@@ -78,7 +78,7 @@ class NewWorkoutViewModel(private val db: AppDatabase) : ViewModelProvider.Facto
         }
 
         val workoutSessionEntity =
-            WorkoutSessionEntity(name = workoutSession.name, date = workoutSession.date.epochSecond)
+            WorkoutSessionEntity(date = workoutSession.date.epochSecond)
         val workoutEntities = ArrayList<WorkoutEntity>()
         val workoutSetEntities = ArrayList<WorkoutSetEntity>()
 
