@@ -21,20 +21,6 @@
                 app:theme="@style/ToolBarStyle" />
 
         <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/newWorkoutName"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:hint="@string/name">
-
-            <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/newWorkoutNameText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/newWorkoutDate"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"

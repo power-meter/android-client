@@ -84,7 +84,6 @@ class WorkoutSessionFragment : Fragment() {
             val action = WorkoutSessionFragmentDirections
                 .actionDestinationWorkoutSessionScreenToNewWorkoutDialog(
                     workoutSessionID = null,
-                    workoutSessionName = null,
                     workoutSessionDate = 0
                 )
             navController.navigate(action)
@@ -95,7 +94,6 @@ class WorkoutSessionFragment : Fragment() {
         val action = WorkoutSessionFragmentDirections
             .actionDestinationWorkoutSessionScreenToNewWorkoutDialog(
                 workoutSessionID = workoutSession.id,
-                workoutSessionName = workoutSession.name,
                 workoutSessionDate = workoutSession.date
             )
         navController.navigate(action)
