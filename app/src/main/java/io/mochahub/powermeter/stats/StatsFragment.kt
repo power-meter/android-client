@@ -9,15 +9,14 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
 import io.mochahub.powermeter.R
 import io.mochahub.powermeter.graph.GraphSharedViewModel
-import kotlinx.android.synthetic.main.fragment_stats.stats_list
+import kotlinx.android.synthetic.main.fragment_stats.statsRecyclerView
 
 class StatsFragment : Fragment() {
 
-    private val statsAdapter by lazy {
-        StatsAdapter(emptyList()) {
+    private val statsController by lazy {
+        StatsController {
             sharedViewModel.select(it.exercise)
             navController.navigate(R.id.action_destination_stats_screen_to_graphFragment)
         }
@@ -45,13 +44,10 @@ class StatsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         activity?.title = resources.getString(R.string.stats_screen_label)
 
-        stats_list.apply {
-            layoutManager = LinearLayoutManager(context)
-            adapter = statsAdapter
-        }
+        statsRecyclerView.setController(statsController)
 
         viewModel.stats.observe(viewLifecycleOwner, Observer {
-            statsAdapter.setData(it ?: emptyList())
+            statsController.setData(it ?: emptyList())
         })
     }
 }
