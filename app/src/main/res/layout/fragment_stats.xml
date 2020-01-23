@@ -1,14 +1,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         tools:context=".stats.StatsFragment">
 
-
-    <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/stats_list"
+    <com.airbnb.epoxy.EpoxyRecyclerView
+            android:id="@+id/statsRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
+
 </LinearLayout>
