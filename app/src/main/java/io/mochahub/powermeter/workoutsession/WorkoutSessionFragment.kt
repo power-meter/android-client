@@ -10,7 +10,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import io.mochahub.powermeter.R
@@ -64,20 +63,12 @@ class WorkoutSessionFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         activity?.title = resources.getString(R.string.workout_session_screen_label)
 
-        val workoutAdapter = WorkoutSessionAdapter(
-            sessionViewModel.workoutSessions.value ?: emptyList()
-        ) {
-            onWorkoutSessionClicked(it)
-        }
-
-        recyclerView.apply {
-            layoutManager = LinearLayoutManager(requireContext())
-            adapter = workoutAdapter
-        }
+        val workoutSessionController = WorkoutSessionController { onWorkoutSessionClicked(it) }
+        recyclerView.setController(workoutSessionController)
         itemTouchHelper.attachToRecyclerView(recyclerView)
 
         sessionViewModel.workoutSessions.observe(viewLifecycleOwner, Observer {
-            workoutAdapter.setData(it ?: emptyList())
+            workoutSessionController.setData(it ?: emptyList())
         })
 
         addSessionButton.setOnClickListener {
