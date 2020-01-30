@@ -23,9 +23,9 @@ import io.mochahub.powermeter.models.removeSet
 import io.mochahub.powermeter.models.setReps
 import io.mochahub.powermeter.models.setWeight
 import io.mochahub.powermeter.models.updateExercise
-import kotlinx.android.synthetic.main.dialog_new_workout.addWorkoutBtn
-import kotlinx.android.synthetic.main.dialog_new_workout.newWorkoutDateText
-import kotlinx.android.synthetic.main.dialog_new_workout.newWorkoutToolbar
+import kotlinx.android.synthetic.main.dialog_new_workout_session.addWorkoutBtn
+import kotlinx.android.synthetic.main.dialog_new_workout_session.newWorkoutDateText
+import kotlinx.android.synthetic.main.dialog_new_workout_session.newWorkoutToolbar
 import kotlinx.android.synthetic.main.fragment_exercise.recyclerView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -69,7 +69,7 @@ class WorkoutSessionDialog : WorkoutController.AdapterCallbacks, DialogFragment(
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.dialog_new_workout, container, false)
+        return inflater.inflate(R.layout.dialog_new_workout_session, container, false)
     }
 
     override fun onDismiss(dialog: DialogInterface) {

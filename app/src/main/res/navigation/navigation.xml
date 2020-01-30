@@ -86,7 +86,7 @@
             android:id="@+id/newWorkoutDialog"
             android:name="io.mochahub.powermeter.workoutsession.workoutsessiondialog.WorkoutSessionDialog"
             android:label="dialog_new_workout_dialog"
-            tools:layout="@layout/dialog_new_workout">
+            tools:layout="@layout/dialog_new_workout_session">
         <argument
                 android:name="workoutSessionID"
                 app:argType="string"
