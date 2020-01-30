@@ -34,16 +34,16 @@ import java.time.Instant
 import java.util.Calendar
 import java.util.Date
 
-class NewWorkoutDialog : WorkoutController.AdapterCallbacks, DialogFragment() {
+class WorkoutSessionDialog : WorkoutController.AdapterCallbacks, DialogFragment() {
 
-    private val args: NewWorkoutDialogArgs by navArgs()
+    private val args: WorkoutSessionDialogArgs by navArgs()
     private var shouldSave = true
     private lateinit var workoutController: WorkoutController
     private val viewModel by lazy {
         ViewModelProviders.of(
             this,
-            NewWorkoutViewModel(AppDatabase(requireContext()))
-        )[NewWorkoutViewModel::class.java]
+            WorkoutSessionDialogViewModel(AppDatabase(requireContext()))
+        )[WorkoutSessionDialogViewModel::class.java]
     }
     private var exercises = listOf<ExerciseEntity>()
 

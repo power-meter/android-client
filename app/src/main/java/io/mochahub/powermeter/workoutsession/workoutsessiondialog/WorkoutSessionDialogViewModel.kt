@@ -23,9 +23,9 @@ import java.text.SimpleDateFormat
 import java.time.Instant
 import java.util.Locale
 
-class NewWorkoutViewModel(private val db: AppDatabase) : ViewModelProvider.Factory, ViewModel() {
+class WorkoutSessionDialogViewModel(private val db: AppDatabase) : ViewModelProvider.Factory, ViewModel() {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        return NewWorkoutViewModel(db) as T
+        return WorkoutSessionDialogViewModel(db) as T
     }
 
     var workouts = ArrayList<Workout>()
