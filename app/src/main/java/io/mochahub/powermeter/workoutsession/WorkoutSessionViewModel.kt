@@ -4,8 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import io.mochahub.powermeter.data.WorkoutSessionDao
-import io.mochahub.powermeter.data.WorkoutSessionEntity
+import io.mochahub.powermeter.data.WorkoutSession.WorkoutSessionDao
+import io.mochahub.powermeter.data.WorkoutSession.WorkoutSessionEntity
 import kotlinx.coroutines.launch
 
 class WorkoutSessionViewModel(private val workoutSessionDao: WorkoutSessionDao) : ViewModel() {

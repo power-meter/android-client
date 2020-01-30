@@ -3,7 +3,7 @@ package io.mochahub.powermeter.exercises
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import io.mochahub.powermeter.data.ExerciseEntity
+import io.mochahub.powermeter.data.Exercise.ExerciseEntity
 
 class ExerciseSharedViewModel : ViewModel() {
     private val _newExercise = MutableLiveData<ExerciseEntity>()

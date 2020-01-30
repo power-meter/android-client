@@ -8,10 +8,10 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
 import androidx.room.withTransaction
 import io.mochahub.powermeter.data.AppDatabase
-import io.mochahub.powermeter.data.ExerciseEntity
-import io.mochahub.powermeter.data.WorkoutEntity
-import io.mochahub.powermeter.data.WorkoutSessionEntity
-import io.mochahub.powermeter.data.WorkoutSetEntity
+import io.mochahub.powermeter.data.Exercise.ExerciseEntity
+import io.mochahub.powermeter.data.Workout.WorkoutEntity
+import io.mochahub.powermeter.data.WorkoutSession.WorkoutSessionEntity
+import io.mochahub.powermeter.data.WorkoutSet.WorkoutSetEntity
 import io.mochahub.powermeter.models.Exercise
 import io.mochahub.powermeter.models.Workout
 import io.mochahub.powermeter.models.WorkoutSession
@@ -85,19 +85,21 @@ class NewWorkoutViewModel(private val db: AppDatabase) : ViewModelProvider.Facto
         CoroutineScope(Dispatchers.IO).launch {
             workoutSession.workouts.forEach {
                 val exercise = db.exerciseDao().findByName(it.exercise.name)
-                val workoutEntity = WorkoutEntity(
-                    workoutSessionUUID = workoutSessionEntity.id,
-                    exerciseUUID = exercise.id
-                )
+                val workoutEntity =
+                    WorkoutEntity(
+                        workoutSessionUUID = workoutSessionEntity.id,
+                        exerciseUUID = exercise.id
+                    )
 
                 workoutEntities.add(workoutEntity)
                 it.sets.forEach { workoutSet ->
-                    val workoutSetEntity = WorkoutSetEntity(
-                        workoutSessionUUID = workoutSessionEntity.id,
-                        workoutUUID = workoutEntity.id,
-                        reps = workoutSet.reps,
-                        weight = workoutSet.weight
-                    )
+                    val workoutSetEntity =
+                        WorkoutSetEntity(
+                            workoutSessionUUID = workoutSessionEntity.id,
+                            workoutUUID = workoutEntity.id,
+                            reps = workoutSet.reps,
+                            weight = workoutSet.weight
+                        )
                     workoutSetEntities.add(workoutSetEntity)
                 }
             }

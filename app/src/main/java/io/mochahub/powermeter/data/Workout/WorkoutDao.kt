@@ -1,4 +1,4 @@
-package io.mochahub.powermeter.data
+package io.mochahub.powermeter.data.Workout
 
 import androidx.room.Dao
 import androidx.room.Delete
