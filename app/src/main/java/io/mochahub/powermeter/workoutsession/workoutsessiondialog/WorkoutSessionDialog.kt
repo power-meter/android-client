@@ -13,7 +13,7 @@ import androidx.navigation.fragment.navArgs
 import com.airbnb.epoxy.EpoxyTouchHelper
 import io.mochahub.powermeter.R
 import io.mochahub.powermeter.data.AppDatabase
-import io.mochahub.powermeter.data.ExerciseEntity
+import io.mochahub.powermeter.data.Exercise.ExerciseEntity
 import io.mochahub.powermeter.models.Exercise
 import io.mochahub.powermeter.models.Workout
 import io.mochahub.powermeter.models.WorkoutSession
@@ -23,10 +23,9 @@ import io.mochahub.powermeter.models.removeSet
 import io.mochahub.powermeter.models.setReps
 import io.mochahub.powermeter.models.setWeight
 import io.mochahub.powermeter.models.updateExercise
-import kotlinx.android.synthetic.main.dialog_new_workout.addWorkoutBtn
-import kotlinx.android.synthetic.main.dialog_new_workout.newWorkoutDateText
-import kotlinx.android.synthetic.main.dialog_new_workout.newWorkoutToolbar
-import kotlinx.android.synthetic.main.dialog_new_workout.newWorkoutToolbar
+import kotlinx.android.synthetic.main.dialog_new_workout_session.addWorkoutBtn
+import kotlinx.android.synthetic.main.dialog_new_workout_session.newWorkoutDateText
+import kotlinx.android.synthetic.main.dialog_new_workout_session.newWorkoutToolbar
 import kotlinx.android.synthetic.main.fragment_exercise.recyclerView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -35,16 +34,16 @@ import java.time.Instant
 import java.util.Calendar
 import java.util.Date
 
-class NewWorkoutDialog : WorkoutController.AdapterCallbacks, DialogFragment() {
+class WorkoutSessionDialog : WorkoutController.AdapterCallbacks, DialogFragment() {
 
-    private val args: NewWorkoutDialogArgs by navArgs()
+    private val args: WorkoutSessionDialogArgs by navArgs()
     private var shouldSave = true
     private lateinit var workoutController: WorkoutController
     private val viewModel by lazy {
         ViewModelProviders.of(
             this,
-            NewWorkoutViewModel(AppDatabase(requireContext()))
-        )[NewWorkoutViewModel::class.java]
+            WorkoutSessionDialogViewModel(AppDatabase(requireContext()))
+        )[WorkoutSessionDialogViewModel::class.java]
     }
     private var exercises = listOf<ExerciseEntity>()
 
@@ -70,7 +69,7 @@ class NewWorkoutDialog : WorkoutController.AdapterCallbacks, DialogFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.dialog_new_workout, container, false)
+        return inflater.inflate(R.layout.dialog_new_workout_session, container, false)
     }
 
     override fun onDismiss(dialog: DialogInterface) {

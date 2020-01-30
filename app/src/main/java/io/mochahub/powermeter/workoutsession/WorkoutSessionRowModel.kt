@@ -5,7 +5,7 @@ import com.airbnb.epoxy.EpoxyAttribute
 import com.airbnb.epoxy.EpoxyModelClass
 import com.airbnb.epoxy.EpoxyModelWithHolder
 import io.mochahub.powermeter.R
-import io.mochahub.powermeter.data.WorkoutSessionEntity
+import io.mochahub.powermeter.data.WorkoutSession.WorkoutSessionEntity
 import io.mochahub.powermeter.shared.KotlinEpoxyHolder
 import java.text.SimpleDateFormat
 import java.util.Date

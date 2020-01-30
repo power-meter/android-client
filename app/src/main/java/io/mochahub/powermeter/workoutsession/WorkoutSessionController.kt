@@ -1,7 +1,7 @@
 package io.mochahub.powermeter.workoutsession
 
 import com.airbnb.epoxy.TypedEpoxyController
-import io.mochahub.powermeter.data.WorkoutSessionEntity
+import io.mochahub.powermeter.data.WorkoutSession.WorkoutSessionEntity
 
 class WorkoutSessionController(
     private val clickListener: (WorkoutSessionEntity) -> Unit
