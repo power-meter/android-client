@@ -15,7 +15,7 @@ interface WorkoutSessionDao {
 
     @Transaction
     @Query("SELECT * FROM workout_sessions")
-    fun getAllWithRelations(): Flow<WorkoutSessionWithRelation>
+    fun getAllWithRelations(): Flow<List<WorkoutSessionWithRelation>>
 
     @Query("DELETE FROM workout_sessions WHERE id = :workoutSessionID")
     suspend fun deleteByID(workoutSessionID: String)
