@@ -38,7 +38,7 @@ class WorkoutSessionDialogViewModel(private val db: AppDatabase) : ViewModelProv
     }
 
     fun getWorkouts(workoutSessionID: String): LiveData<List<WorkoutWithRelation>> {
-        return db.workoutDao().getWorkoutsWithRelationByWorkoutSession(workoutSessionID).asLiveData()
+        return db.workoutDao().getWorkoutsByWorkoutSession(workoutSessionID).asLiveData()
     }
 
     fun saveWorkoutSession(

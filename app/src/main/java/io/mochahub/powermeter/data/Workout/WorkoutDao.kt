@@ -12,10 +12,7 @@ import kotlinx.coroutines.flow.Flow
 interface WorkoutDao {
     @Transaction
     @Query("SELECT * FROM workouts where workoutSessionUUID= :workoutSessionUUID")
-    fun getWorkoutsWithRelationByWorkoutSession(workoutSessionUUID: String): Flow<List<WorkoutWithRelation>>
-
-    @Query("SELECT * FROM workouts where workoutSessionUUID= :workoutSessionUUID")
-    fun getWorkoutsByWorkoutSession(workoutSessionUUID: String): List<WorkoutEntity>
+    fun getWorkoutsByWorkoutSession(workoutSessionUUID: String): Flow<List<WorkoutWithRelation>>
 
     @Insert
     suspend fun insertAll(vararg workout: WorkoutEntity)
