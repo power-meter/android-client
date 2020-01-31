@@ -13,8 +13,8 @@ import androidx.navigation.fragment.navArgs
 import com.airbnb.epoxy.EpoxyTouchHelper
 import io.mochahub.powermeter.R
 import io.mochahub.powermeter.data.AppDatabase
-import io.mochahub.powermeter.data.Exercise.ExerciseEntity
-import io.mochahub.powermeter.data.Workout.toModel
+import io.mochahub.powermeter.data.exercise.ExerciseEntity
+import io.mochahub.powermeter.data.workout.toModel
 import io.mochahub.powermeter.models.Exercise
 import io.mochahub.powermeter.models.Workout
 import io.mochahub.powermeter.models.WorkoutSession

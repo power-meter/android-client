@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import io.mochahub.powermeter.R
 import io.mochahub.powermeter.data.AppDatabase
-import io.mochahub.powermeter.data.WorkoutSession.WorkoutSessionEntity
+import io.mochahub.powermeter.data.workoutsession.WorkoutSessionEntity
 import io.mochahub.powermeter.shared.SwipeToDeleteCallback
 import kotlinx.android.synthetic.main.fragment_workout_session.addSessionButton
 import kotlinx.android.synthetic.main.fragment_workout_session.recyclerView

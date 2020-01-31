@@ -9,7 +9,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.textfield.TextInputEditText
 import io.mochahub.powermeter.R
-import io.mochahub.powermeter.data.Exercise.ExerciseEntity
+import io.mochahub.powermeter.data.exercise.ExerciseEntity
 import kotlinx.android.synthetic.main.dialog_new_exercise.newExerciseGroupText
 import kotlinx.android.synthetic.main.dialog_new_exercise.newExerciseNameText
 import kotlinx.android.synthetic.main.dialog_new_exercise.newExercisePRText

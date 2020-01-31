@@ -4,8 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import io.mochahub.powermeter.data.Exercise.ExerciseDao
-import io.mochahub.powermeter.data.Exercise.ExerciseEntity
+import io.mochahub.powermeter.data.exercise.ExerciseDao
+import io.mochahub.powermeter.data.exercise.ExerciseEntity
 import kotlinx.coroutines.launch
 
 class ExerciseViewModel(private val exerciseDao: ExerciseDao) : ViewModel() {

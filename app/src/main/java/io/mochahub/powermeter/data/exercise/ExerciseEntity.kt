@@ -1,4 +1,4 @@
-package io.mochahub.powermeter.data.Exercise
+package io.mochahub.powermeter.data.exercise
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

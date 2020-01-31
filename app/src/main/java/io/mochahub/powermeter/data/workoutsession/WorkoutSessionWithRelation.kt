@@ -1,9 +1,9 @@
-package io.mochahub.powermeter.data.WorkoutSession
+package io.mochahub.powermeter.data.workoutsession
 
 import androidx.room.Embedded
 import androidx.room.Relation
-import io.mochahub.powermeter.data.Workout.WorkoutEntity
-import io.mochahub.powermeter.data.Workout.WorkoutWithRelation
+import io.mochahub.powermeter.data.workout.WorkoutEntity
+import io.mochahub.powermeter.data.workout.WorkoutWithRelation
 
 data class WorkoutSessionWithRelation(
     @Embedded
