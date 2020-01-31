@@ -2,6 +2,7 @@ package io.mochahub.powermeter.data.Exercise
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import io.mochahub.powermeter.models.Exercise
 import java.time.OffsetDateTime
 import java.util.UUID
 
@@ -13,3 +14,8 @@ data class ExerciseEntity(
     var personalRecord: Double,
     val createdAt: OffsetDateTime = OffsetDateTime.now()
 )
+
+fun ExerciseEntity.toModel(): Exercise {
+    return Exercise(
+        name = this.name, personalRecord = this.personalRecord, muscleGroup = this.muscleGroup)
+}
