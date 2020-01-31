@@ -10,12 +10,11 @@ import androidx.room.withTransaction
 import io.mochahub.powermeter.data.AppDatabase
 import io.mochahub.powermeter.data.Exercise.ExerciseEntity
 import io.mochahub.powermeter.data.Workout.WorkoutEntity
+import io.mochahub.powermeter.data.Workout.WorkoutWithRelation
 import io.mochahub.powermeter.data.WorkoutSession.WorkoutSessionEntity
 import io.mochahub.powermeter.data.WorkoutSet.WorkoutSetEntity
-import io.mochahub.powermeter.models.Exercise
 import io.mochahub.powermeter.models.Workout
 import io.mochahub.powermeter.models.WorkoutSession
-import io.mochahub.powermeter.models.WorkoutSet
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -38,34 +37,8 @@ class WorkoutSessionDialogViewModel(private val db: AppDatabase) : ViewModelProv
         return db.exerciseDao().getAll().asLiveData()
     }
 
-    // TODO: This needs to refactored using room relations. Should not need to make so many db calls
-    // manually like this
-    suspend fun getWorkouts(workoutSessionID: String): ArrayList<Workout> {
-        val workouts = ArrayList<Workout>()
-        val workoutEntities = db.workoutDao().getWorkoutsByWorkoutSession(workoutSessionID)
-
-        workoutEntities.forEach { workoutEntity ->
-            val exercise = db.exerciseDao().findByID(workoutEntity.exerciseUUID)
-            val workout = Workout(
-                exercise = Exercise(
-                    name = exercise.name,
-                    personalRecord = exercise.personalRecord,
-                    muscleGroup = exercise.muscleGroup
-                ),
-                sets = ArrayList()
-            )
-
-            val workoutSets = db.workoutSetDao().getWorkoutSetsByWorkout(workoutEntity.id)
-            workoutSets.forEach { workoutSetEntity ->
-                val workoutSet = WorkoutSet(
-                    weight = workoutSetEntity.weight,
-                    reps = workoutSetEntity.reps
-                )
-                workout.sets.add(workoutSet)
-            }
-            workouts.add(workout)
-        }
-        return workouts
+    fun getWorkouts(workoutSessionID: String): LiveData<List<WorkoutWithRelation>> {
+        return db.workoutDao().getWorkoutsWithRelationByWorkoutSession(workoutSessionID).asLiveData()
     }
 
     fun saveWorkoutSession(

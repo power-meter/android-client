@@ -14,6 +14,7 @@ import com.airbnb.epoxy.EpoxyTouchHelper
 import io.mochahub.powermeter.R
 import io.mochahub.powermeter.data.AppDatabase
 import io.mochahub.powermeter.data.Exercise.ExerciseEntity
+import io.mochahub.powermeter.data.Workout.toModel
 import io.mochahub.powermeter.models.Exercise
 import io.mochahub.powermeter.models.Workout
 import io.mochahub.powermeter.models.WorkoutSession
@@ -27,9 +28,6 @@ import kotlinx.android.synthetic.main.dialog_new_workout_session.addWorkoutBtn
 import kotlinx.android.synthetic.main.dialog_new_workout_session.newWorkoutDateText
 import kotlinx.android.synthetic.main.dialog_new_workout_session.newWorkoutToolbar
 import kotlinx.android.synthetic.main.fragment_exercise.recyclerView
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import java.time.Instant
 import java.util.Calendar
 import java.util.Date
@@ -217,13 +215,13 @@ class WorkoutSessionDialog : WorkoutController.AdapterCallbacks, DialogFragment(
                         .format(Date.from(Instant.ofEpochSecond(args.workoutSessionDate)))
                 )
             }
-            // TODO: Remove this. Requires implementing room relations
-            CoroutineScope(Dispatchers.IO).launch {
-                viewModel.workouts = viewModel.getWorkouts(args.workoutSessionID!!)
+            viewModel.getWorkouts(args.workoutSessionID!!).observe(viewLifecycleOwner, Observer {
+                it.forEach { workoutRelation ->
+                    viewModel.workouts.add(workoutRelation.toModel())
+                }
                 workoutController.setData(viewModel.workouts)
-            }.invokeOnCompletion {
                 viewModel.isReady.postValue(true)
-            }
+            })
         }
     }
 

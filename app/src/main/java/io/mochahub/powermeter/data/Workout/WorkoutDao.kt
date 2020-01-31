@@ -11,8 +11,8 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface WorkoutDao {
     @Transaction
-    @Query("SELECT * FROM workouts")
-    fun getAllWithRelations(): Flow<List<WorkoutWithRelation>>
+    @Query("SELECT * FROM workouts where workoutSessionUUID= :workoutSessionUUID")
+    fun getWorkoutsWithRelationByWorkoutSession(workoutSessionUUID: String): Flow<List<WorkoutWithRelation>>
 
     @Query("SELECT * FROM workouts where workoutSessionUUID= :workoutSessionUUID")
     fun getWorkoutsByWorkoutSession(workoutSessionUUID: String): List<WorkoutEntity>
