@@ -3,7 +3,6 @@ package io.mochahub.powermeter
 import android.content.Context
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
-import androidx.test.ext.junit.runners.AndroidJUnit4
 import io.mochahub.powermeter.data.AppDatabase
 import io.mochahub.powermeter.data.Exercise.ExerciseDao
 import io.mochahub.powermeter.data.Exercise.ExerciseEntity
@@ -13,41 +12,39 @@ import io.mochahub.powermeter.data.WorkoutSession.WorkoutSessionDao
 import io.mochahub.powermeter.data.WorkoutSession.WorkoutSessionEntity
 import io.mochahub.powermeter.data.WorkoutSet.WorkoutSetDao
 import io.mochahub.powermeter.data.WorkoutSet.WorkoutSetEntity
+import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.flow.toList
+import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
-import org.junit.runner.RunWith
 import java.io.IOException
 import java.time.Instant
 
 class RoomRelationTest {
-    @RunWith(AndroidJUnit4::class)
-    class SimpleEntityReadWriteTest {
-        private lateinit var exerciseDao: ExerciseDao
-        private lateinit var workoutSetDao: WorkoutSetDao
-        private lateinit var workoutDao: WorkoutDao
-        private lateinit var workoutSessionDao: WorkoutSessionDao
+    private lateinit var exerciseDao: ExerciseDao
+    private lateinit var workoutSetDao: WorkoutSetDao
+    private lateinit var workoutDao: WorkoutDao
+    private lateinit var workoutSessionDao: WorkoutSessionDao
+    private lateinit var workoutSessionEntity: WorkoutSessionEntity
+    private lateinit var db: AppDatabase
 
-        private lateinit var workoutSession: WorkoutSessionEntity
-        private lateinit var db: AppDatabase
+    @Before
+    fun createDb() {
+        val context = ApplicationProvider.getApplicationContext<Context>()
+        db = Room.inMemoryDatabaseBuilder(
+            context, AppDatabase::class.java).build()
+        exerciseDao = db.exerciseDao()
+        workoutSetDao = db.workoutSetDao()
+        workoutDao = db.workoutDao()
+        workoutSessionDao = db.workoutSessionDao()
 
-        @Before
-        suspend fun createDb() {
-            val context = ApplicationProvider.getApplicationContext<Context>()
-            db = Room.inMemoryDatabaseBuilder(
-                context, AppDatabase::class.java).build()
-
-            exerciseDao = db.exerciseDao()
-            workoutSetDao = db.workoutSetDao()
-            workoutDao = db.workoutDao()
-            workoutSessionDao = db.workoutSessionDao()
-
+        runBlocking {
             val exerciseEntity = ExerciseEntity(name = "Bench Press", muscleGroup = "Chest", personalRecord = 135.0)
             exerciseDao.insertAll(exerciseEntity)
 
-            val workoutSessionEntity = WorkoutSessionEntity(date = Instant.now().epochSecond)
+            workoutSessionEntity = WorkoutSessionEntity(date = Instant.now().epochSecond)
             workoutSessionDao.insertAll(workoutSessionEntity)
 
             val workoutEntity =
@@ -61,18 +58,23 @@ class RoomRelationTest {
             )
             workoutSetDao.insertAll(*workoutSetsEntity.toTypedArray())
         }
+    }
 
-        @After
-        @Throws(IOException::class)
-        fun closeDb() {
-            db.close()
-        }
+    @After
+    @Throws(IOException::class)
+    fun closeDb() {
+        db.close()
+    }
 
-        @Test
-        @Throws(Exception::class)
-        suspend fun writeUserAndReadInList() {
-            val workoutSessions = workoutSessionDao.getAllWithRelations().toList()
-            assertTrue(workoutSessions.isNotEmpty())
-        }
+    @Test
+    @Throws(Exception::class)
+    fun getWorkoutSessionWithRelations() {
+        var workoutSessions = runBlocking { workoutSessionDao.getAllWithRelations().take(1).toList() }
+
+        assertTrue(workoutSessions.isNotEmpty())
+        assertTrue(workoutSessions.size == 1)
+        assertTrue(workoutSessions[0].workouts.size == 1)
+        assertTrue(workoutSessions[0].workouts[0].workoutSets.size == 3)
+        println(workoutSessions)
     }
 }
