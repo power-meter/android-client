@@ -1,36 +1,39 @@
-package io.mochahub.powermeter.data.Workout
+package io.mochahub.powermeter.data.workoutset
 
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
-import io.mochahub.powermeter.data.Exercise.ExerciseEntity
-import io.mochahub.powermeter.data.WorkoutSession.WorkoutSessionEntity
+import io.mochahub.powermeter.data.workout.WorkoutEntity
+import io.mochahub.powermeter.data.workoutsession.WorkoutSessionEntity
 import java.time.Instant
 import java.util.UUID
 
 // TODO: Add indices
 @Entity(
-    tableName = "workouts",
+    tableName = "workout_sets",
     foreignKeys = [
         ForeignKey(
             entity = WorkoutSessionEntity::class,
             parentColumns = arrayOf("id"),
             childColumns = arrayOf("workoutSessionUUID"),
             onDelete = ForeignKey.CASCADE,
+            onUpdate = ForeignKey.CASCADE,
             deferred = true
-        ),
-        ForeignKey(
-            entity = ExerciseEntity::class,
+        ), ForeignKey(
+            entity = WorkoutEntity::class,
             parentColumns = arrayOf("id"),
-            childColumns = arrayOf("exerciseUUID"),
+            childColumns = arrayOf("workoutUUID"),
             onDelete = ForeignKey.CASCADE,
+            onUpdate = ForeignKey.CASCADE,
             deferred = true
         )
     ]
 )
-data class WorkoutEntity(
+data class WorkoutSetEntity(
     @PrimaryKey var id: String = UUID.randomUUID().toString(),
-    var workoutSessionUUID: String,
-    var exerciseUUID: String,
+    val workoutSessionUUID: String,
+    val workoutUUID: String,
+    var reps: Int,
+    var weight: Double,
     val createdAt: Long = Instant.now().epochSecond
 )

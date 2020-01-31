@@ -5,14 +5,14 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import io.mochahub.powermeter.data.Exercise.ExerciseDao
-import io.mochahub.powermeter.data.Exercise.ExerciseEntity
-import io.mochahub.powermeter.data.Workout.WorkoutDao
-import io.mochahub.powermeter.data.Workout.WorkoutEntity
-import io.mochahub.powermeter.data.WorkoutSession.WorkoutSessionDao
-import io.mochahub.powermeter.data.WorkoutSession.WorkoutSessionEntity
-import io.mochahub.powermeter.data.WorkoutSet.WorkoutSetDao
-import io.mochahub.powermeter.data.WorkoutSet.WorkoutSetEntity
+import io.mochahub.powermeter.data.exercise.ExerciseDao
+import io.mochahub.powermeter.data.exercise.ExerciseEntity
+import io.mochahub.powermeter.data.workout.WorkoutDao
+import io.mochahub.powermeter.data.workout.WorkoutEntity
+import io.mochahub.powermeter.data.workoutsession.WorkoutSessionDao
+import io.mochahub.powermeter.data.workoutsession.WorkoutSessionEntity
+import io.mochahub.powermeter.data.workoutset.WorkoutSetDao
+import io.mochahub.powermeter.data.workoutset.WorkoutSetEntity
 
 @Database(
     entities = [

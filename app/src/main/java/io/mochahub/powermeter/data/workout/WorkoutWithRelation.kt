@@ -1,10 +1,10 @@
-package io.mochahub.powermeter.data.Workout
+package io.mochahub.powermeter.data.workout
 
 import androidx.room.Embedded
 import androidx.room.Relation
-import io.mochahub.powermeter.data.Exercise.ExerciseEntity
-import io.mochahub.powermeter.data.Exercise.toModel
-import io.mochahub.powermeter.data.WorkoutSet.WorkoutSetEntity
+import io.mochahub.powermeter.data.exercise.ExerciseEntity
+import io.mochahub.powermeter.data.exercise.toModel
+import io.mochahub.powermeter.data.workoutset.WorkoutSetEntity
 import io.mochahub.powermeter.models.Workout
 import io.mochahub.powermeter.models.WorkoutSet
 

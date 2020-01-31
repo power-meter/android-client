@@ -8,11 +8,11 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
 import androidx.room.withTransaction
 import io.mochahub.powermeter.data.AppDatabase
-import io.mochahub.powermeter.data.Exercise.ExerciseEntity
-import io.mochahub.powermeter.data.Workout.WorkoutEntity
-import io.mochahub.powermeter.data.Workout.WorkoutWithRelation
-import io.mochahub.powermeter.data.WorkoutSession.WorkoutSessionEntity
-import io.mochahub.powermeter.data.WorkoutSet.WorkoutSetEntity
+import io.mochahub.powermeter.data.exercise.ExerciseEntity
+import io.mochahub.powermeter.data.workout.WorkoutEntity
+import io.mochahub.powermeter.data.workout.WorkoutWithRelation
+import io.mochahub.powermeter.data.workoutsession.WorkoutSessionEntity
+import io.mochahub.powermeter.data.workoutset.WorkoutSetEntity
 import io.mochahub.powermeter.models.Workout
 import io.mochahub.powermeter.models.WorkoutSession
 import kotlinx.coroutines.CoroutineScope

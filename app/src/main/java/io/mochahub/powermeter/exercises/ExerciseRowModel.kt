@@ -6,7 +6,7 @@ import com.airbnb.epoxy.EpoxyModelClass
 import com.airbnb.epoxy.EpoxyModelWithHolder
 import com.google.android.material.card.MaterialCardView
 import io.mochahub.powermeter.R
-import io.mochahub.powermeter.data.Exercise.ExerciseEntity
+import io.mochahub.powermeter.data.exercise.ExerciseEntity
 import io.mochahub.powermeter.shared.KotlinEpoxyHolder
 
 @EpoxyModelClass(layout = R.layout.row_exercise)
