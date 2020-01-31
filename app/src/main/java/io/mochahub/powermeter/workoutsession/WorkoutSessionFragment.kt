@@ -2,7 +2,6 @@ package io.mochahub.powermeter.workoutsession
 
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import io.mochahub.powermeter.R
 import io.mochahub.powermeter.data.AppDatabase
-import io.mochahub.powermeter.data.workoutsession.WorkoutSessionEntity
+import io.mochahub.powermeter.data.workoutsession.WorkoutSessionWithRelation
 import io.mochahub.powermeter.shared.SwipeToDeleteCallback
 import kotlinx.android.synthetic.main.fragment_workout_session.addSessionButton
 import kotlinx.android.synthetic.main.fragment_workout_session.recyclerView
@@ -23,7 +22,10 @@ class WorkoutSessionFragment : Fragment() {
 
     private val navController by lazy { this.findNavController() }
     private val sessionViewModel by lazy {
-        WorkoutSessionViewModel(AppDatabase(requireContext()).workoutSessionDao())
+        WorkoutSessionViewModel(
+            AppDatabase(requireContext()).workoutSessionDao(),
+            AppDatabase(requireContext()).workoutDao(),
+            AppDatabase(requireContext()).workoutSetDao())
     }
     private val itemTouchHelper by lazy { ItemTouchHelper(swipeHandler) }
     private val swipeHandler by lazy {
@@ -31,18 +33,15 @@ class WorkoutSessionFragment : Fragment() {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val position = viewHolder.adapterPosition
 
-                sessionViewModel.removeWorkoutSession(position)
-                // TODO: UNDO. This is more tricky because we need to undo the cascade delete
+                val removedSession = sessionViewModel.removeWorkoutSession(position)
+
                 Snackbar.make(
                     viewHolder.itemView,
                     getString(R.string.exercise_deleted),
                     Snackbar.LENGTH_LONG
                 ).apply {
                     setAction(getString(R.string.undo)) {
-                        Log.d(
-                            this.javaClass.toString(),
-                            "TODO: UNDO DELETED WORKOUTSESSION"
-                        )
+                        sessionViewModel.insertWorkoutSession(removedSession)
                     }
                     setActionTextColor(Color.YELLOW)
                     show()
@@ -81,11 +80,11 @@ class WorkoutSessionFragment : Fragment() {
         }
     }
 
-    private fun onWorkoutSessionClicked(workoutSession: WorkoutSessionEntity) {
+    private fun onWorkoutSessionClicked(workoutSession: WorkoutSessionWithRelation) {
         val action = WorkoutSessionFragmentDirections
             .actionDestinationWorkoutSessionScreenToNewWorkoutDialog(
-                workoutSessionID = workoutSession.id,
-                workoutSessionDate = workoutSession.date
+                workoutSessionID = workoutSession.workoutSession.id,
+                workoutSessionDate = workoutSession.workoutSession.date
             )
         navController.navigate(action)
     }
