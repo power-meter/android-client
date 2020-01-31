@@ -43,10 +43,20 @@ class MainActivity : AppCompatActivity() {
             Navigation.findNavController(this, R.id.nav_host_fragment)
         NavigationUI.setupWithNavController(bottom_navigation, navController)
 
+        // TODO(atul): Figure out how to deduplicate below code
+        // The duplication is required because just calling a function from inside the listener doesn't seem to work
+        // Possibly happening due to garbage collection?
+        // (ref: https://stackoverflow.com/questions/2542938/sharedpreferences-onsharedpreferencechangelistener-not-being-called-consistently)
+        if (preferences.getBoolean(NIGHT_MODE, false)) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        }
+
         preferences.registerOnSharedPreferenceChangeListener { sharedPreferences, key ->
             when (key) {
                 NIGHT_MODE -> {
-                    if (sharedPreferences.getBoolean(key, false)) {
+                    if (sharedPreferences.getBoolean(NIGHT_MODE, false)) {
                         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
                     } else {
                         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
