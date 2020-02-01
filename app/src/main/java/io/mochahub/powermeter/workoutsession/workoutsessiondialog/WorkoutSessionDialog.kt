@@ -23,6 +23,7 @@ import io.mochahub.powermeter.models.addSet
 import io.mochahub.powermeter.models.removeSet
 import io.mochahub.powermeter.models.setReps
 import io.mochahub.powermeter.models.setWeight
+import io.mochahub.powermeter.models.toggleVisibility
 import io.mochahub.powermeter.models.updateExercise
 import kotlinx.android.synthetic.main.dialog_new_workout_session.addWorkoutBtn
 import kotlinx.android.synthetic.main.dialog_new_workout_session.newWorkoutDateText
@@ -231,11 +232,22 @@ class WorkoutSessionDialog : WorkoutController.AdapterCallbacks, DialogFragment(
     // Need to use a loop method because it is more reliable then indexing
     // If we use index's there is a bug when deleting sets/ workouts
     // that causes out of bounds exceptions
+    // TODO: make workouts a hashmap and change model so that workoutsets are a hashmap.
+    //  The keys will be their ids.
     override fun onAddSetClicked(workout: Workout) {
         for (i in 0 until viewModel.workouts.size) {
             if (viewModel.workouts[i].id == workout.id) {
                 viewModel.workouts[i] =
                     viewModel.workouts[i].addSet(WorkoutSet(weight = 0.0, reps = 0))
+                workoutController.setData(viewModel.workouts)
+            }
+        }
+    }
+
+    override fun toggleWorkoutSetVisibility(workout: Workout) {
+        for (i in 0 until viewModel.workouts.size) {
+            if (viewModel.workouts[i].id == workout.id) {
+                viewModel.workouts[i] = viewModel.workouts[i].toggleVisibility()
                 workoutController.setData(viewModel.workouts)
             }
         }

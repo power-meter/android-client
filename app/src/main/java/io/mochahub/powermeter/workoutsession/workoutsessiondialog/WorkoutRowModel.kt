@@ -15,6 +15,7 @@ abstract class WorkoutRowModel(
     @EpoxyAttribute var workout: Workout,
     @EpoxyAttribute var arrayAdapter: ArrayAdapter<String>,
     @EpoxyAttribute(EpoxyAttribute.Option.DoNotHash) var addButtonClickListener: () -> Unit,
+    @EpoxyAttribute(EpoxyAttribute.Option.DoNotHash) var toggleWorkoutSetVisibility: () -> Unit,
     @EpoxyAttribute(EpoxyAttribute.Option.DoNotHash) var onExerciseSelected: (exercise: String) -> Unit
 ) : EpoxyModelWithHolder<WorkoutRowModel.Holder>() {
 
@@ -32,10 +33,15 @@ abstract class WorkoutRowModel(
         holder.addEmptyWorkoutSetButton.setOnClickListener {
             addButtonClickListener()
         }
+        holder.toggleWorkoutSetVisibilityButton.setOnClickListener {
+            toggleWorkoutSetVisibility()
+            holder.toggleWorkoutSetVisibilityButton.rotation = if (workout.isSetsVisible) 0f else 180f
+        }
     }
 
     class Holder : KotlinEpoxyHolder() {
         val workoutExerciseTextView by bind<AutoCompleteTextView>(R.id.newWorkoutExerciseText)
         val addEmptyWorkoutSetButton by bind<MaterialButton>(R.id.newWorkoutSetButton)
+        val toggleWorkoutSetVisibilityButton by bind<MaterialButton>(R.id.toggleWorkoutSetVisibility)
     }
 }
