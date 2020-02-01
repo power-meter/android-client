@@ -31,7 +31,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
-            SYSTEM_THEME -> {
+            NIGHT_MODE, SYSTEM_THEME -> {
                 findPreference<SwitchPreference>(NIGHT_MODE)?.isEnabled = !((sharedPreferences ?: preferenceManager.sharedPreferences).getBoolean(SYSTEM_THEME, false))
                 when {
                     preferenceManager.sharedPreferences.getBoolean(SYSTEM_THEME, false) -> {
@@ -43,13 +43,6 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
                     else -> {
                         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
                     }
-                }
-            }
-            NIGHT_MODE -> {
-                if (preferenceManager.sharedPreferences.getBoolean(NIGHT_MODE, false)) {
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-                } else {
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
                 }
             }
         }
