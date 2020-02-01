@@ -16,37 +16,41 @@ class WorkoutController(
     interface AdapterCallbacks {
         fun onExerciseSelected(workout: Workout, exercise: String)
         fun onAddSetClicked(workout: Workout)
+        fun toggleWorkoutSetVisibility(workout: Workout)
         fun onRepTextChanged(workout: Workout, workoutSet: WorkoutSet, value: Int)
         fun onWeightTextChanged(workout: Workout, workoutSet: WorkoutSet, value: Double)
     }
 
     override fun buildModels(workouts: List<Workout>?) {
-        workouts?.forEachIndexed { _, workout ->
+        workouts?.forEach { workout ->
             workoutRow(
                 workout = workout,
+                toggleWorkoutSetVisibility = { this.callbacks.toggleWorkoutSetVisibility(workout) },
                 arrayAdapter = ArrayAdapter(context, R.layout.dropdown_menu_popup_item, exercises),
                 addButtonClickListener = { callbacks.onAddSetClicked(workout) },
                 onExerciseSelected = { value -> callbacks.onExerciseSelected(workout, value) }) {
                 id(workout.id)
             }
-            workout.sets.forEachIndexed { _, workoutSet ->
-                workoutRowSet(
-                    workoutSet = workoutSet,
-                    onRepFocusChanged = { value ->
-                        callbacks.onRepTextChanged(
-                            workout,
-                            workoutSet,
-                            value
-                        )
-                    },
-                    onWeightFocusChanged = { value ->
-                        callbacks.onWeightTextChanged(
-                            workout,
-                            workoutSet,
-                            value
-                        )
-                    }) {
-                    id(workoutSet.id)
+            if (workout.isSetsVisible) {
+                workout.sets.forEach { workoutSet ->
+                    workoutRowSet(
+                        workoutSet = workoutSet,
+                        onRepFocusChanged = { value ->
+                            callbacks.onRepTextChanged(
+                                workout,
+                                workoutSet,
+                                value
+                            )
+                        },
+                        onWeightFocusChanged = { value ->
+                            callbacks.onWeightTextChanged(
+                                workout,
+                                workoutSet,
+                                value
+                            )
+                        }) {
+                        id(workoutSet.id)
+                    }
                 }
             }
         }

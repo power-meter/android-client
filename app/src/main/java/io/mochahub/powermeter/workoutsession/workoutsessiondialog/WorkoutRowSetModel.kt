@@ -37,7 +37,6 @@ abstract class WorkoutRowSetModel(
         if (holder.weightEditText.hasFocus() && holder.weightEditText.text != null) {
             holder.weightEditText.setSelection(holder.weightEditText.length())
         }
-
         holder.repsEditText.addTextChangedListener(WorkoutSetTextChangeListener {
             if (holder.repsEditText.text.toString().isNotEmpty() &&
                 holder.repsEditText.text.toString().isNotBlank()
@@ -63,10 +62,9 @@ abstract class WorkoutRowSetModel(
 private class WorkoutSetTextChangeListener(
     private val callback: () -> Unit
 ) : TextWatcher {
-    override fun afterTextChanged(s: Editable?) {
+    override fun afterTextChanged(s: Editable?) {}
+    override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+    override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
         callback()
     }
-
-    override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-    override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
 }
