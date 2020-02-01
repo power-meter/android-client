@@ -5,12 +5,17 @@ import java.util.UUID
 data class Workout(
     val id: String = UUID.randomUUID().toString(),
     val exercise: Exercise,
-    val sets: MutableList<WorkoutSet>
+    val sets: MutableList<WorkoutSet>,
+    val isSetsVisible: Boolean = true
 )
 
 fun Workout.addSet(set: WorkoutSet): Workout {
     sets.add(set)
     return this.copy(sets = this.sets)
+}
+
+fun Workout.toggleVisibility(): Workout {
+    return this.copy(isSetsVisible = !this.isSetsVisible)
 }
 
 fun Workout.removeSet(index: Int): Workout {

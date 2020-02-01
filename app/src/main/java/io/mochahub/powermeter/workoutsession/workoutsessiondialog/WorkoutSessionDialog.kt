@@ -23,6 +23,7 @@ import io.mochahub.powermeter.models.addSet
 import io.mochahub.powermeter.models.removeSet
 import io.mochahub.powermeter.models.setReps
 import io.mochahub.powermeter.models.setWeight
+import io.mochahub.powermeter.models.toggleVisibility
 import io.mochahub.powermeter.models.updateExercise
 import kotlinx.android.synthetic.main.dialog_new_workout_session.addWorkoutBtn
 import kotlinx.android.synthetic.main.dialog_new_workout_session.newWorkoutDateText
@@ -236,6 +237,15 @@ class WorkoutSessionDialog : WorkoutController.AdapterCallbacks, DialogFragment(
             if (viewModel.workouts[i].id == workout.id) {
                 viewModel.workouts[i] =
                     viewModel.workouts[i].addSet(WorkoutSet(weight = 0.0, reps = 0))
+                workoutController.setData(viewModel.workouts)
+            }
+        }
+    }
+
+    override fun toggleWorkoutSetVisibility(workout: Workout) {
+        for (i in 0 until viewModel.workouts.size) {
+            if (viewModel.workouts[i].id == workout.id) {
+                viewModel.workouts[i] = viewModel.workouts[i].toggleVisibility()
                 workoutController.setData(viewModel.workouts)
             }
         }
