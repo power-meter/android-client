@@ -19,6 +19,7 @@ import kotlinx.android.synthetic.main.activity_main.bottom_navigation
 import kotlinx.android.synthetic.main.activity_main.toolbar
 
 private const val NIGHT_MODE = "night_mode"
+private const val SYSTEM_THEME = "match_system_theme"
 
 class MainActivity : AppCompatActivity() {
 
@@ -47,19 +48,27 @@ class MainActivity : AppCompatActivity() {
         // The duplication is required because just calling a function from inside the listener doesn't seem to work
         // Possibly happening due to garbage collection?
         // (ref: https://stackoverflow.com/questions/2542938/sharedpreferences-onsharedpreferencechangelistener-not-being-called-consistently)
-        if (preferences.getBoolean(NIGHT_MODE, false)) {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+        if (preferences.getBoolean(SYSTEM_THEME, false)) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
         } else {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            if (preferences.getBoolean(NIGHT_MODE, false)) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            } else {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            }
         }
 
         preferences.registerOnSharedPreferenceChangeListener { sharedPreferences, key ->
             when (key) {
-                NIGHT_MODE -> {
-                    if (sharedPreferences.getBoolean(NIGHT_MODE, false)) {
-                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                NIGHT_MODE, SYSTEM_THEME -> {
+                    if (sharedPreferences.getBoolean(SYSTEM_THEME, false)) {
+                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
                     } else {
-                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                        if (sharedPreferences.getBoolean(NIGHT_MODE, false)) {
+                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                        } else {
+                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                        }
                     }
                 }
             }
