@@ -6,5 +6,8 @@
             app:key="night_mode"
             app:title="Enable night mode"
             />
-
+    <SwitchPreference
+            app:key="match_system_theme"
+            app:title="Match system theme"
+            />
 </PreferenceScreen>
