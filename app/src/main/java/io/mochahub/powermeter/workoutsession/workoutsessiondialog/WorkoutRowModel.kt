@@ -15,7 +15,7 @@ abstract class WorkoutRowModel(
     @EpoxyAttribute var workout: Workout,
     @EpoxyAttribute var arrayAdapter: ArrayAdapter<String>,
     @EpoxyAttribute(EpoxyAttribute.Option.DoNotHash) var addButtonClickListener: () -> Unit,
-    @EpoxyAttribute(EpoxyAttribute.Option.DoNotHash) var toggleWorkoutSetVisibility: () -> Unit,
+    @EpoxyAttribute(EpoxyAttribute.Option.DoNotHash) var toggleWorkoutSetVisibility: (toggle: Boolean) -> Unit,
     @EpoxyAttribute(EpoxyAttribute.Option.DoNotHash) var onExerciseSelected: (exercise: String) -> Unit
 ) : EpoxyModelWithHolder<WorkoutRowModel.Holder>() {
 
@@ -31,10 +31,11 @@ abstract class WorkoutRowModel(
         }
 
         holder.addEmptyWorkoutSetButton.setOnClickListener {
+            toggleWorkoutSetVisibility(true)
             addButtonClickListener()
         }
         holder.toggleWorkoutSetVisibilityButton.setOnClickListener {
-            toggleWorkoutSetVisibility()
+            toggleWorkoutSetVisibility(!workout.isSetsVisible)
             holder.toggleWorkoutSetVisibilityButton.rotation = if (workout.isSetsVisible) 0f else 180f
         }
     }

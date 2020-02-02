@@ -14,8 +14,8 @@ fun Workout.addSet(set: WorkoutSet): Workout {
     return this.copy(sets = this.sets)
 }
 
-fun Workout.toggleVisibility(): Workout {
-    return this.copy(isSetsVisible = !this.isSetsVisible)
+fun Workout.setVisibility(visible: Boolean): Workout {
+    return this.copy(isSetsVisible = visible)
 }
 
 fun Workout.removeSet(index: Int): Workout {
