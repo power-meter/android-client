@@ -1,6 +1,5 @@
 package io.mochahub.powermeter.workoutsession.workoutsessiondialog
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -18,7 +17,6 @@ import io.mochahub.powermeter.models.WorkoutSession
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.time.Instant
 
 class WorkoutSessionDialogViewModel(private val db: AppDatabase) : ViewModelProvider.Factory, ViewModel() {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
@@ -38,11 +36,7 @@ class WorkoutSessionDialogViewModel(private val db: AppDatabase) : ViewModelProv
 
     fun saveWorkoutSession(
         workoutSessionToDelete: String?
-    ): String? {
-        val errorMsg = isWorkoutSessionValid(workoutSession)
-        if (errorMsg != null) {
-            return errorMsg
-        }
+    ) {
 
         val workoutSessionEntity =
             WorkoutSessionEntity(date = workoutSession.date.epochSecond)
@@ -50,8 +44,11 @@ class WorkoutSessionDialogViewModel(private val db: AppDatabase) : ViewModelProv
         val workoutSetEntities = ArrayList<WorkoutSetEntity>()
 
         CoroutineScope(Dispatchers.IO).launch {
-            workoutSession.workouts.forEach {
-                val exercise = db.exerciseDao().findByName(it.exercise.name)
+            workoutSession.workouts.forEach { workout ->
+                if (workout.exercise.name.isBlank()) {
+                    return@forEach
+                }
+                val exercise = db.exerciseDao().findByName(workout.exercise.name)
                 val workoutEntity =
                     WorkoutEntity(
                         workoutSessionUUID = workoutSessionEntity.id,
@@ -59,15 +56,17 @@ class WorkoutSessionDialogViewModel(private val db: AppDatabase) : ViewModelProv
                     )
 
                 workoutEntities.add(workoutEntity)
-                it.sets.forEach { workoutSet ->
-                    val workoutSetEntity =
-                        WorkoutSetEntity(
-                            workoutSessionUUID = workoutSessionEntity.id,
-                            workoutUUID = workoutEntity.id,
-                            reps = workoutSet.reps,
-                            weight = workoutSet.weight
-                        )
-                    workoutSetEntities.add(workoutSetEntity)
+                workout.sets.forEach { workoutSet ->
+                    if (workoutSet.weight != 0.0 && workoutSet.reps != 0) {
+                        val workoutSetEntity =
+                            WorkoutSetEntity(
+                                workoutSessionUUID = workoutSessionEntity.id,
+                                workoutUUID = workoutEntity.id,
+                                reps = workoutSet.reps,
+                                weight = workoutSet.weight
+                            )
+                        workoutSetEntities.add(workoutSetEntity)
+                    }
                 }
             }
 
@@ -80,38 +79,5 @@ class WorkoutSessionDialogViewModel(private val db: AppDatabase) : ViewModelProv
                 }
             }
         }
-        return null
-    }
-
-    private fun isWorkoutSessionValid(workoutSession: WorkoutSession): String? {
-        // TODO: Make these errors constants
-        if (workoutSession.date.isAfter(Instant.now())) {
-            Log.d(this.javaClass.canonicalName, "Workout session date is in the future")
-            return "Workout session date is in the future"
-        }
-        if (workoutSession.workouts.isEmpty()) {
-            Log.d(this.javaClass.canonicalName, "Empty workouts")
-            return "Empty workouts"
-        }
-        workoutSession.workouts.forEach {
-            if (it.exercise.name.isBlank() || it.exercise.name.isEmpty()) {
-                Log.d(this.javaClass.canonicalName, "Empty workout name")
-                return "Empty Workout name"
-            }
-            if (it.sets.isEmpty()) {
-                Log.d(this.javaClass.canonicalName, "Empty workoutsets")
-                return "Empty Workout Sets"
-            }
-            it.sets.forEach { workoutSet ->
-                if (workoutSet.reps == 0) {
-                    Log.d(this.javaClass.canonicalName, "Empty reps")
-                    return "Empty reps"
-                } else if (workoutSet.weight == 0.0) {
-                    Log.d(this.javaClass.canonicalName, "Empty weight")
-                    return "Empty weight"
-                }
-            }
-        }
-        return null
     }
 }
