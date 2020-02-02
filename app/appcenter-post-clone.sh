@@ -15,7 +15,7 @@ Version      : 1.0.0
 Author       : Zahin 
 =============================================================================="
 
-echo $dev_json|sed 's/\\//g'>./src/google-services.json
+echo $dev_json|sed 's/\\//g'>./src/release/google-services.json
 cat ./src/google-services.json
 #echo $prod_json|sed 's/\\//g'>./src/release/google-services.json
 #cat ./google-services.json
