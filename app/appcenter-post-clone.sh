@@ -16,6 +16,6 @@ Author       : Zahin
 =============================================================================="
 
 echo $dev_json|sed 's/\\//g'>./src/release/google-services.json
-cat ./src/google-services.json
+cat ./src/release/google-services.json
 #echo $prod_json|sed 's/\\//g'>./src/release/google-services.json
 #cat ./google-services.json
