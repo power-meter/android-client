@@ -11,6 +11,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavOptions
 import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.microsoft.appcenter.AppCenter
 import com.microsoft.appcenter.analytics.Analytics
 import com.microsoft.appcenter.crashes.Crashes
@@ -23,6 +24,8 @@ private const val SYSTEM_THEME = "match_system_theme"
 
 class MainActivity : AppCompatActivity() {
 
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
+
     private val preferences: SharedPreferences
         get() = PreferenceManager.getDefaultSharedPreferences(this)
 
@@ -32,10 +35,14 @@ class MainActivity : AppCompatActivity() {
             application, BuildConfig.HOCKEY_APP_SECRET,
             Push::class.java, Analytics::class.java, Crashes::class.java
         )
+        // Firebase will point to debug / prod automatically
+        firebaseAnalytics = FirebaseAnalytics.getInstance(this)
+        firebaseAnalytics.setAnalyticsCollectionEnabled(true)
+        firebaseAnalytics.logEvent(FirebaseAnalytics.Event.APP_OPEN, Bundle.EMPTY)
 
-//        TODO (Zahin): uncomment the following line when prod app is ready
-//        Eventually we should do a switch on this so that it only triggers on a prod product flavour
-//        Analytics.trackEvent("Hello World")
+        if (!BuildConfig.DEBUG) {
+            Analytics.trackEvent("Hello World")
+        }
 
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
