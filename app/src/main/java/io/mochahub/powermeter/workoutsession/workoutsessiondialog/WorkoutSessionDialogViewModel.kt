@@ -18,20 +18,15 @@ import io.mochahub.powermeter.models.WorkoutSession
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.text.SimpleDateFormat
 import java.time.Instant
-import java.util.Locale
 
 class WorkoutSessionDialogViewModel(private val db: AppDatabase) : ViewModelProvider.Factory, ViewModel() {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         return WorkoutSessionDialogViewModel(db) as T
     }
 
-    var workouts = ArrayList<Workout>()
-
+    var workoutSession = WorkoutSession(workouts = ArrayList<Workout>())
     var isReady = MutableLiveData<Boolean>()
-
-    val simpleDateFormat = SimpleDateFormat("MM/dd/yy", Locale.US)
 
     fun getExercises(): LiveData<List<ExerciseEntity>> {
         return db.exerciseDao().getAll().asLiveData()
@@ -42,7 +37,6 @@ class WorkoutSessionDialogViewModel(private val db: AppDatabase) : ViewModelProv
     }
 
     fun saveWorkoutSession(
-        workoutSession: WorkoutSession,
         workoutSessionToDelete: String?
     ): String? {
         val errorMsg = isWorkoutSessionValid(workoutSession)
