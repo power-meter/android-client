@@ -53,7 +53,14 @@
             android:id="@+id/graphFragment"
             android:name="io.mochahub.powermeter.graph.GraphFragment"
             android:label="graph_fragment"
-            tools:layout="@layout/graph_fragment" />
+            tools:layout="@layout/graph_fragment" >
+        <argument
+                android:name="exerciseID"
+                app:argType="string" />
+        <argument
+                android:name="personalRecord"
+                app:argType="float" />
+    </fragment>
     <fragment
             android:id="@+id/settingsFragment"
             android:name="io.mochahub.powermeter.SettingsFragment"
