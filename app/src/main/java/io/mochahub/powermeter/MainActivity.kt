@@ -35,13 +35,14 @@ class MainActivity : AppCompatActivity() {
             application, BuildConfig.HOCKEY_APP_SECRET,
             Push::class.java, Analytics::class.java, Crashes::class.java
         )
+        // Firebase will point to debug / prod automatically
         firebaseAnalytics = FirebaseAnalytics.getInstance(this)
+        firebaseAnalytics.setAnalyticsCollectionEnabled(true)
+        firebaseAnalytics.logEvent(FirebaseAnalytics.Event.APP_OPEN, Bundle.EMPTY)
 
         if (!BuildConfig.DEBUG) {
             Analytics.trackEvent("Hello World")
         }
-        // Firebase will point to debug / prod automatically
-        firebaseAnalytics.logEvent(FirebaseAnalytics.Event.APP_OPEN, Bundle.EMPTY)
 
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
