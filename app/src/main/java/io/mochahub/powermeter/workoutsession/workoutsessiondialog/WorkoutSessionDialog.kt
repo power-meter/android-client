@@ -201,6 +201,9 @@ class WorkoutSessionDialog : WorkoutController.AdapterCallbacks, DialogFragment(
                 it.forEach { workoutRelation ->
                     (viewModel.workoutSession.workouts as ArrayList).add(workoutRelation.toModel())
                 }
+                if (viewModel.workoutSession.workouts.isEmpty()) {
+                    this.addEmptyWorkout()
+                }
                 workoutController.setData(viewModel.workoutSession)
                 viewModel.isReady.postValue(true)
             })
@@ -215,7 +218,7 @@ class WorkoutSessionDialog : WorkoutController.AdapterCallbacks, DialogFragment(
     // that causes out of bounds exceptions
     // TODO: make workouts a hashmap and change model so that workoutsets are a hashmap.
     //  The keys will be their ids.
-    override fun onAddSetClicked(workout: Workout) {
+    override fun addEmptyWorkoutSet(workout: Workout) {
         for (i in viewModel.workoutSession.workouts.indices) {
             if (viewModel.workoutSession.workouts[i].id == workout.id) {
                 (viewModel.workoutSession.workouts as ArrayList)[i] =
