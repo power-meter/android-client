@@ -9,13 +9,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import io.mochahub.powermeter.R
 import io.mochahub.powermeter.data.AppDatabase
 import io.mochahub.powermeter.data.exercise.ExerciseEntity
+import io.mochahub.powermeter.exercises.ExerciseViewModel.ExerciseViewModelFactory
 import io.mochahub.powermeter.shared.SwipeToDeleteCallback
 import kotlinx.android.synthetic.main.fragment_exercise.addExerciseBtn
 import kotlinx.android.synthetic.main.fragment_exercise.recyclerView
@@ -33,15 +34,15 @@ class ExerciseFragment : Fragment() {
     private val navController by lazy { this.findNavController() }
 
     private val viewModel by lazy {
-        ViewModelProviders.of(
+        ViewModelProvider(
             this,
-            ExerciseViewModel.ExerciseViewModelFactory(AppDatabase(requireContext()).exerciseDao())
-        )[ExerciseViewModel::class.java]
+            ExerciseViewModelFactory(AppDatabase(requireContext()).exerciseDao())
+        ).get(ExerciseViewModel::class.java)
     }
 
     private val exerciseSharedViewModel by lazy {
         requireActivity().run {
-            ViewModelProviders.of(this)[ExerciseSharedViewModel::class.java]
+            ViewModelProvider(this).get(ExerciseSharedViewModel::class.java)
         }
     }
 

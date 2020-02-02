@@ -24,19 +24,19 @@ private const val SYSTEM_THEME = "match_system_theme"
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var firebaseAnalytics: FirebaseAnalytics
-
     private val preferences: SharedPreferences
         get() = PreferenceManager.getDefaultSharedPreferences(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         AppCenter.start(
             application, BuildConfig.HOCKEY_APP_SECRET,
             Push::class.java, Analytics::class.java, Crashes::class.java
         )
+
         // Firebase will point to debug / prod automatically
-        firebaseAnalytics = FirebaseAnalytics.getInstance(this)
+        val firebaseAnalytics = FirebaseAnalytics.getInstance(this)
         firebaseAnalytics.setAnalyticsCollectionEnabled(true)
         firebaseAnalytics.logEvent(FirebaseAnalytics.Event.APP_OPEN, Bundle.EMPTY)
 
@@ -65,7 +65,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu
         menuInflater.inflate(R.menu.menu_toolbar, menu)
         return true
     }

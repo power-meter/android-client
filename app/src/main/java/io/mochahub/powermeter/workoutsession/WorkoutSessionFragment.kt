@@ -37,7 +37,7 @@ class WorkoutSessionFragment : Fragment() {
 
                 Snackbar.make(
                     viewHolder.itemView,
-                    getString(R.string.exercise_deleted),
+                    getString(R.string.workout_deleted),
                     Snackbar.LENGTH_LONG
                 ).apply {
                     setAction(getString(R.string.undo)) {

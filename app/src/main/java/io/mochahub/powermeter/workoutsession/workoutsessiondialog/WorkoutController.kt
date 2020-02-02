@@ -33,9 +33,14 @@ class WorkoutController(
         workoutSession?.workouts?.forEach { workout ->
             workoutRow(
                 workout = workout,
-                toggleWorkoutSetVisibility = { visible -> callbacks.toggleWorkoutSetVisibility(visible, workout) },
+                toggleWorkoutSetVisibility = { visible ->
+                    callbacks.toggleWorkoutSetVisibility(visible, workout)
+                },
                 arrayAdapter = ArrayAdapter(context, R.layout.dropdown_menu_popup_item, exercises),
-                onExerciseSelected = { value -> callbacks.onExerciseSelected(workout, value) }) {
+                onExerciseSelected = { value ->
+                    callbacks.onExerciseSelected(workout, value)
+                }
+            ) {
                 id(workout.id)
             }
             if (workout.isSetsVisible) {

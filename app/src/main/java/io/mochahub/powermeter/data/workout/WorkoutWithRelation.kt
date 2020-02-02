@@ -11,9 +11,17 @@ import io.mochahub.powermeter.models.WorkoutSet
 data class WorkoutWithRelation(
     @Embedded
     val workout: WorkoutEntity,
-    @Relation(parentColumn = "exerciseUUID", entityColumn = "id", entity = ExerciseEntity::class)
+    @Relation(
+        parentColumn = "exerciseUUID",
+        entityColumn = "id",
+        entity = ExerciseEntity::class
+    )
     val exercise: ExerciseEntity,
-    @Relation(parentColumn = "id", entityColumn = "workoutUUID", entity = WorkoutSetEntity::class)
+    @Relation(
+        parentColumn = "id",
+        entityColumn = "workoutUUID",
+        entity = WorkoutSetEntity::class
+    )
     val workoutSets: List<WorkoutSetEntity>
 )
 

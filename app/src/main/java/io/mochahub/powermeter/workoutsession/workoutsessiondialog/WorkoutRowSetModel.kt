@@ -52,16 +52,12 @@ abstract class WorkoutRowSetModel(
             }
         }
         holder.repsEditText.addTextChangedListener(WorkoutSetTextChangeListener {
-            if (holder.repsEditText.text.toString().isNotEmpty() &&
-                holder.repsEditText.text.toString().isNotBlank()
-            ) {
+            if (holder.repsEditText.text.toString().isNotBlank()) {
                 onRepTextChanged(holder.repsEditText.text.toString().toInt())
             }
         })
         holder.weightEditText.addTextChangedListener(WorkoutSetTextChangeListener {
-            if (holder.weightEditText.text.toString().isNotEmpty() &&
-                holder.weightEditText.text.toString().isNotBlank()
-            ) {
+            if (holder.weightEditText.text.toString().isNotBlank()) {
                 onWeightTextChanged(holder.weightEditText.text.toString().toDouble())
             }
         })

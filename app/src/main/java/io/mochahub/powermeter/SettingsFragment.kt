@@ -6,11 +6,12 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SwitchPreference
 
-// TODO(atul): Deduplicate below strings and the ones in MainActivity file
+// TODO(Atul): Deduplicate below strings and the ones in MainActivity file
 private const val NIGHT_MODE = "night_mode"
 private const val SYSTEM_THEME = "match_system_theme"
 
-class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedPreferenceChangeListener {
+class SettingsFragment : PreferenceFragmentCompat(),
+    SharedPreferences.OnSharedPreferenceChangeListener {
 
     override fun onResume() {
         super.onResume()
@@ -26,13 +27,18 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
         setPreferencesFromResource(R.xml.preference, rootKey)
         activity?.title = resources.getString(R.string.settings_screen_label)
 
-        findPreference<SwitchPreference>(NIGHT_MODE)?.isEnabled = !(preferenceManager.sharedPreferences.getBoolean(SYSTEM_THEME, false))
+        findPreference<SwitchPreference>(NIGHT_MODE)?.isEnabled =
+            !(preferenceManager.sharedPreferences.getBoolean(SYSTEM_THEME, false))
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
             NIGHT_MODE, SYSTEM_THEME -> {
-                findPreference<SwitchPreference>(NIGHT_MODE)?.isEnabled = !((sharedPreferences ?: preferenceManager.sharedPreferences).getBoolean(SYSTEM_THEME, false))
+                findPreference<SwitchPreference>(NIGHT_MODE)?.isEnabled =
+                    !((sharedPreferences ?: preferenceManager.sharedPreferences).getBoolean(
+                        SYSTEM_THEME,
+                        false
+                    ))
                 when {
                     preferenceManager.sharedPreferences.getBoolean(SYSTEM_THEME, false) -> {
                         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)

@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.textfield.TextInputEditText
 import io.mochahub.powermeter.R
@@ -21,7 +21,7 @@ class ExerciseDialog : DialogFragment() {
 
     private val newExerciseSharedViewModel by lazy {
         requireActivity().run {
-            ViewModelProviders.of(this)[ExerciseSharedViewModel::class.java]
+            ViewModelProvider(this).get(ExerciseSharedViewModel::class.java)
         }
     }
 
@@ -61,7 +61,10 @@ class ExerciseDialog : DialogFragment() {
         args.muscleGroup?.let { newExerciseGroupText.setText(it) }
 
         newExerciseToolbar.apply {
-            title = if (args.shouldEdit) resources.getString(R.string.edit_exercise) else resources.getString(R.string.new_exercise)
+            title =
+                if (args.shouldEdit) resources.getString(R.string.edit_exercise) else resources.getString(
+                    R.string.new_exercise
+                )
             setNavigationOnClickListener { dismiss() }
             inflateMenu(R.menu.menu_save)
             setOnMenuItemClickListener { item ->

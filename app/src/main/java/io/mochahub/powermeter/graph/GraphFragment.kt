@@ -6,27 +6,27 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import io.mochahub.powermeter.R
 import io.mochahub.powermeter.data.AppDatabase
 import kotlinx.android.synthetic.main.graph_fragment.emptyStateText
 import kotlinx.android.synthetic.main.graph_fragment.graph
 import kotlinx.android.synthetic.main.graph_fragment.scrub_value
-import kotlinx.android.synthetic.main.graph_fragment.view.emptyStateText
 
 class GraphFragment : Fragment() {
 
     private val args: GraphFragmentArgs by navArgs()
 
     private val viewModel by lazy {
-        ViewModelProviders.of(
+        ViewModelProvider(
             this,
             GraphViewModel(
                 args.exerciseID,
                 args.personalRecord.toDouble(),
-                AppDatabase(requireContext()).workoutDao())
-        )[GraphViewModel::class.java]
+                AppDatabase(requireContext()).workoutDao()
+            )
+        ).get(GraphViewModel::class.java)
     }
     private val graphAdapter = GraphAdapter(emptyList())
 
