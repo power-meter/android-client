@@ -59,7 +59,7 @@
                 app:argType="string" />
         <argument
                 android:name="personalRecord"
-                app:argType="string" />
+                app:argType="float" />
     </fragment>
     <fragment
             android:id="@+id/settingsFragment"

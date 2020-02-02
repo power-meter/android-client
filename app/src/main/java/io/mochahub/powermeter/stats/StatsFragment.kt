@@ -17,7 +17,7 @@ class StatsFragment : Fragment() {
 
     private val exerciseController by lazy {
         ExerciseController {
-            val action = StatsFragmentDirections.actionDestinationStatsScreenToGraphFragment(it.id, it.personalRecord.toString())
+            val action = StatsFragmentDirections.actionDestinationStatsScreenToGraphFragment(it.id, it.personalRecord.toFloat())
             navController.navigate(action)
         }
     }
