@@ -74,6 +74,7 @@ dependencies {
 
     // Firebase
     implementation "com.google.firebase:firebase-messaging:20.1.0"
+    implementation 'com.google.firebase:firebase-analytics:17.2.2'
 
     // Test
     testImplementation "junit:junit:4.12"
