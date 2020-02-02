@@ -18,7 +18,7 @@ class WorkoutController(
 
     interface AdapterCallbacks {
         fun onExerciseSelected(workout: Workout, exercise: String)
-        fun onAddSetClicked(workout: Workout)
+        fun addEmptyWorkoutSet(workout: Workout)
         fun toggleWorkoutSetVisibility(visible: Boolean, workout: Workout)
         fun onRepTextChanged(workout: Workout, workoutSet: WorkoutSet, value: Int)
         fun onWeightTextChanged(workout: Workout, workoutSet: WorkoutSet, value: Double)
@@ -58,7 +58,7 @@ class WorkoutController(
                             )
                         },
                         lastSetFocused = {
-                            callbacks.onAddSetClicked(workout)
+                            callbacks.addEmptyWorkoutSet(workout)
                         }) {
                         id(workoutSet.id)
                     }
