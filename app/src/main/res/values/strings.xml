@@ -25,6 +25,7 @@
     <string name="cancel">Cancel</string>
     <string name="settings">Settings</string>
     <string name="scrub_empty">Tap and hold the graph to scrub.</string>
+    <string name="graph_empty_state">You score is being processed, come back when there is more data! 💪🏾</string>
 
 
 </resources>
