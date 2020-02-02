@@ -53,10 +53,12 @@ class WorkoutSessionDialogViewModel(
                     workoutSessionUUID = workoutSessionEntity.id,
                     exerciseUUID = exercise.id
                 )
-
                 workoutEntities.add(workoutEntity)
                 workout.sets.forEach { workoutSet ->
                     if (workoutSet.weight != 0.0 && workoutSet.reps != 0) {
+                        if (workoutSet.weight>exercise.personalRecord) {
+                            db.exerciseDao().updateExercise(ExerciseEntity(exercise.id, exercise.name, exercise.muscleGroup, workoutSet.weight))
+                        }
                         val workoutSetEntity = WorkoutSetEntity(
                             workoutSessionUUID = workoutSessionEntity.id,
                             workoutUUID = workoutEntity.id,
