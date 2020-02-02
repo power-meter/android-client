@@ -8,6 +8,7 @@ import androidx.lifecycle.asLiveData
 import androidx.room.withTransaction
 import io.mochahub.powermeter.data.AppDatabase
 import io.mochahub.powermeter.data.exercise.ExerciseEntity
+import io.mochahub.powermeter.data.exercise.setPersonalRecord
 import io.mochahub.powermeter.data.workout.WorkoutEntity
 import io.mochahub.powermeter.data.workout.WorkoutWithRelation
 import io.mochahub.powermeter.data.workoutsession.WorkoutSessionEntity
@@ -56,8 +57,8 @@ class WorkoutSessionDialogViewModel(
                 workoutEntities.add(workoutEntity)
                 workout.sets.forEach { workoutSet ->
                     if (workoutSet.weight != 0.0 && workoutSet.reps != 0) {
-                        if (workoutSet.weight>exercise.personalRecord) {
-                            db.exerciseDao().updateExercise(ExerciseEntity(exercise.id, exercise.name, exercise.muscleGroup, workoutSet.weight))
+                        if (workoutSet.weight > exercise.personalRecord) {
+                            db.exerciseDao().updateExercise(exercise.setPersonalRecord(workoutSet.weight))
                         }
                         val workoutSetEntity = WorkoutSetEntity(
                             workoutSessionUUID = workoutSessionEntity.id,
