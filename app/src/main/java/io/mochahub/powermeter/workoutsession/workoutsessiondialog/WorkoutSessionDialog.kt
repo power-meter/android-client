@@ -8,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import com.airbnb.epoxy.EpoxyTouchHelper
 import io.mochahub.powermeter.R
@@ -17,21 +17,18 @@ import io.mochahub.powermeter.data.exercise.ExerciseEntity
 import io.mochahub.powermeter.data.workout.toModel
 import io.mochahub.powermeter.models.Exercise
 import io.mochahub.powermeter.models.Workout
-import io.mochahub.powermeter.models.WorkoutSession
 import io.mochahub.powermeter.models.WorkoutSet
 import io.mochahub.powermeter.models.addSet
 import io.mochahub.powermeter.models.removeSet
+import io.mochahub.powermeter.models.setDate
 import io.mochahub.powermeter.models.setReps
+import io.mochahub.powermeter.models.setVisibility
 import io.mochahub.powermeter.models.setWeight
-import io.mochahub.powermeter.models.toggleVisibility
 import io.mochahub.powermeter.models.updateExercise
 import kotlinx.android.synthetic.main.dialog_new_workout_session.addWorkoutBtn
-import kotlinx.android.synthetic.main.dialog_new_workout_session.newWorkoutDateText
 import kotlinx.android.synthetic.main.dialog_new_workout_session.newWorkoutToolbar
 import kotlinx.android.synthetic.main.fragment_exercise.recyclerView
-import java.time.Instant
 import java.util.Calendar
-import java.util.Date
 
 class WorkoutSessionDialog : WorkoutController.AdapterCallbacks, DialogFragment() {
 
@@ -39,10 +36,10 @@ class WorkoutSessionDialog : WorkoutController.AdapterCallbacks, DialogFragment(
     private var shouldSave = true
     private lateinit var workoutController: WorkoutController
     private val viewModel by lazy {
-        ViewModelProviders.of(
+        ViewModelProvider(
             this,
             WorkoutSessionDialogViewModel(AppDatabase(requireContext()))
-        )[WorkoutSessionDialogViewModel::class.java]
+        ).get(WorkoutSessionDialogViewModel::class.java)
     }
     private var exercises = listOf<ExerciseEntity>()
 
@@ -94,7 +91,7 @@ class WorkoutSessionDialog : WorkoutController.AdapterCallbacks, DialogFragment(
     // //////////////////////////////////////////////////////////////
     private fun onViewCreatedReady() {
         recyclerView.setController(workoutController)
-        workoutController.setData(viewModel.workouts)
+        workoutController.setData(viewModel.workoutSession)
 
         EpoxyTouchHelper.initSwiping(recyclerView)
             .left()
@@ -103,12 +100,12 @@ class WorkoutSessionDialog : WorkoutController.AdapterCallbacks, DialogFragment(
                 WorkoutRowSetSwipeCallBack(
                     requireContext().resources
                 ) { workoutSet ->
-                    for (i in 0 until viewModel.workouts.size) {
-                        for (k in 0 until viewModel.workouts[i].sets.size) {
-                            if (viewModel.workouts[i].sets[k].id == workoutSet.id) {
-                                viewModel.workouts[i] =
-                                    viewModel.workouts[i].removeSet(k)
-                                workoutController.setData(viewModel.workouts)
+                    for (i in viewModel.workoutSession.workouts.indices) {
+                        for (k in 0 until viewModel.workoutSession.workouts[i].sets.size) {
+                            if (viewModel.workoutSession.workouts[i].sets[k].id == workoutSet.id) {
+                                (viewModel.workoutSession.workouts as ArrayList)[i] =
+                                    viewModel.workoutSession.workouts[i].removeSet(k)
+                                workoutController.setData(viewModel.workoutSession)
                                 break
                             }
                         }
@@ -133,7 +130,6 @@ class WorkoutSessionDialog : WorkoutController.AdapterCallbacks, DialogFragment(
 
         addWorkoutBtn.setOnClickListener {
             this.addEmptyWorkout()
-            workoutController.setData(viewModel.workouts)
         }
     }
 
@@ -149,78 +145,66 @@ class WorkoutSessionDialog : WorkoutController.AdapterCallbacks, DialogFragment(
             exercise = Exercise("", 0.0, ""),
             sets = sets
         )
-        viewModel.workouts.add(workout)
+        (viewModel.workoutSession.workouts as ArrayList).add(workout)
+        workoutController.setData(viewModel.workoutSession)
     }
 
     private fun saveWorkoutSession() {
-        val date = viewModel.simpleDateFormat.parse(newWorkoutDateText.text.toString()).toInstant()
-        val workoutSession =
-            WorkoutSession(date, viewModel.workouts)
-        viewModel.saveWorkoutSession(workoutSession, args.workoutSessionID)
+        viewModel.saveWorkoutSession(args.workoutSessionID)
     }
 
     // //////////////////////////////////////////////////////////////
     // Init
     // //////////////////////////////////////////////////////////////
     private fun initialize() {
-        initDatePicker()
-        viewModel.getExercises().observe(viewLifecycleOwner, Observer { exerciseList ->
-            exercises = exerciseList
-            workoutController =
-                WorkoutController(
-                    requireContext(),
-                    exerciseList.map { it.name },
-                    this
-                )
-            initFields()
-        })
-    }
-
-    private fun initDatePicker() {
-
-        if (newWorkoutDateText.text.isNullOrEmpty()) {
-            newWorkoutDateText.setText(viewModel.simpleDateFormat.format(Date.from(Instant.now())))
-        }
-
         val myCalendar = Calendar.getInstance()
         val dateSetListener = DatePickerDialog.OnDateSetListener { _, year, month, day ->
             myCalendar.apply {
                 set(Calendar.YEAR, year)
                 set(Calendar.MONTH, month)
                 set(Calendar.DAY_OF_MONTH, day)
-                newWorkoutDateText.setText(viewModel.simpleDateFormat.format(myCalendar.time))
+                viewModel.workoutSession = viewModel.workoutSession.setDate(myCalendar.toInstant())
+                workoutController.setData(viewModel.workoutSession)
             }
         }
 
-        newWorkoutDateText.setOnClickListener {
-            DatePickerDialog(
-                requireContext(), dateSetListener, myCalendar
-                    .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
-                myCalendar.get(Calendar.DAY_OF_MONTH)
-            ).show()
-        }
+        val datePickerDialog = DatePickerDialog(
+            requireContext(), dateSetListener, myCalendar
+                .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+            myCalendar.get(Calendar.DAY_OF_MONTH)
+        )
+
+        viewModel.getExercises().observe(viewLifecycleOwner, Observer { exerciseList ->
+            exercises = exerciseList
+            workoutController =
+                WorkoutController(
+                    requireContext(),
+                    exerciseList.map { it.name },
+                    datePickerDialog,
+                    this
+                )
+            initFields()
+        })
     }
 
     private fun initFields() {
         if (args.workoutSessionID == null) {
-            if (viewModel.workouts.isEmpty()) {
+            if (viewModel.workoutSession.workouts.isEmpty()) {
                 this.addEmptyWorkout()
-                workoutController.setData(viewModel.workouts)
             }
             viewModel.isReady.postValue(true)
         } else {
             if (args.workoutSessionDate != 0.toLong()) {
-                newWorkoutDateText.setText(
-                    viewModel
-                        .simpleDateFormat
-                        .format(Date.from(Instant.ofEpochSecond(args.workoutSessionDate)))
-                )
+                viewModel.workoutSession = viewModel.workoutSession.setDate(args.workoutSessionDate)
             }
             viewModel.getWorkouts(args.workoutSessionID!!).observe(viewLifecycleOwner, Observer {
                 it.forEach { workoutRelation ->
-                    viewModel.workouts.add(workoutRelation.toModel())
+                    (viewModel.workoutSession.workouts as ArrayList).add(workoutRelation.toModel())
                 }
-                workoutController.setData(viewModel.workouts)
+                if (viewModel.workoutSession.workouts.isEmpty()) {
+                    this.addEmptyWorkout()
+                }
+                workoutController.setData(viewModel.workoutSession)
                 viewModel.isReady.postValue(true)
             })
         }
@@ -234,32 +218,34 @@ class WorkoutSessionDialog : WorkoutController.AdapterCallbacks, DialogFragment(
     // that causes out of bounds exceptions
     // TODO: make workouts a hashmap and change model so that workoutsets are a hashmap.
     //  The keys will be their ids.
-    override fun onAddSetClicked(workout: Workout) {
-        for (i in 0 until viewModel.workouts.size) {
-            if (viewModel.workouts[i].id == workout.id) {
-                viewModel.workouts[i] =
-                    viewModel.workouts[i].addSet(WorkoutSet(weight = 0.0, reps = 0))
-                workoutController.setData(viewModel.workouts)
+    override fun addEmptyWorkoutSet(workout: Workout) {
+        for (i in viewModel.workoutSession.workouts.indices) {
+            if (viewModel.workoutSession.workouts[i].id == workout.id) {
+                (viewModel.workoutSession.workouts as ArrayList)[i] =
+                    viewModel.workoutSession.workouts[i].addSet(WorkoutSet(weight = 0.0, reps = 0))
+                workoutController.setData(viewModel.workoutSession)
             }
         }
     }
 
-    override fun toggleWorkoutSetVisibility(workout: Workout) {
-        for (i in 0 until viewModel.workouts.size) {
-            if (viewModel.workouts[i].id == workout.id) {
-                viewModel.workouts[i] = viewModel.workouts[i].toggleVisibility()
-                workoutController.setData(viewModel.workouts)
+    override fun toggleWorkoutSetVisibility(visible: Boolean, workout: Workout) {
+        for (i in viewModel.workoutSession.workouts.indices) {
+            if (viewModel.workoutSession.workouts[i].id == workout.id) {
+                (viewModel.workoutSession.workouts as ArrayList)[i] =
+                    viewModel.workoutSession.workouts[i].setVisibility(visible)
+                workoutController.setData(viewModel.workoutSession)
             }
         }
     }
 
     override fun onRepTextChanged(workout: Workout, workoutSet: WorkoutSet, value: Int) {
-        for (i in 0 until viewModel.workouts.size) {
-            if (viewModel.workouts[i].id == workout.id) {
-                for (k in 0 until viewModel.workouts[i].sets.size) {
-                    if (viewModel.workouts[i].sets[k].id == workoutSet.id) {
-                        viewModel.workouts[i].sets[k] = viewModel.workouts[i].sets[k].setReps(value)
-                        workoutController.setData(viewModel.workouts)
+        for (i in viewModel.workoutSession.workouts.indices) {
+            if (viewModel.workoutSession.workouts[i].id == workout.id) {
+                for (k in 0 until viewModel.workoutSession.workouts[i].sets.size) {
+                    if (viewModel.workoutSession.workouts[i].sets[k].id == workoutSet.id) {
+                        viewModel.workoutSession.workouts[i].sets[k] =
+                            viewModel.workoutSession.workouts[i].sets[k].setReps(value)
+                        workoutController.setData(viewModel.workoutSession)
                     }
                 }
             }
@@ -267,13 +253,13 @@ class WorkoutSessionDialog : WorkoutController.AdapterCallbacks, DialogFragment(
     }
 
     override fun onWeightTextChanged(workout: Workout, workoutSet: WorkoutSet, value: Double) {
-        for (i in 0 until viewModel.workouts.size) {
-            if (viewModel.workouts[i].id == workout.id) {
-                for (k in 0 until viewModel.workouts[i].sets.size) {
-                    if (viewModel.workouts[i].sets[k].id == workoutSet.id) {
-                        viewModel.workouts[i].sets[k] =
-                            viewModel.workouts[i].sets[k].setWeight(value)
-                        workoutController.setData(viewModel.workouts)
+        for (i in viewModel.workoutSession.workouts.indices) {
+            if (viewModel.workoutSession.workouts[i].id == workout.id) {
+                for (k in 0 until viewModel.workoutSession.workouts[i].sets.size) {
+                    if (viewModel.workoutSession.workouts[i].sets[k].id == workoutSet.id) {
+                        viewModel.workoutSession.workouts[i].sets[k] =
+                            viewModel.workoutSession.workouts[i].sets[k].setWeight(value)
+                        workoutController.setData(viewModel.workoutSession)
                     }
                 }
             }
@@ -284,17 +270,18 @@ class WorkoutSessionDialog : WorkoutController.AdapterCallbacks, DialogFragment(
 
         val foundExercise = exercises.find { it.name == exercise }
 
-        for (i in 0 until viewModel.workouts.size) {
-            if (viewModel.workouts[i].id == workout.id) {
-                viewModel.workouts[i] = viewModel.workouts[i]
-                    .updateExercise(
-                        Exercise(
-                            foundExercise!!.name,
-                            foundExercise.personalRecord,
-                            foundExercise.muscleGroup
+        for (i in viewModel.workoutSession.workouts.indices) {
+            if (viewModel.workoutSession.workouts[i].id == workout.id) {
+                (viewModel.workoutSession.workouts as ArrayList)[i] =
+                    viewModel.workoutSession.workouts[i]
+                        .updateExercise(
+                            Exercise(
+                                foundExercise!!.name,
+                                foundExercise.personalRecord,
+                                foundExercise.muscleGroup
+                            )
                         )
-                    )
-                workoutController.setData(viewModel.workouts)
+                workoutController.setData(viewModel.workoutSession)
             }
         }
     }

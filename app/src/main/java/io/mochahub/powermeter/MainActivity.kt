@@ -11,6 +11,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavOptions
 import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.microsoft.appcenter.AppCenter
 import com.microsoft.appcenter.analytics.Analytics
 import com.microsoft.appcenter.crashes.Crashes
@@ -28,14 +29,20 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         AppCenter.start(
             application, BuildConfig.HOCKEY_APP_SECRET,
             Push::class.java, Analytics::class.java, Crashes::class.java
         )
 
-//        TODO (Zahin): uncomment the following line when prod app is ready
-//        Eventually we should do a switch on this so that it only triggers on a prod product flavour
-//        Analytics.trackEvent("Hello World")
+        // Firebase will point to debug / prod automatically
+        val firebaseAnalytics = FirebaseAnalytics.getInstance(this)
+        firebaseAnalytics.setAnalyticsCollectionEnabled(true)
+        firebaseAnalytics.logEvent(FirebaseAnalytics.Event.APP_OPEN, Bundle.EMPTY)
+
+        if (!BuildConfig.DEBUG) {
+            Analytics.trackEvent("Hello World")
+        }
 
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
@@ -58,7 +65,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu
         menuInflater.inflate(R.menu.menu_toolbar, menu)
         return true
     }

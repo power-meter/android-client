@@ -14,6 +14,10 @@ interface WorkoutDao {
     @Query("SELECT * FROM workouts where workoutSessionUUID= :workoutSessionUUID")
     fun getWorkoutsByWorkoutSession(workoutSessionUUID: String): Flow<List<WorkoutWithRelation>>
 
+    @Transaction
+    @Query("SELECT * FROM workouts where exerciseUUID= :exerciseUUID")
+    fun getAllByExercise(exerciseUUID: String): Flow<List<WorkoutWithRelation>>
+
     @Insert
     suspend fun insertAll(vararg workout: WorkoutEntity)
 

@@ -1,26 +1,20 @@
 package io.mochahub.powermeter.stats
 
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import io.mochahub.powermeter.models.Exercise
-import io.mochahub.powermeter.models.StatCard
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.asLiveData
+import io.mochahub.powermeter.data.exercise.ExerciseDao
+import io.mochahub.powermeter.data.exercise.ExerciseEntity
 
-class StatsViewModel : ViewModel() {
+class StatsViewModel(
+    private val exerciseDao: ExerciseDao
+) : ViewModelProvider.Factory, ViewModel() {
 
-    val stats = MutableLiveData<List<StatCard>>(
-        listOf(
-            StatCard(
-                "Exercise",
-                Exercise("Bench Press", 100.0, "Chest")
-            ),
-            StatCard(
-                "Exercise",
-                Exercise("Squat", 30.0, "Legs")
-            ),
-            StatCard(
-                "Exercise",
-                Exercise("Overhead Press", 30.0, "Shoulders")
-            )
-        )
-    )
+    @Suppress("UNCHECKED_CAST")
+    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+        return StatsViewModel(exerciseDao) as T
+    }
+
+    val exercises: LiveData<List<ExerciseEntity>> = exerciseDao.getAll().asLiveData()
 }

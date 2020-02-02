@@ -15,4 +15,4 @@ keys.properties
 .externalNativeBuild
 app/google-services.json
 keystore.jks
-app/src/google-services.json
+*google-services.json

@@ -13,8 +13,10 @@ import io.mochahub.powermeter.shared.KotlinEpoxyHolder
 @EpoxyModelClass(layout = R.layout.row_workout_set_edit)
 abstract class WorkoutRowSetModel(
     @EpoxyAttribute var workoutSet: WorkoutSet,
-    @EpoxyAttribute(EpoxyAttribute.Option.DoNotHash) var onRepFocusChanged: (reps: Int) -> Unit,
-    @EpoxyAttribute(EpoxyAttribute.Option.DoNotHash) var onWeightFocusChanged: (weight: Double) -> Unit
+    @EpoxyAttribute var lastSet: Boolean,
+    @EpoxyAttribute(EpoxyAttribute.Option.DoNotHash) var onRepTextChanged: (reps: Int) -> Unit,
+    @EpoxyAttribute(EpoxyAttribute.Option.DoNotHash) var onWeightTextChanged: (weight: Double) -> Unit,
+    @EpoxyAttribute(EpoxyAttribute.Option.DoNotHash) var lastSetFocused: () -> Unit
 ) : EpoxyModelWithHolder<WorkoutRowSetModel.Holder>() {
 
     override fun bind(holder: Holder) {
@@ -37,18 +39,26 @@ abstract class WorkoutRowSetModel(
         if (holder.weightEditText.hasFocus() && holder.weightEditText.text != null) {
             holder.weightEditText.setSelection(holder.weightEditText.length())
         }
+
+        holder.repsEditText.setOnFocusChangeListener { _, _ ->
+            if (lastSet) {
+                lastSetFocused()
+            }
+        }
+
+        holder.weightEditText.setOnFocusChangeListener { _, _ ->
+            if (lastSet) {
+                lastSetFocused()
+            }
+        }
         holder.repsEditText.addTextChangedListener(WorkoutSetTextChangeListener {
-            if (holder.repsEditText.text.toString().isNotEmpty() &&
-                holder.repsEditText.text.toString().isNotBlank()
-            ) {
-                onRepFocusChanged(holder.repsEditText.text.toString().toInt())
+            if (holder.repsEditText.text.toString().isNotBlank()) {
+                onRepTextChanged(holder.repsEditText.text.toString().toInt())
             }
         })
         holder.weightEditText.addTextChangedListener(WorkoutSetTextChangeListener {
-            if (holder.weightEditText.text.toString().isNotEmpty() &&
-                holder.weightEditText.text.toString().isNotBlank()
-            ) {
-                onWeightFocusChanged(holder.weightEditText.text.toString().toDouble())
+            if (holder.weightEditText.text.toString().isNotBlank()) {
+                onWeightTextChanged(holder.weightEditText.text.toString().toDouble())
             }
         })
     }
