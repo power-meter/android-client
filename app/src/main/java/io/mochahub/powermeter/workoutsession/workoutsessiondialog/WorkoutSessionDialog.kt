@@ -8,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import com.airbnb.epoxy.EpoxyTouchHelper
 import io.mochahub.powermeter.R
@@ -36,10 +36,10 @@ class WorkoutSessionDialog : WorkoutController.AdapterCallbacks, DialogFragment(
     private var shouldSave = true
     private lateinit var workoutController: WorkoutController
     private val viewModel by lazy {
-        ViewModelProviders.of(
+        ViewModelProvider(
             this,
             WorkoutSessionDialogViewModel(AppDatabase(requireContext()))
-        )[WorkoutSessionDialogViewModel::class.java]
+        ).get(WorkoutSessionDialogViewModel::class.java)
     }
     private var exercises = listOf<ExerciseEntity>()
 
@@ -272,14 +272,15 @@ class WorkoutSessionDialog : WorkoutController.AdapterCallbacks, DialogFragment(
 
         for (i in viewModel.workoutSession.workouts.indices) {
             if (viewModel.workoutSession.workouts[i].id == workout.id) {
-                (viewModel.workoutSession.workouts as ArrayList)[i] = viewModel.workoutSession.workouts[i]
-                    .updateExercise(
-                        Exercise(
-                            foundExercise!!.name,
-                            foundExercise.personalRecord,
-                            foundExercise.muscleGroup
+                (viewModel.workoutSession.workouts as ArrayList)[i] =
+                    viewModel.workoutSession.workouts[i]
+                        .updateExercise(
+                            Exercise(
+                                foundExercise!!.name,
+                                foundExercise.personalRecord,
+                                foundExercise.muscleGroup
+                            )
                         )
-                    )
                 workoutController.setData(viewModel.workoutSession)
             }
         }

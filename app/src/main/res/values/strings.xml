@@ -30,4 +30,5 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="warning">WARNING!</string>
+    <string name="workout_deleted">Workout deleted!</string>
 </resources>

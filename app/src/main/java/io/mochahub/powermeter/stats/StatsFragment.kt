@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import io.mochahub.powermeter.R
 import io.mochahub.powermeter.data.AppDatabase
@@ -17,7 +17,10 @@ class StatsFragment : Fragment() {
 
     private val exerciseController by lazy {
         ExerciseController {
-            val action = StatsFragmentDirections.actionDestinationStatsScreenToGraphFragment(it.id, it.personalRecord.toFloat())
+            val action = StatsFragmentDirections.actionDestinationStatsScreenToGraphFragment(
+                it.id,
+                it.personalRecord.toFloat()
+            )
             navController.navigate(action)
         }
     }
@@ -25,10 +28,10 @@ class StatsFragment : Fragment() {
     private val navController by lazy { this.findNavController() }
 
     private val viewModel by lazy {
-        ViewModelProviders.of(
+        ViewModelProvider(
             this,
             StatsViewModel(AppDatabase(requireContext()).exerciseDao())
-        )[StatsViewModel::class.java]
+        ).get(StatsViewModel::class.java)
     }
 
     override fun onCreateView(

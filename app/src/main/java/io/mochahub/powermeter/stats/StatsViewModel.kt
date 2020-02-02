@@ -7,7 +7,11 @@ import androidx.lifecycle.asLiveData
 import io.mochahub.powermeter.data.exercise.ExerciseDao
 import io.mochahub.powermeter.data.exercise.ExerciseEntity
 
-class StatsViewModel(private val exerciseDao: ExerciseDao) : ViewModelProvider.Factory, ViewModel() {
+class StatsViewModel(
+    private val exerciseDao: ExerciseDao
+) : ViewModelProvider.Factory, ViewModel() {
+
+    @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         return StatsViewModel(exerciseDao) as T
     }

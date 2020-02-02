@@ -21,7 +21,8 @@ abstract class WorkoutSessionDateModel(
     override fun bind(holder: Holder) {
         val simpleDateFormat = SimpleDateFormat("MM/dd/yy", Locale.US)
         holder.newWorkoutDateText.setText(
-            simpleDateFormat.format(Date.from(date)))
+            simpleDateFormat.format(Date.from(date))
+        )
 
         holder.newWorkoutDateText.setOnClickListener {
             datePickerDialog.show()

@@ -14,9 +14,11 @@ class GraphViewModel(
     private val workoutDao: WorkoutDao
 ) : ViewModelProvider.Factory, ViewModel() {
 
+    @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         return GraphViewModel(exerciseID, personalRecord, workoutDao) as T
     }
+
     val workouts = workoutDao.getAllByExercise(exerciseID).asLiveData()
 
     private val _data = MutableLiveData<List<Float>>()
