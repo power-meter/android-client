@@ -16,7 +16,7 @@ interface WorkoutDao {
 
     @Transaction
     @Query("SELECT * FROM workouts where exerciseUUID= :exerciseUUID")
-    fun getAllByExericse(exerciseUUID: String): Flow<List<WorkoutWithRelation>>
+    fun getAllByExercise(exerciseUUID: String): Flow<List<WorkoutWithRelation>>
 
     @Insert
     suspend fun insertAll(vararg workout: WorkoutEntity)
