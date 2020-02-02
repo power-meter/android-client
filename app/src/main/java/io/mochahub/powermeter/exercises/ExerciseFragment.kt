@@ -1,7 +1,6 @@
 package io.mochahub.powermeter.exercises
 
 import android.app.AlertDialog
-import android.content.DialogInterface
 import android.graphics.Color
 import android.os.Bundle
 import android.view.ContextThemeWrapper
@@ -32,18 +31,23 @@ class ExerciseFragment : Fragment() {
     }
 
     private val navController by lazy { this.findNavController() }
+
     private val viewModel by lazy {
-        ExerciseViewModel(AppDatabase(requireContext()).exerciseDao())
+        ViewModelProviders.of(
+            this,
+            ExerciseViewModel.ExerciseViewModelFactory(AppDatabase(requireContext()).exerciseDao())
+        )[ExerciseViewModel::class.java]
     }
-    private val exerciseController =
-        ExerciseController { clicked: ExerciseEntity -> onExerciseClick(clicked) }
-    private val itemTouchHelper by lazy { ItemTouchHelper(swipeHandler) }
 
     private val exerciseSharedViewModel by lazy {
         requireActivity().run {
             ViewModelProviders.of(this)[ExerciseSharedViewModel::class.java]
         }
     }
+
+    private val exerciseController =
+        ExerciseController { clicked: ExerciseEntity -> onExerciseClick(clicked) }
+    private val itemTouchHelper by lazy { ItemTouchHelper(swipeHandler) }
 
     private var exercises: List<ExerciseEntity> = ArrayList()
 
@@ -52,28 +56,35 @@ class ExerciseFragment : Fragment() {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val position = viewHolder.adapterPosition
 
-                val dialogBuilder = AlertDialog.Builder(ContextThemeWrapper(requireContext(), R.style.Theme_AppCompat_Dialog_Alert))
+                val dialogBuilder = AlertDialog.Builder(
+                    ContextThemeWrapper(
+                        requireContext(),
+                        R.style.Theme_AppCompat_Dialog_Alert
+                    )
+                )
 
                 val exerciseEntity = (exercises as ArrayList).removeAt(position)
                 exerciseController.setData(exercises)
 
-                dialogBuilder.setMessage("Deleting this exercise will delete all workouts associated with this exercise. Are you sure you want to delete?")
+                dialogBuilder.setMessage(getString(R.string.exercise_delete_warning))
                     .setCancelable(false)
-                    .setPositiveButton("Yes", DialogInterface.OnClickListener { _, _ ->
+                    .setPositiveButton(getString(R.string.yes)) { _, _ ->
                         viewModel.removeExercise(exerciseEntity)
-                    })
-                    .setNegativeButton("No", DialogInterface.OnClickListener { dialog, _ ->
+                    }
+                    .setNegativeButton(getString(R.string.no)) { dialog, _ ->
                         (exercises as ArrayList).add(position, exerciseEntity)
                         exerciseController.setData(exercises)
                         dialog.cancel()
-                    })
+                    }
 
                 val dialog = dialogBuilder.create()
-                dialog.setTitle("WARNING!")
+                dialog.setTitle(getString(R.string.warning))
 
-                dialog.setOnShowListener { _ ->
-                    dialog.getButton(AlertDialog.BUTTON_POSITIVE).setBackgroundColor(Color.TRANSPARENT)
-                    dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setBackgroundColor(Color.TRANSPARENT)
+                dialog.setOnShowListener {
+                    dialog.getButton(AlertDialog.BUTTON_POSITIVE)
+                        .setBackgroundColor(Color.TRANSPARENT)
+                    dialog.getButton(AlertDialog.BUTTON_NEGATIVE)
+                        .setBackgroundColor(Color.TRANSPARENT)
 
                     dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.YELLOW)
                     dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.YELLOW)

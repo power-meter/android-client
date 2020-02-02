@@ -53,7 +53,11 @@ class ExerciseDialog : DialogFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         args.exerciseName?.let { newExerciseNameText.setText(it) }
-        args.exercisePR.let { newExercisePRText.setText(it.toString()) }
+        args.exercisePR.let {
+            if (it != 0f) {
+                newExercisePRText.setText(it.toString())
+            }
+        }
         args.muscleGroup?.let { newExerciseGroupText.setText(it) }
 
         newExerciseToolbar.apply {
