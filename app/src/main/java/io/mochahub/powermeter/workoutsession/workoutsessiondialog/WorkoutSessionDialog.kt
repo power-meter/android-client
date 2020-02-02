@@ -201,6 +201,9 @@ class WorkoutSessionDialog : WorkoutController.AdapterCallbacks, DialogFragment(
                 it.forEach { workoutRelation ->
                     (viewModel.workoutSession.workouts as ArrayList).add(workoutRelation.toModel())
                 }
+                if (viewModel.workoutSession.workouts.isEmpty()) {
+                    this.addEmptyWorkout()
+                }
                 workoutController.setData(viewModel.workoutSession)
                 viewModel.isReady.postValue(true)
             })

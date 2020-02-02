@@ -14,7 +14,6 @@ import io.mochahub.powermeter.shared.KotlinEpoxyHolder
 abstract class WorkoutRowModel(
     @EpoxyAttribute var workout: Workout,
     @EpoxyAttribute var arrayAdapter: ArrayAdapter<String>,
-    @EpoxyAttribute(EpoxyAttribute.Option.DoNotHash) var addButtonClickListener: () -> Unit,
     @EpoxyAttribute(EpoxyAttribute.Option.DoNotHash) var toggleWorkoutSetVisibility: (toggle: Boolean) -> Unit,
     @EpoxyAttribute(EpoxyAttribute.Option.DoNotHash) var onExerciseSelected: (exercise: String) -> Unit
 ) : EpoxyModelWithHolder<WorkoutRowModel.Holder>() {
@@ -30,10 +29,6 @@ abstract class WorkoutRowModel(
             onExerciseSelected(holder.workoutExerciseTextView.text.toString())
         }
 
-        holder.addEmptyWorkoutSetButton.setOnClickListener {
-            toggleWorkoutSetVisibility(true)
-            addButtonClickListener()
-        }
         holder.toggleWorkoutSetVisibilityButton.setOnClickListener {
             toggleWorkoutSetVisibility(!workout.isSetsVisible)
             holder.toggleWorkoutSetVisibilityButton.rotation = if (workout.isSetsVisible) 0f else 180f
@@ -42,7 +37,6 @@ abstract class WorkoutRowModel(
 
     class Holder : KotlinEpoxyHolder() {
         val workoutExerciseTextView by bind<AutoCompleteTextView>(R.id.newWorkoutExerciseText)
-        val addEmptyWorkoutSetButton by bind<MaterialButton>(R.id.newWorkoutSetButton)
         val toggleWorkoutSetVisibilityButton by bind<MaterialButton>(R.id.toggleWorkoutSetVisibility)
     }
 }
