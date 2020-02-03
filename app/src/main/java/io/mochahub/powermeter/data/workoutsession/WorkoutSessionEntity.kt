@@ -11,3 +11,7 @@ data class WorkoutSessionEntity(
     var date: Long,
     val createdAt: Long = Instant.now().epochSecond
 )
+
+fun WorkoutSessionEntity.setCreatedAt(newCreatedAt: Long): WorkoutSessionEntity {
+    return this.copy(createdAt = newCreatedAt)
+}

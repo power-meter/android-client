@@ -22,7 +22,7 @@ class WorkoutSessionViewModel(
     fun removeWorkoutSession(position: Int): WorkoutSessionWithRelation {
         val workoutSession = workoutSessions.value!![position]
         viewModelScope.launch {
-            workoutSessionDao.deleteByID(workoutSession.workoutSession.id)
+            workoutSessionDao.delete(workoutSession.workoutSession.id)
         }
         return workoutSession
     }

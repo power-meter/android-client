@@ -10,21 +10,21 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface WorkoutSessionDao {
-    @Query("SELECT * FROM workout_sessions ORDER BY date DESC, createdAt DESC")
-    fun getAll(): Flow<List<WorkoutSessionEntity>>
-
     @Transaction
-    @Query("SELECT * FROM workout_sessions")
+    @Query("SELECT * FROM workout_sessions ORDER BY date DESC, createdAt DESC")
     fun getAllWithRelations(): Flow<List<WorkoutSessionWithRelation>>
 
-    @Query("DELETE FROM workout_sessions WHERE id = :workoutSessionID")
-    suspend fun deleteByID(workoutSessionID: String)
+    @Query("SELECT * FROM workout_sessions WHERE id = :workoutSessionID")
+    suspend fun find(workoutSessionID: String): WorkoutSessionEntity
 
     @Insert
     suspend fun insertAll(vararg workoutSession: WorkoutSessionEntity)
 
     @Delete
     suspend fun delete(workoutSession: WorkoutSessionEntity)
+
+    @Query("DELETE FROM workout_sessions WHERE id = :workoutSessionID")
+    suspend fun delete(workoutSessionID: String)
 
     @Update
     suspend fun update(vararg workoutSession: WorkoutSessionEntity)
