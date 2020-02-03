@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.Flow
 interface WorkoutSessionDao {
     @Transaction
     @Query("SELECT * FROM workout_sessions ORDER BY date DESC, createdAt DESC")
-    fun getAllWithRelations(): Flow<List<WorkoutSessionWithRelation>>
+    fun getAll(): Flow<List<WorkoutSessionWithRelation>>
 
     @Query("SELECT * FROM workout_sessions WHERE id = :workoutSessionID")
     suspend fun find(workoutSessionID: String): WorkoutSessionEntity
