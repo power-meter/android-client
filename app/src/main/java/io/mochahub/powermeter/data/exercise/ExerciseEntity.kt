@@ -19,3 +19,7 @@ fun ExerciseEntity.toModel(): Exercise {
     return Exercise(
         name = this.name, personalRecord = this.personalRecord, muscleGroup = this.muscleGroup)
 }
+
+fun ExerciseEntity.setPersonalRecord(newPersonalRecord: Double): ExerciseEntity {
+    return this.copy(personalRecord = newPersonalRecord)
+}
