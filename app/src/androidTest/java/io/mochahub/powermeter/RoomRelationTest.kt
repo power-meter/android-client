@@ -69,7 +69,7 @@ class RoomRelationTest {
     @Test
     @Throws(Exception::class)
     fun getWorkoutSessionWithRelations() {
-        var workoutSessions = runBlocking { workoutSessionDao.getAllWithRelations().take(1).toList() }
+        var workoutSessions = runBlocking { workoutSessionDao.getAll().take(1).toList() }
 
         assertTrue(workoutSessions.isNotEmpty())
         assertTrue(workoutSessions.size == 1)

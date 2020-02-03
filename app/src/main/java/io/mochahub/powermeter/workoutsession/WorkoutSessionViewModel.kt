@@ -17,12 +17,12 @@ class WorkoutSessionViewModel(
     private val workoutSetDao: WorkoutSetDao
 ) : ViewModel() {
     val workoutSessions: LiveData<List<WorkoutSessionWithRelation>> =
-        workoutSessionDao.getAllWithRelations().asLiveData()
+        workoutSessionDao.getAll().asLiveData()
 
     fun removeWorkoutSession(position: Int): WorkoutSessionWithRelation {
         val workoutSession = workoutSessions.value!![position]
         viewModelScope.launch {
-            workoutSessionDao.deleteByID(workoutSession.workoutSession.id)
+            workoutSessionDao.delete(workoutSession.workoutSession.id)
         }
         return workoutSession
     }

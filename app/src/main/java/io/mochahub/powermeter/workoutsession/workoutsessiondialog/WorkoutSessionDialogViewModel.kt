@@ -12,6 +12,7 @@ import io.mochahub.powermeter.data.exercise.setPersonalRecord
 import io.mochahub.powermeter.data.workout.WorkoutEntity
 import io.mochahub.powermeter.data.workout.WorkoutWithRelation
 import io.mochahub.powermeter.data.workoutsession.WorkoutSessionEntity
+import io.mochahub.powermeter.data.workoutsession.setCreatedAt
 import io.mochahub.powermeter.data.workoutset.WorkoutSetEntity
 import io.mochahub.powermeter.models.WorkoutSession
 import kotlinx.coroutines.CoroutineScope
@@ -39,12 +40,18 @@ class WorkoutSessionDialogViewModel(
     }
 
     fun saveWorkoutSession(workoutSessionToDelete: String?) {
-        val workoutSessionEntity =
-            WorkoutSessionEntity(date = workoutSession.date.epochSecond)
         val workoutEntities = ArrayList<WorkoutEntity>()
         val workoutSetEntities = ArrayList<WorkoutSetEntity>()
+        var workoutSessionEntity =
+            WorkoutSessionEntity(date = workoutSession.date.epochSecond)
 
         CoroutineScope(Dispatchers.IO).launch {
+            workoutSessionToDelete?.let {
+                val prevSession = db.workoutSessionDao().find(workoutSessionID = it)
+                db.workoutSessionDao().delete(workoutSessionToDelete)
+                workoutSessionEntity = workoutSessionEntity.setCreatedAt(prevSession.createdAt)
+            }
+
             workoutSession.workouts.forEach { workout ->
                 if (workout.exercise.name.isBlank()) {
                     return@forEach
@@ -75,9 +82,6 @@ class WorkoutSessionDialogViewModel(
                 db.workoutSessionDao().insertAll(workoutSessionEntity)
                 db.workoutDao().insertAll(*(workoutEntities.toTypedArray()))
                 db.workoutSetDao().insertAll(*(workoutSetEntities.toTypedArray()))
-                workoutSessionToDelete?.let {
-                    db.workoutSessionDao().deleteByID(workoutSessionID = it)
-                }
             }
         }
     }
