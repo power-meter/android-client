@@ -1,7 +1,6 @@
 package io.mochahub.powermeter.workoutsession.workoutsessiondialog
 
 import android.app.DatePickerDialog
-import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -68,8 +67,9 @@ class WorkoutSessionDialog : WorkoutController.AdapterCallbacks, DialogFragment(
         return inflater.inflate(R.layout.dialog_new_workout_session, container, false)
     }
 
-    override fun onDismiss(dialog: DialogInterface) {
-        super.onDismiss(dialog)
+    override fun onStop() {
+        super.onStop()
+
         if (shouldSave) {
             saveWorkoutSession()
         }
