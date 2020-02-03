@@ -15,14 +15,14 @@ abstract class WorkoutRowModel(
     @EpoxyAttribute var workout: Workout,
     @EpoxyAttribute var arrayAdapter: ArrayAdapter<String>,
     @EpoxyAttribute(EpoxyAttribute.Option.DoNotHash) var toggleWorkoutSetVisibility: (toggle: Boolean) -> Unit,
-    @EpoxyAttribute(EpoxyAttribute.Option.DoNotHash) var onExerciseSelected: (exercise: String) -> Unit
+    @EpoxyAttribute(EpoxyAttribute.Option.DoNotHash) var onExerciseSelected: (exercise: String) -> Unit,
+    @EpoxyAttribute(EpoxyAttribute.Option.DoNotHash) var onWorkoutDeleteClickListener: () -> Unit
 ) : EpoxyModelWithHolder<WorkoutRowModel.Holder>() {
 
     override fun bind(holder: Holder) {
 
-        if (workout.exercise.name.isNotBlank()) {
-            holder.workoutExerciseTextView.setText(workout.exercise.name)
-        }
+        holder.workoutExerciseTextView.setText(
+            if (workout.exercise.name.isNotBlank()) workout.exercise.name else "")
         holder.workoutExerciseTextView.setAdapter(arrayAdapter)
 
         holder.workoutExerciseTextView.setOnItemClickListener { _, _, _, _ ->
@@ -34,10 +34,15 @@ abstract class WorkoutRowModel(
         }
         holder.toggleWorkoutSetVisibilityButton.rotation =
             if (workout.isSetsVisible) 180f else 0f
+
+        holder.deleteWorkoutButton.setOnClickListener {
+            onWorkoutDeleteClickListener()
+        }
     }
 
     class Holder : KotlinEpoxyHolder() {
         val workoutExerciseTextView by bind<AutoCompleteTextView>(R.id.newWorkoutExerciseText)
         val toggleWorkoutSetVisibilityButton by bind<MaterialButton>(R.id.toggleWorkoutSetVisibility)
+        val deleteWorkoutButton by bind<MaterialButton>(R.id.deleteWorkoutButton)
     }
 }

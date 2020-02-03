@@ -18,6 +18,7 @@ class WorkoutController(
 
     interface AdapterCallbacks {
         fun onExerciseSelected(workout: Workout, exercise: String)
+        fun onWorkoutDeleteClickListener(workout: Workout)
         fun addEmptyWorkoutSet(workout: Workout)
         fun toggleWorkoutSetVisibility(visible: Boolean, workout: Workout)
         fun onRepTextChanged(workout: Workout, workoutSet: WorkoutSet, value: Int)
@@ -37,9 +38,8 @@ class WorkoutController(
                     callbacks.toggleWorkoutSetVisibility(visible, workout)
                 },
                 arrayAdapter = ArrayAdapter(context, R.layout.dropdown_menu_popup_item, exercises),
-                onExerciseSelected = { value ->
-                    callbacks.onExerciseSelected(workout, value)
-                }
+                onExerciseSelected = { value -> callbacks.onExerciseSelected(workout, value) },
+                onWorkoutDeleteClickListener = { callbacks.onWorkoutDeleteClickListener(workout) }
             ) {
                 id(workout.id)
             }
@@ -62,9 +62,8 @@ class WorkoutController(
                                 value
                             )
                         },
-                        lastSetFocused = {
-                            callbacks.addEmptyWorkoutSet(workout)
-                        }) {
+                        lastSetFocused = { callbacks.addEmptyWorkoutSet(workout) }
+                    ) {
                         id(workoutSet.id)
                     }
                 }

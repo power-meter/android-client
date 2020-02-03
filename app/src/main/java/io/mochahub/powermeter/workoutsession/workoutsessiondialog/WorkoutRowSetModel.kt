@@ -22,6 +22,8 @@ abstract class WorkoutRowSetModel(
     override fun bind(holder: Holder) {
         if (workoutSet.reps != 0) {
             holder.repsEditText.setText(workoutSet.reps.toString())
+        } else {
+            holder.repsEditText.setText("")
         }
         if (workoutSet.weight != 0.0) {
             // We do not want to display 1.0 when the user simply inputs 1
@@ -30,6 +32,8 @@ abstract class WorkoutRowSetModel(
             } else {
                 holder.weightEditText.setText(workoutSet.weight.toString())
             }
+        } else {
+            holder.weightEditText.setText("")
         }
 
         // Move cursor to the end
