@@ -29,6 +29,9 @@ class WorkoutSessionDialogViewModel(
     }
 
     var workoutSession = WorkoutSession(workouts = ArrayList())
+    private var workoutSessionEntity =
+        WorkoutSessionEntity(date = workoutSession.date.epochSecond)
+
     var isReady = MutableLiveData<Boolean>()
 
     fun getExercises(): LiveData<List<ExerciseEntity>> {
@@ -42,14 +45,22 @@ class WorkoutSessionDialogViewModel(
     fun saveWorkoutSession(workoutSessionToDelete: String?) {
         val workoutEntities = ArrayList<WorkoutEntity>()
         val workoutSetEntities = ArrayList<WorkoutSetEntity>()
-        var workoutSessionEntity =
-            WorkoutSessionEntity(date = workoutSession.date.epochSecond)
 
         CoroutineScope(Dispatchers.IO).launch {
             workoutSessionToDelete?.let {
+                // There is an edge-case where we change system Theme via android settings
+                // onStop() will get called and run through this entire flow already
+                // In that case prevSession is null, because it was already deleted
+                // And our viewModel session entity was inserted
+                // Therefore we should override our viewModel session entity with new data
                 val prevSession = db.workoutSessionDao().find(workoutSessionID = it)
-                db.workoutSessionDao().delete(workoutSessionToDelete)
-                workoutSessionEntity = workoutSessionEntity.setCreatedAt(prevSession.createdAt)
+
+                if (prevSession == null) {
+                    db.workoutSessionDao().delete(workoutSessionEntity.id)
+                } else {
+                    db.workoutSessionDao().delete(workoutSessionToDelete)
+                    workoutSessionEntity = workoutSessionEntity.setCreatedAt(prevSession.createdAt)
+                }
             }
 
             workoutSession.workouts.forEach { workout ->

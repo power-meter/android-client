@@ -15,7 +15,7 @@ interface WorkoutSessionDao {
     fun getAll(): Flow<List<WorkoutSessionWithRelation>>
 
     @Query("SELECT * FROM workout_sessions WHERE id = :workoutSessionID")
-    suspend fun find(workoutSessionID: String): WorkoutSessionEntity
+    suspend fun find(workoutSessionID: String): WorkoutSessionEntity?
 
     @Insert
     suspend fun insertAll(vararg workoutSession: WorkoutSessionEntity)
