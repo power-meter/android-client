@@ -18,7 +18,9 @@ import io.mochahub.powermeter.models.Exercise
 import io.mochahub.powermeter.models.Workout
 import io.mochahub.powermeter.models.WorkoutSet
 import io.mochahub.powermeter.models.addSet
+import io.mochahub.powermeter.models.addWorkout
 import io.mochahub.powermeter.models.removeSet
+import io.mochahub.powermeter.models.removeWorkout
 import io.mochahub.powermeter.models.setDate
 import io.mochahub.powermeter.models.setReps
 import io.mochahub.powermeter.models.setVisibility
@@ -145,7 +147,7 @@ class WorkoutSessionDialog : WorkoutController.AdapterCallbacks, DialogFragment(
             exercise = Exercise("", 0.0, ""),
             sets = sets
         )
-        (viewModel.workoutSession.workouts as ArrayList).add(workout)
+        viewModel.workoutSession = viewModel.workoutSession.addWorkout(workout)
         workoutController.setData(viewModel.workoutSession)
     }
 
@@ -287,5 +289,10 @@ class WorkoutSessionDialog : WorkoutController.AdapterCallbacks, DialogFragment(
                 workoutController.setData(viewModel.workoutSession)
             }
         }
+    }
+
+    override fun onWorkoutDeleteClickListener(workout: Workout) {
+        viewModel.workoutSession = viewModel.workoutSession.removeWorkout(workout)
+        workoutController.setData(viewModel.workoutSession)
     }
 }

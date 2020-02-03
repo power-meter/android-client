@@ -20,9 +20,8 @@ abstract class WorkoutRowSetModel(
 ) : EpoxyModelWithHolder<WorkoutRowSetModel.Holder>() {
 
     override fun bind(holder: Holder) {
-        if (workoutSet.reps != 0) {
-            holder.repsEditText.setText(workoutSet.reps.toString())
-        }
+        holder.repsEditText.setText(if (workoutSet.reps != 0) workoutSet.reps.toString() else "")
+
         if (workoutSet.weight != 0.0) {
             // We do not want to display 1.0 when the user simply inputs 1
             if (workoutSet.weight % 1 == 0.0) {
@@ -30,6 +29,8 @@ abstract class WorkoutRowSetModel(
             } else {
                 holder.weightEditText.setText(workoutSet.weight.toString())
             }
+        } else {
+            holder.weightEditText.setText("")
         }
 
         // Move cursor to the end

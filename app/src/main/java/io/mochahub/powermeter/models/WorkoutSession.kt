@@ -14,3 +14,13 @@ fun WorkoutSession.setDate(epochSecondDate: Long): WorkoutSession {
 fun WorkoutSession.setDate(newDate: Instant): WorkoutSession {
     return this.copy(date = newDate)
 }
+
+fun WorkoutSession.removeWorkout(workout: Workout): WorkoutSession {
+    val workoutList = workouts.toMutableList().apply { this.remove(workout) }
+    return this.copy(workouts = workoutList)
+}
+
+fun WorkoutSession.addWorkout(workout: Workout): WorkoutSession {
+    val workoutList = workouts.toMutableList().apply { this.add(workout) }
+    return this.copy(workouts = workoutList)
+}
