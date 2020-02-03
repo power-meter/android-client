@@ -31,9 +31,9 @@ abstract class WorkoutRowModel(
 
         holder.toggleWorkoutSetVisibilityButton.setOnClickListener {
             toggleWorkoutSetVisibility(!workout.isSetsVisible)
-            holder.toggleWorkoutSetVisibilityButton.rotation =
-                if (workout.isSetsVisible) 0f else 180f
         }
+        holder.toggleWorkoutSetVisibilityButton.rotation =
+            if (workout.isSetsVisible) 180f else 0f
     }
 
     class Holder : KotlinEpoxyHolder() {
