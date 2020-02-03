@@ -199,7 +199,10 @@ class WorkoutSessionDialog : WorkoutController.AdapterCallbacks, DialogFragment(
             }
             viewModel.getWorkouts(args.workoutSessionID!!).observe(viewLifecycleOwner, Observer {
                 it.forEach { workoutRelation ->
-                    (viewModel.workoutSession.workouts as ArrayList).add(workoutRelation.toModel())
+                    val workoutModel = if (workoutRelation.workoutSets.isEmpty())
+                        workoutRelation.toModel().addSet(WorkoutSet(reps = 0, weight = 0.0))
+                        else workoutRelation.toModel()
+                    (viewModel.workoutSession.workouts as ArrayList).add(workoutModel)
                 }
                 if (viewModel.workoutSession.workouts.isEmpty()) {
                     this.addEmptyWorkout()
