@@ -22,13 +22,6 @@ import kotlinx.android.synthetic.main.fragment_exercise.addExerciseBtn
 import kotlinx.android.synthetic.main.fragment_exercise.recyclerView
 
 class ExerciseFragment : Fragment() {
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_exercise, container, false)
-    }
 
     private val navController by lazy { this.findNavController() }
 
@@ -46,6 +39,7 @@ class ExerciseFragment : Fragment() {
 
     private var exercises: List<ExerciseEntity> = ArrayList()
 
+    // TODO: This seems kind of messy, maybe we should move this to a class
     private val swipeHandler by lazy {
         object : SwipeToDeleteCallback(requireContext()) {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
@@ -99,6 +93,14 @@ class ExerciseFragment : Fragment() {
                 muscleGroup = exercise.muscleGroup
             )
         navController.navigate(action)
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        return inflater.inflate(R.layout.fragment_exercise, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
