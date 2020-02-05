@@ -89,6 +89,4 @@ class ExerciseDialog : DialogFragment() {
     }
 }
 
-fun String.toDoubleOrZero(): Double {
-    return if (this.toDoubleOrNull() == null) 0.0 else this.toDouble()
-}
+fun String.toDoubleOrZero(): Double = if (this.toDoubleOrNull() == null) 0.0 else this.toDouble()
