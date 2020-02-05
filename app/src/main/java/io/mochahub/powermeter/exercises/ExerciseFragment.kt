@@ -20,7 +20,6 @@ import io.mochahub.powermeter.exercises.ExerciseViewModel.ExerciseViewModelFacto
 import io.mochahub.powermeter.shared.SwipeToDeleteCallback
 import kotlinx.android.synthetic.main.fragment_exercise.addExerciseBtn
 import kotlinx.android.synthetic.main.fragment_exercise.recyclerView
-import splitties.toast.toast
 
 class ExerciseFragment : Fragment() {
     override fun onCreateView(
@@ -40,14 +39,9 @@ class ExerciseFragment : Fragment() {
         ).get(ExerciseViewModel::class.java)
     }
 
-    private val exerciseSharedViewModel by lazy {
-        requireActivity().run {
-            ViewModelProvider(this).get(ExerciseSharedViewModel::class.java)
-        }
-    }
-
     private val exerciseController =
-        ExerciseController { clicked: ExerciseEntity -> onExerciseClick(clicked) }
+        ExerciseController { clicked: ExerciseEntity -> goToExerciseDialog(clicked) }
+
     private val itemTouchHelper by lazy { ItemTouchHelper(swipeHandler) }
 
     private var exercises: List<ExerciseEntity> = ArrayList()
@@ -96,14 +90,13 @@ class ExerciseFragment : Fragment() {
         }
     }
 
-    private fun onExerciseClick(exercise: ExerciseEntity) {
+    private fun goToExerciseDialog(exercise: ExerciseEntity) {
         val action = ExerciseFragmentDirections
             .actionDestinationExercisesScreenToExerciseDialog(
                 exerciseId = exercise.id,
                 exerciseName = exercise.name,
                 exercisePR = exercise.personalRecord.toFloat(),
-                muscleGroup = exercise.muscleGroup,
-                shouldEdit = true
+                muscleGroup = exercise.muscleGroup
             )
         navController.navigate(action)
     }
@@ -116,53 +109,12 @@ class ExerciseFragment : Fragment() {
         itemTouchHelper.attachToRecyclerView(recyclerView)
 
         addExerciseBtn.setOnClickListener {
-            val action = ExerciseFragmentDirections
-                .actionDestinationExercisesScreenToExerciseDialog(
-                    exerciseId = null,
-                    exerciseName = null,
-                    muscleGroup = null,
-                    shouldEdit = false
-                )
-            navController.navigate(action)
+            goToExerciseDialog(ExerciseEntity(name = "", personalRecord = 0.0, muscleGroup = ""))
         }
 
         viewModel.exercises.observe(viewLifecycleOwner, Observer {
             exercises = it ?: emptyList()
             exerciseController.setData(exercises)
         })
-
-        exerciseSharedViewModel.newExercise.observe(viewLifecycleOwner, Observer {
-            it?.let {
-                addNewExercise(it)
-            }
-        })
-
-        exerciseSharedViewModel.editExercise.observe(viewLifecycleOwner, Observer {
-            it?.let {
-                editExercise(it)
-            }
-        })
-    }
-
-    private fun addNewExercise(newExercise: ExerciseEntity) {
-        val currentExercises = viewModel.exercises.value ?: emptyList()
-        val collision = currentExercises.filter { it.name == newExercise.name }
-        if (collision.isNotEmpty()) {
-            toast(R.string.alert_exercise_exists)
-        } else {
-            viewModel.addExercise(newExercise)
-        }
-        exerciseSharedViewModel.clearNewExercise()
-    }
-
-    private fun editExercise(exercise: ExerciseEntity) {
-        val currentExercises = viewModel.exercises.value ?: emptyList()
-        val collision = currentExercises.filter { it.name == exercise.name && it.id != exercise.id }
-        if (collision.isNotEmpty()) {
-            toast(R.string.alert_exercise_exists)
-        } else {
-            viewModel.updateExercise(exercise)
-        }
-        exerciseSharedViewModel.clearEditExercise()
     }
 }

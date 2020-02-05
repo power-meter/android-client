@@ -7,9 +7,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
-import com.google.android.material.textfield.TextInputEditText
 import io.mochahub.powermeter.R
-import io.mochahub.powermeter.data.exercise.ExerciseEntity
+import io.mochahub.powermeter.data.AppDatabase
 import kotlinx.android.synthetic.main.dialog_new_exercise.newExerciseGroupText
 import kotlinx.android.synthetic.main.dialog_new_exercise.newExerciseNameText
 import kotlinx.android.synthetic.main.dialog_new_exercise.newExercisePRText
@@ -19,9 +18,14 @@ class ExerciseDialog : DialogFragment() {
 
     private val args: ExerciseDialogArgs by navArgs()
 
-    private val newExerciseSharedViewModel by lazy {
+    private val viewModel by lazy {
         requireActivity().run {
-            ViewModelProvider(this).get(ExerciseSharedViewModel::class.java)
+            ViewModelProvider(
+                this,
+                ExerciseDialogViewModel.ExerciseDialogViewModelFactory(
+                    AppDatabase(requireContext()).exerciseDao(), args
+                )
+            ).get(ExerciseDialogViewModel::class.java)
         }
     }
 
@@ -32,7 +36,6 @@ class ExerciseDialog : DialogFragment() {
 
     override fun onStart() {
         super.onStart()
-
         if (dialog != null) {
             val width = ViewGroup.LayoutParams.MATCH_PARENT
             val height = ViewGroup.LayoutParams.MATCH_PARENT
@@ -51,18 +54,21 @@ class ExerciseDialog : DialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val exercise = viewModel.getExercise()
 
-        args.exerciseName?.let { newExerciseNameText.setText(it) }
-        args.exercisePR.let {
-            if (it != 0f) {
-                newExercisePRText.setText(it.toString())
-            }
+        if (exercise.name.isNotBlank()) {
+            newExerciseNameText.setText(args.exerciseName)
         }
-        args.muscleGroup?.let { newExerciseGroupText.setText(it) }
+        if (exercise.personalRecord != 0.0) {
+            newExercisePRText.setText(args.exercisePR.toString())
+        }
+        if (exercise.muscleGroup.isNotBlank()) {
+            newExerciseGroupText.setText(args.muscleGroup)
+        }
 
         newExerciseToolbar.apply {
             title =
-                if (args.shouldEdit) resources.getString(R.string.edit_exercise) else resources.getString(
+                if (args.exerciseName.isNotBlank()) resources.getString(R.string.edit_exercise) else resources.getString(
                     R.string.new_exercise
                 )
             setNavigationOnClickListener { dismiss() }
@@ -70,7 +76,10 @@ class ExerciseDialog : DialogFragment() {
             setOnMenuItemClickListener { item ->
                 when (item?.itemId) {
                     R.id.action_save -> {
-                        saveExercise()
+                        viewModel.upsertExercise(
+                            newExerciseNameText.text.toString(),
+                            newExerciseGroupText.text.toString(),
+                            newExercisePRText.text.toString().toDoubleOrZero())
                     }
                 }
                 dismiss()
@@ -78,38 +87,8 @@ class ExerciseDialog : DialogFragment() {
             }
         }
     }
-
-    private fun saveExercise() {
-        if (args.shouldEdit) {
-            newExerciseSharedViewModel.saveEditExercise(
-                ExerciseEntity(
-                    id = args.exerciseId!!,
-                    name = newExerciseNameText.text.toString(),
-                    personalRecord = newExercisePRText.toDoubleOrZero(),
-                    muscleGroup = newExerciseGroupText.text.toString()
-                )
-            )
-        } else {
-            newExerciseSharedViewModel.saveNewExercise(
-                ExerciseEntity(
-                    name = newExerciseNameText.text.toString(),
-                    personalRecord = newExercisePRText.toDoubleOrZero(),
-                    muscleGroup = newExerciseGroupText.text.toString()
-                )
-            )
-        }
-    }
 }
 
-/**
- * Convenience extension used for TextInputEditText for personal record to default to zero if there
- * is an empty string, which allows us to avoid a crash where string was empty!
- */
-fun TextInputEditText.toDoubleOrZero(): Double {
-    val text = this.text.toString()
-    return if (text.isEmpty()) {
-        0.0
-    } else {
-        text.toDouble()
-    }
+fun String.toDoubleOrZero(): Double {
+    return if (this.toDoubleOrNull() == null) 0.0 else this.toDouble()
 }

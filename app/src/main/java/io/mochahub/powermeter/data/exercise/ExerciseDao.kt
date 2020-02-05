@@ -3,7 +3,9 @@ package io.mochahub.powermeter.data.exercise
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Transaction
 import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
 
@@ -26,4 +28,18 @@ interface ExerciseDao {
 
     @Update
     suspend fun updateExercise(vararg exercise: ExerciseEntity)
+
+    @Transaction
+    fun upsert(exercise: ExerciseEntity) {
+        val result = insert(exercise)
+        if (result.toInt() < 0) {
+            update(exercise)
+        }
+    }
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    fun insert(entity: ExerciseEntity): Long
+
+    @Update(onConflict = OnConflictStrategy.IGNORE)
+    fun update(exercise: ExerciseEntity)
 }
