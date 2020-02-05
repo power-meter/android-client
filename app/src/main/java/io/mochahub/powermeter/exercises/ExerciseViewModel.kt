@@ -5,11 +5,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import io.mochahub.powermeter.R
 import io.mochahub.powermeter.data.exercise.ExerciseDao
 import io.mochahub.powermeter.data.exercise.ExerciseEntity
 import kotlinx.coroutines.launch
-import splitties.toast.toast
 
 class ExerciseViewModel(private val exerciseDao: ExerciseDao) : ViewModel() {
 
@@ -24,22 +22,8 @@ class ExerciseViewModel(private val exerciseDao: ExerciseDao) : ViewModel() {
 
     val exercises: LiveData<List<ExerciseEntity>> = exerciseDao.getAll().asLiveData()
 
-    fun addExercise(exercise: ExerciseEntity) {
-        val currentExercises = exercises.value ?: emptyList()
-        val collision = currentExercises.filter { it.name == exercise.name }
-        if (collision.isNotEmpty()) {
-            toast(R.string.alert_exercise_exists)
-        } else {
-            viewModelScope.launch { exerciseDao.insertAll(exercise) }
-        }
-    }
-
     fun removeExercise(exercise: ExerciseEntity): ExerciseEntity {
         viewModelScope.launch { exerciseDao.delete(exercise) }
         return exercise
-    }
-
-    fun updateExercise(exercise: ExerciseEntity) {
-        viewModelScope.launch { exerciseDao.updateExercise(exercise) }
     }
 }
