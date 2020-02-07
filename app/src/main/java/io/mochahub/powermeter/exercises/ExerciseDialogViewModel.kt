@@ -32,7 +32,7 @@ class ExerciseDialogViewModel(
         CoroutineScope(Dispatchers.IO).launch {
             val exerciseFound = exerciseDao.findByName(name)
             // TODO: Inform user that exercise already exists
-            if (exerciseFound == null) {
+            if ((id.isBlank() && exerciseFound == null) || id.isNotBlank()) {
                 exerciseDao.upsert(exercise)
             }
         }
