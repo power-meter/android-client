@@ -1,8 +1,10 @@
 package io.mochahub.powermeter.models
 
 import java.time.Instant
+import java.util.UUID
 
 data class WorkoutSession(
+    val id: String = UUID.randomUUID().toString(),
     val date: Instant = Instant.now(),
     val workouts: List<Workout>
 )

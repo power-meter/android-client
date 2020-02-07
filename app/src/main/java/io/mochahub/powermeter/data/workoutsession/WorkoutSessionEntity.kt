@@ -15,3 +15,7 @@ data class WorkoutSessionEntity(
 fun WorkoutSessionEntity.setCreatedAt(newCreatedAt: Long): WorkoutSessionEntity {
     return this.copy(createdAt = newCreatedAt)
 }
+
+fun WorkoutSessionEntity.setDate(newDate: Instant): WorkoutSessionEntity {
+    return this.copy(date = newDate.epochSecond)
+}

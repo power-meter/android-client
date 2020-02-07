@@ -10,6 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import com.airbnb.epoxy.EpoxyTouchHelper
+import io.mochahub.powermeter.BuildConfig
 import io.mochahub.powermeter.R
 import io.mochahub.powermeter.data.AppDatabase
 import io.mochahub.powermeter.data.exercise.ExerciseEntity
@@ -94,6 +95,10 @@ class WorkoutSessionDialog : WorkoutController.AdapterCallbacks, DialogFragment(
     private fun onViewCreatedReady() {
         recyclerView.setController(workoutController)
         workoutController.setData(viewModel.workoutSession)
+
+        if (BuildConfig.DEBUG) {
+            workoutController.isDebugLoggingEnabled = true
+        }
 
         EpoxyTouchHelper.initSwiping(recyclerView)
             .left()
