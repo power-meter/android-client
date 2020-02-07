@@ -22,16 +22,8 @@ class ExerciseViewModel(private val exerciseDao: ExerciseDao) : ViewModel() {
 
     val exercises: LiveData<List<ExerciseEntity>> = exerciseDao.getAll().asLiveData()
 
-    fun addExercise(exercise: ExerciseEntity) {
-        viewModelScope.launch { exerciseDao.insertAll(exercise) }
-    }
-
     fun removeExercise(exercise: ExerciseEntity): ExerciseEntity {
         viewModelScope.launch { exerciseDao.delete(exercise) }
         return exercise
-    }
-
-    fun updateExercise(exercise: ExerciseEntity) {
-        viewModelScope.launch { exerciseDao.updateExercise(exercise) }
     }
 }
