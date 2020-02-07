@@ -28,7 +28,7 @@ class WorkoutController(
     override fun buildModels(workoutSession: WorkoutSession?) {
         if (workoutSession != null) {
             workoutSessionDate(workoutSession.date, datePickerDialog) {
-                id(workoutSession.date.toString())
+                id(workoutSession.id)
             }
         }
         workoutSession?.workouts?.forEach { workout ->

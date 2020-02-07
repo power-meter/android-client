@@ -13,6 +13,7 @@ import io.mochahub.powermeter.data.workout.WorkoutEntity
 import io.mochahub.powermeter.data.workout.WorkoutWithRelation
 import io.mochahub.powermeter.data.workoutsession.WorkoutSessionEntity
 import io.mochahub.powermeter.data.workoutsession.setCreatedAt
+import io.mochahub.powermeter.data.workoutsession.setDate
 import io.mochahub.powermeter.data.workoutset.WorkoutSetEntity
 import io.mochahub.powermeter.models.WorkoutSession
 import kotlinx.coroutines.CoroutineScope
@@ -29,6 +30,7 @@ class WorkoutSessionDialogViewModel(
     }
 
     var workoutSession = WorkoutSession(workouts = ArrayList())
+
     private var workoutSessionEntity =
         WorkoutSessionEntity(date = workoutSession.date.epochSecond)
 
@@ -46,6 +48,7 @@ class WorkoutSessionDialogViewModel(
         val workoutEntities = ArrayList<WorkoutEntity>()
         val workoutSetEntities = ArrayList<WorkoutSetEntity>()
 
+        workoutSessionEntity = workoutSessionEntity.setDate(workoutSession.date)
         CoroutineScope(Dispatchers.IO).launch {
             workoutSessionToDelete?.let {
                 // There is an edge-case where we change system Theme via android settings
