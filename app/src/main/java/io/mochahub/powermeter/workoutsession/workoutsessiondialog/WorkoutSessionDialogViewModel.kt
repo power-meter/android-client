@@ -70,7 +70,7 @@ class WorkoutSessionDialogViewModel(
                 val exercise = db.exerciseDao().findByName(workout.exercise.name)
                 val workoutEntity = WorkoutEntity(
                     workoutSessionUUID = workoutSessionEntity.id,
-                    exerciseUUID = exercise.id
+                    exerciseUUID = exercise!!.id
                 )
                 workoutEntities.add(workoutEntity)
                 workout.sets.forEach { workoutSet ->

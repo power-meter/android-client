@@ -31,6 +31,19 @@ fun ExerciseEntity.update(
         personalRecord = newPersonalRecord)
 }
 
+fun ExerciseEntity.update(
+    id: String,
+    newName: String,
+    newMuscleGroup: String,
+    newPersonalRecord: Double
+): ExerciseEntity {
+    return this.copy(
+        id = id,
+        name = newName,
+        muscleGroup = newMuscleGroup,
+        personalRecord = newPersonalRecord)
+}
+
 fun ExerciseEntity.update(newPersonalRecord: Double): ExerciseEntity {
     return this.copy(personalRecord = newPersonalRecord)
 }

@@ -23,7 +23,7 @@ class ExerciseDialog : DialogFragment() {
             ViewModelProvider(
                 this,
                 ExerciseDialogViewModel.ExerciseDialogViewModelFactory(
-                    AppDatabase(requireContext()).exerciseDao(), args
+                    AppDatabase(requireContext()).exerciseDao()
                 )
             ).get(ExerciseDialogViewModel::class.java)
         }
@@ -54,15 +54,15 @@ class ExerciseDialog : DialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val exercise = viewModel.getExercise()
 
-        if (exercise.name.isNotBlank()) {
+        if (newExerciseNameText.text.isNullOrBlank() && args.exerciseName.isNotBlank()) {
             newExerciseNameText.setText(args.exerciseName)
         }
-        if (exercise.personalRecord != 0.0) {
+
+        if (newExercisePRText.text.isNullOrBlank() && args.exercisePR != 0f) {
             newExercisePRText.setText(args.exercisePR.toString())
         }
-        if (exercise.muscleGroup.isNotBlank()) {
+        if (newExerciseGroupText.text.isNullOrBlank() && args.muscleGroup.isNotBlank()) {
             newExerciseGroupText.setText(args.muscleGroup)
         }
 
@@ -77,6 +77,7 @@ class ExerciseDialog : DialogFragment() {
                 when (item?.itemId) {
                     R.id.action_save -> {
                         viewModel.upsertExercise(
+                            args.exerciseId,
                             newExerciseNameText.text.toString(),
                             newExerciseGroupText.text.toString(),
                             newExercisePRText.text.toString().toDoubleOrZero())
