@@ -4,44 +4,37 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import io.mochahub.powermeter.data.exercise.ExerciseDao
 import io.mochahub.powermeter.data.exercise.ExerciseEntity
-import io.mochahub.powermeter.data.exercise.update
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class ExerciseDialogViewModel(
-    private val exerciseDao: ExerciseDao,
-    args: ExerciseDialogArgs
+    private val exerciseDao: ExerciseDao
 ) : ViewModel() {
 
     @Suppress("UNCHECKED_CAST")
     class ExerciseDialogViewModelFactory(
-        private val exerciseDao: ExerciseDao,
-        private val args: ExerciseDialogArgs
+        private val exerciseDao: ExerciseDao
     ) : ViewModelProvider.NewInstanceFactory() {
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-            return ExerciseDialogViewModel(exerciseDao, args) as T
+            return ExerciseDialogViewModel(exerciseDao) as T
         }
     }
 
-    private var exercise = ExerciseEntity(
-        args.exerciseId,
-        args.exerciseName,
-        args.muscleGroup,
-        args.exercisePR.toDouble()
-    )
-
-    fun upsertExercise(name: String, muscleGroup: String, personalRecord: Double) {
-        exercise = exercise.update(name, muscleGroup, personalRecord)
-        if (exercise.name.isBlank()) {
+    fun upsertExercise(id: String, name: String, muscleGroup: String, personalRecord: Double) {
+        if (name.isBlank()) {
             return
         }
-        CoroutineScope(Dispatchers.IO).launch {
-            exerciseDao.upsert(exercise)
-        }
-    }
+        val exercise =
+            if (id.isNotBlank()) ExerciseEntity(id, name, muscleGroup, personalRecord)
+            else ExerciseEntity(name = name, muscleGroup = muscleGroup, personalRecord = personalRecord)
 
-    fun getExercise(): ExerciseEntity {
-        return this.exercise.copy()
+        CoroutineScope(Dispatchers.IO).launch {
+            val exerciseFound = exerciseDao.findByName(name)
+            // TODO: Inform user that exercise already exists
+            if ((id.isBlank() && exerciseFound == null) || id.isNotBlank()) {
+                exerciseDao.upsert(exercise)
+            }
+        }
     }
 }

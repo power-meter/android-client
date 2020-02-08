@@ -20,17 +20,6 @@ fun ExerciseEntity.toModel(): Exercise {
         name = this.name, personalRecord = this.personalRecord, muscleGroup = this.muscleGroup)
 }
 
-fun ExerciseEntity.update(
-    newName: String,
-    newMuscleGroup: String,
-    newPersonalRecord: Double
-): ExerciseEntity {
-    return this.copy(
-        name = newName,
-        muscleGroup = newMuscleGroup,
-        personalRecord = newPersonalRecord)
-}
-
 fun ExerciseEntity.update(newPersonalRecord: Double): ExerciseEntity {
     return this.copy(personalRecord = newPersonalRecord)
 }

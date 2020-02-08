@@ -15,7 +15,7 @@ interface ExerciseDao {
     fun getAll(): Flow<List<ExerciseEntity>>
 
     @Query("SELECT * FROM exercises where name=:exerciseName")
-    suspend fun findByName(exerciseName: String): ExerciseEntity
+    suspend fun findByName(exerciseName: String): ExerciseEntity?
 
     @Query("SELECT * FROM exercises where id=:exerciseID")
     suspend fun findByID(exerciseID: String): ExerciseEntity
