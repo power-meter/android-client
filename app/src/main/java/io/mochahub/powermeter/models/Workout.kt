@@ -6,7 +6,7 @@ data class Workout(
     val id: String = UUID.randomUUID().toString(),
     val exercise: Exercise,
     val sets: MutableList<WorkoutSet>,
-    val isSetsVisible: Boolean = true
+    val isSetsVisible: Boolean = false
 )
 
 fun Workout.addSet(set: WorkoutSet): Workout {
